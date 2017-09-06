@@ -1,0 +1,82 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+
+	<groupId>com.edu.markingsystem</groupId>
+	<artifactId>markingsystem</artifactId>
+	<version>0.0.1-SNAPSHOT</version>
+	<packaging>jar</packaging>
+
+	<name>server</name>
+	<url>http://maven.apache.org</url>
+
+	<properties>
+		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+		<jdk.version>1.8</jdk.version>
+		<spark.version>2.5.5</spark.version>
+		<spark.freemarker.version>2.3</spark.freemarker.version>
+		<freemarker.version>2.3.25-incubating</freemarker.version>
+		<spring.version>4.3.5.RELEASE</spring.version>
+		<hsqldb.version>2.3.4</hsqldb.version>
+		<dbcp.version>2.1.1</dbcp.version>
+		<jbcrypt.version>0.4.1</jbcrypt.version>
+		<commons.beanutils.version>1.9.3</commons.beanutils.version>
+		<slf4j.version>1.7.22</slf4j.version>
+	</properties>
+
+	<dependencies>
+
+		<dependency>
+			<groupId>org.slf4j</groupId>
+			<artifactId>slf4j-simple</artifactId>
+			<version>1.7.21</version>
+		</dependency>
+
+		<dependency>
+			<groupId>com.google.code.gson</groupId>
+			<artifactId>gson</artifactId>
+			<version>2.8.0</version>
+		</dependency>
+
+		<dependency>
+			<groupId>org.mapdb</groupId>
+			<artifactId>mapdb</artifactId>
+			<version>2.0-beta13</version>
+		</dependency>
+
+		<dependency>
+			<groupId>com.esotericsoftware</groupId>
+			<artifactId>minlog</artifactId>
+			<version>1.3.0</version>
+		</dependency>
+
+		<!-- Spark Java -->
+		<dependency>
+			<groupId>com.sparkjava</groupId>
+			<artifactId>spark-core</artifactId>
+			<version>${spark.version}</version>
+		</dependency>
+
+		<!-- Spark Freemarker -->
+		<dependency>
+			<groupId>com.sparkjava</groupId>
+			<artifactId>spark-template-freemarker</artifactId>
+			<version>${spark.freemarker.version}</version>
+		</dependency>
+
+		<!-- Freemarker -->
+		<dependency>
+			<groupId>org.freemarker</groupId>
+			<artifactId>freemarker</artifactId>
+			<version>${freemarker.version}</version>
+		</dependency>
+
+		<!-- Password hashes -->
+		<dependency>
+			<groupId>de.svenkubiak</groupId>
+			<artifactId>jBCrypt</artifactId>
+			<version>${jbcrypt.version}</version>
+		</dependency>
+
+	</dependencies>
+</project>
