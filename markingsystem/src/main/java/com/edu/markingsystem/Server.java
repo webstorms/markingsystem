@@ -5,6 +5,7 @@ import java.util.Map;
 
 import com.edu.markingsystem.db.Database;
 import com.edu.markingsystem.db.User;
+import com.edu.markingsystem.db.UserDB;
 import com.esotericsoftware.minlog.Log;
 import com.google.gson.JsonObject;
 
@@ -81,13 +82,20 @@ public class Server {
 	
 	public ModelAndView getHome(Request req, Response res) {
 		Map<String, Object> map = new HashMap<String, Object>();
-		if(getIDFromSession(req) != null) {
+		String ID = getIDFromSession(req);
+		if(ID != null) {
 			// If user is signed in then retrieve the particular page
 			// suitable for the user type
 			// NOTE: If the user decides to refresh the page and is logged in
 			// Then instead of being redirected to the login page the user is
 			// taken to the suitable "main" viewing page
-			return new ModelAndView(map, "main.ftl");
+			String userType = db.getUserDB().getUser(ID).getUserType();
+			if(userType.equals("admin")){
+				return new ModelAndView(map, "admin.html");
+			}
+			else{
+				return new ModelAndView(map, "main.ftl");
+			}
 			
 		}
 		else {

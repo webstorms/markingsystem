@@ -15,6 +15,8 @@ public class App {
     	// Test user object, not my real password bois ;)
     	// Feel free to add yourselves :)
     	db.getUserDB().insertUser("tylchr011", new User("1234"));
+    	db.getUserDB().insertUser("admin", new User("admin","admin"));
+   
     	
     	new Server(db);
     	
