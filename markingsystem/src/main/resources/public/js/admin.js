@@ -1,30 +1,3 @@
-function createUser(){	
-	//invalid ID - error message
-	if(idExists()){
-		document.getElementById("id_exists").innerHTML = "ID already exists";
-	}
-	else{
-		//valid new ID - add user to DB
-		addToDB();
-		document.getElementById("id_exists").innerHTML = "";
-	}
-  	return;
-}
-
-function removeUser(){
-	//invalid ID - error message
-	if(!idExists()){
-		document.getElementById("IDExists").innerHTML = "ID does not exist";
-	}
-	else{
-		//valid ID - remove user from DB
-		removeFromDB();
-		document.getElementById("IDExists").innerHTML = "";
-		
-	}
-  	return;
-}
-
 //logout?
 $(function() {
 
@@ -51,6 +24,33 @@ function logout(load) {
     }
   });
 
+}
+
+function createUser(){	
+	//invalid ID - error message
+	if(idExists()){
+		document.getElementById("id_exists").innerHTML = "ID already exists";
+	}
+	else{
+		//valid new ID - add user to DB
+		addToDB();
+		document.getElementById("id_exists").innerHTML = "";
+	}
+  	return;
+}
+
+function removeUser(){
+	//invalid ID - error message
+	if(!idExists()){
+		document.getElementById("IDExists").innerHTML = "ID does not exist";
+	}
+	else{
+		//valid ID - remove user from DB
+		removeFromDB();
+		document.getElementById("IDExists").innerHTML = "";
+		
+	}
+  	return;
 }
 
 //===============	not implementing for demo ==================

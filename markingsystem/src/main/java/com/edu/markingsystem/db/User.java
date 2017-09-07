@@ -16,6 +16,7 @@ public class User implements java.io.Serializable {
 		userType = "";
 		
 	}
+	
 	public User(String password, String userType) {
 		this.passwordHash = PasswordUtil.hashPassword(password);
 		this.userType = userType;
@@ -26,6 +27,7 @@ public class User implements java.io.Serializable {
 		return this.passwordHash;
 		
 	}
+	
 	public String getUserType(){
 		return this.userType;
 	}

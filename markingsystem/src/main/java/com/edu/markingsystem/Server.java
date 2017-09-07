@@ -5,7 +5,6 @@ import java.util.Map;
 
 import com.edu.markingsystem.db.Database;
 import com.edu.markingsystem.db.User;
-import com.edu.markingsystem.db.UserDB;
 import com.esotericsoftware.minlog.Log;
 import com.google.gson.JsonObject;
 
@@ -46,9 +45,8 @@ public class Server {
 			return logout(req, res);
 		});
 		
-		
 	}
-
+	
 	/**
 	 * Called in attempt to login the user. If the details match a record in the db then the user id is attached to the session.
 	 * Else an error message is returned:
@@ -90,7 +88,7 @@ public class Server {
 			// Then instead of being redirected to the login page the user is
 			// taken to the suitable "main" viewing page
 			String userType = db.getUserDB().getUser(ID).getUserType();
-			if(userType.equals("admin")){
+			if(userType.equals("admin")) {
 				return new ModelAndView(map, "admin.html");
 			}
 			else{
