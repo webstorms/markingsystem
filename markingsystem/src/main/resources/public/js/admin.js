@@ -1,17 +1,20 @@
 //logout?
-$(function() {
+document.addEventListener("DOMContentLoaded", function(event) { 
+	$(function() {
 
-  $('#logout').on('click', function(e) {
-    logout(function(response) {
-        if (response == "success") {
-          window.location.reload(true); 
+	  $('#logout').on('click', function(e) {
+	  	console.log('test');
+	    logout(function(response) {
+	        if (response == "success") {
+	          window.location.reload(true); 
 
-        } 
+	        } 
 
-      });
+	      });
 
-  });
+	  });
 
+	});
 });
 
 function logout(load) {
@@ -25,6 +28,7 @@ function logout(load) {
   });
 
 }
+
 
 function createUser(){	
 	//invalid ID - error message
@@ -52,6 +56,8 @@ function removeUser(){
 	}
   	return;
 }
+
+
 
 //===============	not implementing for demo ==================
 function idExists(){

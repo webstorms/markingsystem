@@ -3,7 +3,7 @@ $(function() {
   $('#logout').on('click', function(e) {
     logout(function(response) {
         if (response == "success") {
-          window.location.reload(true);
+          window.location.reload(true); 
 
         } 
 
