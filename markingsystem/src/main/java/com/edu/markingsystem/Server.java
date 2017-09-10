@@ -95,7 +95,7 @@ public class Server {
 				return new ModelAndView(map, "admin.html");
 			}
 			else if(userType.equalsIgnoreCase("student")){
-				return new ModelAndView(map, "x"); // <- Jarad replace the x with the name of the student html page
+				return new ModelAndView(map, "student.html"); 
 			}
 			else{
 				return new ModelAndView(map, "main.ftl");

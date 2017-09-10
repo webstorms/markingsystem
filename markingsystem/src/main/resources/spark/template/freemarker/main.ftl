@@ -19,9 +19,9 @@
 <nav class="navbar navbar-inverse">
   <div class="container-fluid">
     <div class="navbar-header">
-      <a class="navbar-brand" href="#">Fucking wrote all this shit again website fuck</a>
+      <a class="navbar-brand" href="#">:) wrote all this :) again website :)</a>
     </div>
-    <button id="logout" class="btn navbar-btn">Log the fuck out</button>
+    <button id="logout" class="btn navbar-btn">Log :) out</button>
   </div>
 </nav>
 
