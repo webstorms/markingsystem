@@ -1,6 +1,7 @@
 package com.edu.markingsystem.db;
 
 import com.edu.markingsystem.PasswordUtil;
+import com.edu.markingsystem.db.Type.userType;
 
 public class User implements java.io.Serializable {
 	
@@ -9,14 +10,14 @@ public class User implements java.io.Serializable {
 	// if need be
 	
 	private String passwordHash;
-	private String userType;
+	private userType userType;
 	
 	public User(String password) {
 		this.passwordHash = PasswordUtil.hashPassword(password);
-		userType = "";
+		userType = userType.NULL;
 		
 	}
-	public User(String password, String userType) {
+	public User(String password, userType userType) {
 		this.passwordHash = PasswordUtil.hashPassword(password);
 		this.userType = userType;
 		
@@ -26,7 +27,7 @@ public class User implements java.io.Serializable {
 		return this.passwordHash;
 		
 	}
-	public String getUserType(){
+	public userType getUserType(){
 		return this.userType;
 	}
 

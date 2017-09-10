@@ -5,7 +5,6 @@ import java.util.Map;
 
 import com.edu.markingsystem.db.Database;
 import com.edu.markingsystem.db.User;
-import com.edu.markingsystem.db.UserDB;
 import com.esotericsoftware.minlog.Log;
 import com.google.gson.JsonObject;
 
@@ -26,6 +25,7 @@ public class Server {
 		Spark.staticFileLocation("/public");
 		initializeREST();
 		this.db = db;
+		
 
 	}
 
@@ -89,9 +89,13 @@ public class Server {
 			// NOTE: If the user decides to refresh the page and is logged in
 			// Then instead of being redirected to the login page the user is
 			// taken to the suitable "main" viewing page
-			String userType = db.getUserDB().getUser(ID).getUserType();
-			if(userType.equals("admin")){
+			String userType = db.getUserDB().getUser(ID).getUserType().toString();
+			
+			if(userType.equalsIgnoreCase("admin")){
 				return new ModelAndView(map, "admin.html");
+			}
+			else if(userType.equalsIgnoreCase("student")){
+				return new ModelAndView(map, "x"); // <- Jarad replace the x with the name of the student html page
 			}
 			else{
 				return new ModelAndView(map, "main.ftl");
