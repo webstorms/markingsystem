@@ -28,9 +28,11 @@ public class UserDB extends DBBase {
 		
 	}
 
-	//TODO: 
 	public void changePassword(String userID, String password) {
-		
+		User u = (User)map.get(userID);
+		u.setPassword(password);
+		map.replace(userID, u);
+		db.commit();
 	}
 	
 	
