@@ -42,6 +42,22 @@ document.addEventListener("DOMContentLoaded", function(event) {
 			
 	  });
 
+		$('#changePass_button').on('click', function(e) {
+	  	changePass(function(response) {
+				if (response == "userDoesNotExist") {
+					var errorMsg = 'No user with that ID exists!';
+					$('#changePass_error').html('<small id="changePass_error" class="form-text text-danger">'+errorMsg+'</small>');
+					
+	      	} 
+				else if(response == "success"){
+					$('#changePass_error').html('<small id="changePass_error" class="form-text text-danger"></small>');
+					confirm("Password updated!");
+					$('#changePass_form')[0].reset();
+				}
+	      });
+			
+	  });
+
 
 	});
 });
@@ -91,4 +107,20 @@ function removeUser(load){
 		});	
 }
 
+function changePass(load){
+	var data = {
+    "userID": $('#changePass_userID').val(),
+    "password": $('#changePass_pass').val(),
+  }
+	 $.ajax({
+    url: '/admin_changePass',
+    type: 'POST',
+		data: JSON.stringify(data),
+    contentType: 'application/json',
+    success: function(res) {
+      load(JSON.parse(res));
+    }
+  });	
+
+}
 

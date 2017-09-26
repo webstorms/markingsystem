@@ -27,6 +27,11 @@ public class UserDB extends DBBase {
 		map.remove(id);
 		
 	}
+
+	//TODO: 
+	public void changePassword(String userID, String password) {
+		
+	}
 	
 	
 }

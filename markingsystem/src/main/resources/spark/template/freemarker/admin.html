@@ -102,16 +102,17 @@
 	<h3 class="form-signin-heading">Change User Password</h3>
 	<hr>
 	<div class="card card-block">
-	    <form>
+	    <form id="changePass_form" onsubmit="return false">
 				<div class="form-group">
 					<label for="UserID">User ID</label>
 					<input type="ID" class="form-control col-lg-3" id="changePass_userID" placeholder="Enter user ID">
+					<small id="changePass_error"></small>
 				</div>
 				<div class="form-group">
 					<label for="UserID">New Password</label>
 					<input type="ID" class="form-control col-lg-3" id="changePass_pass" placeholder="Enter new passowrd">
 				</div>
-				<button class="btn btn-primary" id="changePass_button" onclick="updatePass()">Update Password</button>
+				<button class="btn btn-primary" id="changePass_button">Update Password</button>
 		</form>
 	</div>
 	</div>

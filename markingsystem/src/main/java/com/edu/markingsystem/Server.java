@@ -57,6 +57,11 @@ public class Server {
 			return admin_removeUser(req, res);
 		});
 		
+		Spark.post("/admin_changePass", (req, res) -> {
+			Log.info(this.getClass().getName(), "POST /admin_changePass " + req.ip());
+			return admin_changePass(req, res);
+		});
+		
 		
 	}
 
@@ -114,7 +119,6 @@ public class Server {
 		JsonObject json = Util.stringToJson(req.body());
 		String userID = json.get("userID").getAsString();
 		String response = "";
-		System.out.println(userID);
 		//check for errors:
 		if(!userExists(userID)){
 			response = "userDoesNotExist";
@@ -124,9 +128,29 @@ public class Server {
 			db.getUserDB().removeUser(userID);
 			response = "success";
 		}
-		System.out.println(response);
 		return Util.objectToJson(response);
 	}
+	
+	public Object admin_changePass(Request req, Response res) {
+		JsonObject json = Util.stringToJson(req.body());
+		String userID = json.get("userID").getAsString();
+		String password = json.get("password").getAsString();
+		
+		String response = "";
+		//check for errors:
+		if(!userExists(userID)){
+			response = "userDoesNotExist";
+		}
+		else{ 
+			//success:
+			db.getUserDB().changePassword(userID,password);
+			response = "success";
+		}
+		System.out.println(userID+" "+response);
+		return Util.objectToJson(response);
+	}
+	
+	
 	
 	public ModelAndView getHome(Request req, Response res) {
 		Map<String, Object> map = new HashMap<String, Object>();
