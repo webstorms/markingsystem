@@ -4,6 +4,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 import com.edu.markingsystem.db.Database;
+import com.edu.markingsystem.db.Type;
 import com.edu.markingsystem.db.User;
 import com.esotericsoftware.minlog.Log;
 import com.google.gson.JsonObject;
@@ -46,6 +47,11 @@ public class Server {
 			return logout(req, res);
 		});
 		
+		Spark.post("/admin_createUser", (req, res) -> {
+			Log.info(this.getClass().getName(), "POST /admin_createUser " + req.ip());
+			return admin_createUser(req, res);
+		});
+		
 		
 	}
 
@@ -78,6 +84,25 @@ public class Server {
 		dettachIDToSession(req);
 		return Util.objectToJson(response);
 
+	}
+	
+	public Object admin_createUser(Request req, Response res) {
+		JsonObject json = Util.stringToJson(req.body());
+		String userID = json.get("userID").getAsString();
+		String password = json.get("password").getAsString();
+		String userType = json.get("userType").getAsString().toUpperCase();
+		
+		String response = "";
+		//check if user exists:
+		if(userExists(userID)){ 
+			response = "userExists";
+		}
+		//success:
+		else{
+			db.getUserDB().insertUser(userID, new User(password,Type.userType.valueOf(userType)));
+			response = "success";
+		}
+		return Util.objectToJson(response);
 	}
 	
 	public ModelAndView getHome(Request req, Response res) {
@@ -128,5 +153,10 @@ public class Server {
 
 	}
 	
+	//other:
+	boolean userExists(String username){
+		User user = db.getUserDB().getUser(username);
+		return !(user == null);
+	}
 	
 }

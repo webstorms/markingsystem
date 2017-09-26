@@ -12,10 +12,10 @@
 <!-- Bootstrap CSS -->
 	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.6/css/bootstrap.min.css" integrity="sha384-rwoIResjU2yc3z8GV/NPeZWAv56rSmLldC3R/AZzGRnGxQQKnKkoFVhFQhNUwEyJ" crossorigin="anonymous">
  	<link rel='stylesheet prefetch' href='http://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.1.0/css/font-awesome.min.css'>
-  	<link href="css/login.css" rel="stylesheet">
 
 <!-- Bootstrap core JavaScript 
     ================================================== -->
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/tether/1.4.0/js/tether.min.js" integrity="sha384-DztdAPBWPRXSA/3eYEEUWrWCy7G5KFbe8fFjk5JAIxUYHKkDx6Qin1DkWx51bBrb" crossorigin="anonymous"></script>
 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>		
 	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.6/js/bootstrap.min.js" integrity="sha384-vBWWzlZJ8ea9aCX4pEW3rVHjgjt7zpkNpZk+02D9phzyeVkE+jo0ieGizqPLForn" crossorigin="anonymous"></script>
 
@@ -48,12 +48,12 @@
 	<h3 class="form-signin-heading">Add User</h3>
 	<hr>
  	<div class="card card-block">
-	   	<form>
+	   	<form id="createUser_form" onsubmit="return false">
 
 		  <div class="form-group">
-		    <label for="UserID">User ID</label>
+		    <label for="UserID" id ="createUser_label">User ID</label>
 		    <input type="ID" class="form-control col-lg-3" id="createUser_userID" placeholder="Enter new user ID">
-		    <small id="id_exists" class="form-text text-danger"></small>
+		    <small id="user_exists"></small>
 		  </div>
 
 		  <div class="form-group">
@@ -61,8 +61,18 @@
 		    <input type="password" class="form-control col-lg-3" id="createUser_pass" placeholder="Enter new password">
 		  </div>
 
-		  <button class="btn btn-primary" id="createUser_button" type="submit" onclick="createUser()">Create User</button>
+			<div class="form-group">
+				<label for="sel1">User Type</label>
+				<select class="form-control col-lg-3" id="createUser_userType">
+					<option>Student</option>
+					<option>Admin</option>
+				</select>
+			</div>
 
+			<div class="form-group">
+		  	<button class="btn btn-primary" id="createUser_button">Create User</button>
+			</div>			
+		
 		</form>
 	</div>
 	<br>

@@ -1,18 +1,31 @@
-//logout?
+
 document.addEventListener("DOMContentLoaded", function(event) { 
 	$(function() {
 
 	  $('#logout').on('click', function(e) {
-	  	console.log('test');
 	    logout(function(response) {
 	        if (response == "success") {
 	          window.location.reload(true); 
-
 	        } 
-
 	      });
-
 	  });
+
+		$('#createUser_button').on('click', function(e) {
+	  	createUser(function(response) {
+				if (response == "userExists") {
+					var userExistsMsg = 'user already exists';
+					$('#user_exists').html('<small id="user_exists" class="form-text text-danger">'+userExistsMsg+'</small>');
+					
+	      	} 
+				else if(response == "success"){
+					$('#user_exists').html('<small id="user_exists" class="form-text text-danger"></small>');
+					confirm("Successfully added new user!");
+					$('#createUser_form')[0].reset();
+				}
+	      });
+			
+	  });
+
 
 	});
 });
@@ -29,44 +42,26 @@ function logout(load) {
 
 }
 
+function createUser(load){
+	var data = {
+    "userID": $('#createUser_userID').val(),
+    "password": $('#createUser_pass').val(),
+		"userType": $('#createUser_userType').val()
+  }
+	 $.ajax({
+    url: '/admin_createUser',
+    type: 'POST',
+		data: JSON.stringify(data),
+    contentType: 'application/json',
+    success: function(res) {
+      load(JSON.parse(res));
+    }
+  });	
 
-function createUser(){	
-	//invalid ID - error message
-	if(idExists()){
-		document.getElementById("id_exists").innerHTML = "ID already exists";
-	}
-	else{
-		//valid new ID - add user to DB
-		addToDB();
-		document.getElementById("id_exists").innerHTML = "";
-	}
-  	return;
 }
 
 function removeUser(){
-	//invalid ID - error message
-	if(!idExists()){
-		document.getElementById("IDExists").innerHTML = "ID does not exist";
-	}
-	else{
-		//valid ID - remove user from DB
-		removeFromDB();
-		document.getElementById("IDExists").innerHTML = "";
-		
-	}
-  	return;
+
 }
 
 
-
-//===============	not implementing for demo ==================
-function idExists(){
-	return true;
-}
-
-function addToDB() {
-}
-
-function removeFromDB(){
-}
-//===============================================================
