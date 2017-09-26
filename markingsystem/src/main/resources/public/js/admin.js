@@ -26,6 +26,22 @@ document.addEventListener("DOMContentLoaded", function(event) {
 			
 	  });
 
+		$('#removeUser_button').on('click', function(e) {
+	  	removeUser(function(response) {
+				if (response == "userDoesNotExist") {
+					var errorMsg = 'No user with that ID exists!';
+					$('#removeUser_error').html('<small id="removeUser_error" class="form-text text-danger">'+errorMsg+'</small>');
+					
+	      	} 
+				else if(response == "success"){
+					$('#removeUser_error').html('<small id="removeUser_error" class="form-text text-danger"></small>');
+					confirm("Successfully removed user!");
+					$('#removeUser_form')[0].reset();
+				}
+	      });
+			
+	  });
+
 
 	});
 });
@@ -60,8 +76,19 @@ function createUser(load){
 
 }
 
-function removeUser(){
-
+function removeUser(load){
+	var data = {
+			"userID": $('#removeUser_userID').val(),
+		}
+		$.ajax({
+			url: '/admin_removeUser',
+			type: 'POST',
+			data: JSON.stringify(data),
+			contentType: 'application/json',
+			success: function(res) {
+				load(JSON.parse(res));
+			}
+		});	
 }
 
 

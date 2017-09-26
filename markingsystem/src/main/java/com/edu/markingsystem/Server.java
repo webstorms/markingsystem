@@ -52,6 +52,11 @@ public class Server {
 			return admin_createUser(req, res);
 		});
 		
+		Spark.post("/admin_removeUser", (req, res) -> {
+			Log.info(this.getClass().getName(), "POST /admin_removeUser " + req.ip());
+			return admin_removeUser(req, res);
+		});
+		
 		
 	}
 
@@ -102,6 +107,24 @@ public class Server {
 			db.getUserDB().insertUser(userID, new User(password,Type.userType.valueOf(userType)));
 			response = "success";
 		}
+		return Util.objectToJson(response);
+	}
+	
+	public Object admin_removeUser(Request req, Response res) {
+		JsonObject json = Util.stringToJson(req.body());
+		String userID = json.get("userID").getAsString();
+		String response = "";
+		System.out.println(userID);
+		//check for errors:
+		if(!userExists(userID)){
+			response = "userDoesNotExist";
+		}
+		else{ 
+			//success:
+			db.getUserDB().removeUser(userID);
+			response = "success";
+		}
+		System.out.println(response);
 		return Util.objectToJson(response);
 	}
 	

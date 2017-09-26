@@ -22,6 +22,11 @@ public class UserDB extends DBBase {
 		return (User) map.get(id);
 				
 	}
+
+	public void removeUser(String id) {
+		map.remove(id);
+		
+	}
 	
 	
 }
