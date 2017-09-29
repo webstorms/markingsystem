@@ -11,7 +11,7 @@ import spark.Response;
 import spark.Spark;
 
 public class AdminService extends Service {
-
+	
 	public AdminService(Database db) {
 		super(db);
 
@@ -42,11 +42,8 @@ public class AdminService extends Service {
 		String password = json.get("password").getAsString();
 		String userType = json.get("userType").getAsString().toUpperCase();
 		String response = "";
-		if(userExists(userID)) {
-			response = Service.RESPONSE_USER_DOES_NOT_EXIST;
-		}
-		else if(!userHasPrivilege(userID, UserType.ADMIN)) {
-			response = Service.PRIVILEGE_ERROR;
+		if(userExists(userID)){ 
+			response = "userExists";
 		}
 		else{
 			db.getUserDB().insertUser(userID, new User(password, UserType.valueOf(userType)));
@@ -61,10 +58,7 @@ public class AdminService extends Service {
 		String userID = json.get("userID").getAsString();
 		String response = "";
 		if(!userExists(userID)){
-			response = Service.RESPONSE_USER_DOES_NOT_EXIST;
-		}
-		else if(!userHasPrivilege(userID, UserType.ADMIN)) {
-			response = Service.PRIVILEGE_ERROR;
+			response = "userDoesNotExist";
 		}
 		else{ 
 			db.getUserDB().deleteUser(userID);
@@ -80,11 +74,8 @@ public class AdminService extends Service {
 		String userID = json.get("userID").getAsString();
 		String password = json.get("password").getAsString();
 		String response = "";
-		if(!userExists(userID)) {
-			response = Service.RESPONSE_USER_DOES_NOT_EXIST;
-		}
-		else if(!userHasPrivilege(userID, UserType.ADMIN)) {
-			response = Service.PRIVILEGE_ERROR;
+		if(!userExists(userID)){
+			response = "userDoesNotExist";
 		}
 		else{ 
 			db.getUserDB().changePassword(userID,password);

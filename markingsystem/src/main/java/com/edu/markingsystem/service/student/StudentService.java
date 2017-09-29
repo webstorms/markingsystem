@@ -49,15 +49,11 @@ public class StudentService extends Service {
 		JsonObject json = Util.stringToJson(req.body());
 		String userID = json.get("userID").getAsString();
 		String response = "";
-		if(!userExists(userID)) {
-			response = Service.RESPONSE_USER_DOES_NOT_EXIST;
-		}
-		else { 
-			List<String> courses = db.getCourseDB().getCourses(userID);
-			response = Util.objectToJson(courses);
-			System.out.println(userID + " " + courses);
-			
-		}
+		
+		List<String> courses = db.getCourseDB().getCourses(userID);
+		response = Util.objectToJson(courses);
+		System.out.println(userID + " " + courses);
+		
 		return Util.objectToJson(response);
 		
 	}
@@ -69,14 +65,10 @@ public class StudentService extends Service {
 		String userID = json.get("userID").getAsString();
 		String courseID = json.get("courseID").getAsString();
 		String response = "";
-		if(!userExists(userID)) {
-			response = Service.RESPONSE_USER_DOES_NOT_EXIST;
-		}
-		else { 
-			CourseStructure marks = db.getMarksDB().getMarks(userID, courseID);
-			response = Util.objectToJson(marks);
-			
-		}
+		
+		CourseStructure marks = db.getMarksDB().getMarks(userID, courseID);
+		response = Util.objectToJson(marks);
+		
 		return Util.objectToJson(response);
 		
 	}

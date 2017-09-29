@@ -20,7 +20,7 @@ public class App {
     	
     	Database db = new Database(DB_NAME, DB_PASS);
     	
-//    	db.getUserDB().insertUser("student", new User("student", UserType.STUDENT));
+    	db.getUserDB().insertUser("student", new User("student", UserType.STUDENT));
     	
     	// Create a user
     	db.getUserDB().insertUser("admin", new User("admin", UserType.ADMIN));
