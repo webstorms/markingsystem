@@ -2,7 +2,6 @@ package com.edu.markingsystem.service;
 
 import com.edu.markingsystem.Util;
 import com.edu.markingsystem.db.Database;
-import com.edu.markingsystem.db.User;
 import com.edu.markingsystem.db.UserType;
 import com.esotericsoftware.minlog.Log;
 import com.google.gson.JsonObject;

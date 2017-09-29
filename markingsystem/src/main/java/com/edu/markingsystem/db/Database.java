@@ -5,16 +5,19 @@ import java.io.File;
 import org.mapdb.DB;
 import org.mapdb.DBMaker;
 
-import com.edu.markingsystem.db.course.CourseDB;
-
 public class Database {
 	
-	private static final String USER_DB = "user_db";
+	private static final String USER_DB = "users";
+	private static final String COURSES_DB = "user_courses";
+	private static final String MARKS_DB = "marks";
+	private static final String COURSE_STRUCTURE_DB = "course_structure";
 	
 	private DB db;
 	
 	private UserDB userDB;
-	private CourseDB courseDB;
+	private UserCoursesDB courseDB;
+	private MarksDB marksDB;
+	private CourseStructureDB courseStructureDB;
 	
 	public Database(String name, String password) {
 		db = DBMaker.fileDB(new File(name))
@@ -23,7 +26,9 @@ public class Database {
 	            .make();
 		
 		userDB = new UserDB(db, db.hashMap(USER_DB));
-		courseDB = new CourseDB(db, db.hashMap(USER_DB));
+		courseDB = new UserCoursesDB(db, db.hashMap(COURSES_DB));
+		marksDB = new MarksDB(db, db.hashMap(MARKS_DB));
+		courseStructureDB = new CourseStructureDB(db, db.hashMap(COURSE_STRUCTURE_DB));
 		
 	}
 	
@@ -32,8 +37,18 @@ public class Database {
 		
 	}
 	
-	public CourseDB getCourseDB() {
+	public UserCoursesDB getCourseDB() {
 		return this.courseDB;
+		
+	}
+	
+	public MarksDB getMarksDB() {
+		return this.marksDB;
+		
+	}
+	
+	public CourseStructureDB getCourseStructureDB() {
+		return this.courseStructureDB;
 		
 	}
 	

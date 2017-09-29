@@ -3,6 +3,8 @@ package com.edu.markingsystem.db;
 import org.mapdb.DB;
 import org.mapdb.HTreeMap;
 
+import com.edu.markingsystem.service.User;
+
 public class UserDB extends DBBase {
 
 	public UserDB(DB db, HTreeMap<String, User> map) {
@@ -23,6 +25,7 @@ public class UserDB extends DBBase {
 
 	public void deleteUser(String id) {
 		map.remove(id);
+		db.commit();
 		
 	}
 	
