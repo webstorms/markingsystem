@@ -3,8 +3,6 @@ package com.edu.markingsystem.db;
 import org.mapdb.DB;
 import org.mapdb.HTreeMap;
 
-import com.edu.markingsystem.PasswordUtil;
-
 public class UserDB extends DBBase {
 
 	public UserDB(DB db, HTreeMap<String, User> map) {
@@ -23,16 +21,17 @@ public class UserDB extends DBBase {
 				
 	}
 
-	public void removeUser(String id) {
+	public void deleteUser(String id) {
 		map.remove(id);
 		
 	}
-
+	
 	public void changePassword(String userID, String password) {
-		User u = (User)map.get(userID);
+		User u = (User) map.get(userID);
 		u.setPassword(password);
 		map.replace(userID, u);
 		db.commit();
+		
 	}
 	
 	
