@@ -2,7 +2,8 @@ package com.edu.markingsystem.service;
 
 import com.edu.markingsystem.Util;
 import com.edu.markingsystem.db.Database;
-import com.edu.markingsystem.db.UserType;
+import com.edu.markingsystem.service.user.User;
+import com.edu.markingsystem.service.user.UserType;
 import com.esotericsoftware.minlog.Log;
 import com.google.gson.JsonObject;
 
@@ -46,7 +47,7 @@ public class AdminService extends Service {
 			response = "userExists";
 		}
 		else{
-			db.getUserDB().insertUser(userID, new User(password, UserType.valueOf(userType)));
+			db.getUserDB().addUser(userID, new User(password, UserType.valueOf(userType)));
 			response = Service.SUCCESS;
 		}
 		return Util.objectToJson(response);
@@ -62,7 +63,7 @@ public class AdminService extends Service {
 		}
 		else{ 
 			db.getUserDB().deleteUser(userID);
-			db.getCourseDB().deleteCourses(userID);
+			// TODO: Delete user from all courses
 			response = Service.SUCCESS;
 		}
 		return Util.objectToJson(response);

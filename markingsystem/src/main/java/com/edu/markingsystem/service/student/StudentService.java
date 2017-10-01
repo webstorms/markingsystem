@@ -32,9 +32,9 @@ public class StudentService extends Service {
 			return addMark(req, res);
 		});
 
-		Spark.post("/getStudentMarks", (req, res) -> {
+		Spark.post("/getMarks", (req, res) -> {
 			Log.info(this.getClass().getName(), "POST /getStudentMarks " + req.ip());
-			return getStudentMarks(req, res);
+			return getMarks(req, res);
 		});
 
 	}
@@ -49,10 +49,8 @@ public class StudentService extends Service {
 		JsonObject json = Util.stringToJson(req.body());
 		String userID = json.get("userID").getAsString();
 		String response = "";
-		
-		List<String> courses = db.getCourseDB().getCourses(userID);
+		List<String> courses = db.getUserDB().getUser(userID).getCourses();
 		response = Util.objectToJson(courses);
-		System.out.println(userID + " " + courses);
 		
 		return Util.objectToJson(response);
 		
@@ -60,13 +58,12 @@ public class StudentService extends Service {
 
 	// Get the marks of an individual student (array of mark details)
 	// Needed: StudentID, CourseID
-	public Object getStudentMarks(Request req, Response res) {
+	public Object getMarks(Request req, Response res) {
 		JsonObject json = Util.stringToJson(req.body());
 		String userID = json.get("userID").getAsString();
 		String courseID = json.get("courseID").getAsString();
 		String response = "";
-		
-		CourseStructure marks = db.getMarksDB().getMarks(userID, courseID);
+		CourseStructure marks = db.getUserDB().getUser(userID).getMarks(courseID);
 		response = Util.objectToJson(marks);
 		
 		return Util.objectToJson(response);

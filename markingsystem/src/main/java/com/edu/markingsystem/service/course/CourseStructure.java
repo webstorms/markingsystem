@@ -3,15 +3,18 @@ package com.edu.markingsystem.service.course;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * This claass contains the structure of a course.
+ * @author admin
+ *
+ */
+
 public class CourseStructure implements java.io.Serializable {
 	
-	private String name;
-	private String id;
-	private int finalMark; // out of 100
-	private List<TopLevel> topLevels;
+	private int percentage; // out of 100
+	private List<TopLevel> topLevels; // Exams, CourseWork, Tests
 	
-	public CourseStructure(String name, String id) {
-		this.name = name;
+	public CourseStructure() {
 		this.topLevels = new ArrayList<TopLevel>();
 		
 	}

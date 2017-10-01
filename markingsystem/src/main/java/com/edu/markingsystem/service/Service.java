@@ -1,7 +1,8 @@
 package com.edu.markingsystem.service;
 
 import com.edu.markingsystem.db.Database;
-import com.edu.markingsystem.db.UserType;
+import com.edu.markingsystem.service.user.User;
+import com.edu.markingsystem.service.user.UserType;
 
 public abstract class Service {
 

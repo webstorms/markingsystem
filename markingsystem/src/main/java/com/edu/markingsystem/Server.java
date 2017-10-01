@@ -2,9 +2,9 @@ package com.edu.markingsystem;
 
 import com.edu.markingsystem.db.Database;
 import com.edu.markingsystem.service.AdminService;
-import com.edu.markingsystem.service.UserService;
 import com.edu.markingsystem.service.course.CourseService;
 import com.edu.markingsystem.service.student.StudentService;
+import com.edu.markingsystem.service.user.UserService;
 
 import spark.Spark;
 

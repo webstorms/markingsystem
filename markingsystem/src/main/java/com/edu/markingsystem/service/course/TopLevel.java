@@ -7,6 +7,7 @@ public class TopLevel implements java.io.Serializable {
 
 	private String name;
 	private int weight; // out of 100
+	private int percentage;
 	private int dp; // need atleast dp amount of pass
 	private List<MidLevel> midLevels;
 	

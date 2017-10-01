@@ -8,7 +8,14 @@ document.addEventListener("DOMContentLoaded", function(event) {
 	          window.location.reload(true); 
 	        } 
 	      });
-	  });
+
+	    // getCourses(function(response) {
+	    //     window.alert(response); 
+	    //   });
+	    // getMarks(function(response) {
+	    //     window.alert(response); 
+	    //   });
+	    });
 
 		$('#createUser_button').on('click', function(e) {
 	  	createUser(function(response) {
@@ -17,7 +24,7 @@ document.addEventListener("DOMContentLoaded", function(event) {
 					$('#user_exists').html('<small id="user_exists" class="form-text text-danger">'+userExistsMsg+'</small>');
 					
 	      	} 
-				else if(response == "success"){
+				else if(response == "success") {
 					$('#user_exists').html('<small id="user_exists" class="form-text text-danger"></small>');
 					confirm("Successfully added new user!");
 					$('#createUser_form')[0].reset();
@@ -123,4 +130,36 @@ function changePass(load){
   });	
 
 }
+
+// function getCourses(load){
+// 	var data = {
+//     "userID": "admin",
+//   }
+// 	 $.ajax({
+//     url: '/getCourses',
+//     type: 'POST',
+// 		data: JSON.stringify(data),
+//     contentType: 'application/json',
+//     success: function(res) {
+//       load(JSON.parse(res));
+//     }
+//   });	
+
+// }
+
+// function getMarks(load){
+// 	var data = {
+//     "userID": "admin",
+//     "courseID": "mam100017",
+//   }
+// 	 $.ajax({
+//     url: '/getMarks',
+//     type: 'POST',
+// 		data: JSON.stringify(data),
+//     contentType: 'application/json',
+//     success: function(res) {
+//       load(JSON.parse(res));
+//     }
+//   });	
+//}
 
