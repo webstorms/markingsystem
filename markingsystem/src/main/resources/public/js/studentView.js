@@ -17,18 +17,18 @@ $('#logout-button').on('click', function(e) {
 
 var maindata = '';
 var headdata = '';
-getStudentMarks(function(response){
-
+getMarks(function(response){
+	console.log(response);
 	strData = response;
 	strData=strData.slice(9)
-	var courseName=strData.slice(0, strData.indexOf("\""));
-
+	var courseName="mam100017"; ///hardcoded
 
 	headdata = headdata + 
 		'<hr><h1>'+courseName+'<h1><hr>';
 	strData = strData.slice(strData.indexOf(":"));
-	var finalmark = strData.slice(1, strData.indexOf(","))
+	var finalmark = strData.slice(0, strData.indexOf(","));
 
+	console.log(strData.slice(13));
 	headdata = headdata +
 		'<h4>' + " Final Mark: " + finalmark + '<h4><hr>';  
 
@@ -93,21 +93,30 @@ getStudentMarks(function(response){
 				strData = strData.slice(strData.indexOf(":")+2);
 
 
-				//data
+				//data + level specific
 				levelName = strData.slice(0, strData.indexOf('\"'));
-				var mark = 1234
+				strData = strData.slice(strData.indexOf("percentage"));
+				console.log(strData);
+				var percentage = strData.slice(12, strData.indexOf(","));
 				if(levelCounter==1){
-					maindata=addlevel1(maindata, levelName, mark, levID);
+					maindata=addlevel1(maindata, levelName, percentage, levID);
 				}
-				if(levelCounter==2){
-					maindata=addlevel2(maindata, levelName, mark, levID);
+				else{
+					strData = strData.slice(strData.indexOf("mark"));
+					var mark = strData.slice(6, strData.indexOf(","));
+
+					
+					if(levelCounter==2){
+						strData = strData.slice(strData.indexOf("maxMark"));
+						var maxMark = strData.slice(9, strData.indexOf(","))
+						maindata=addlevel2(maindata, levelName, percentage, levID, mark, maxMark);
+					}
+					if(levelCounter==3){
+						strData = strData.slice(strData.indexOf("maxMark"));
+						var maxMark = strData.slice(9, strData.indexOf("}"))
+						maindata=addlevel3(maindata, levelName, percentage, levID, mark, maxMark);
+					}
 				}
-				if(levelCounter==3){
-					maindata=addlevel3(maindata, levelName, mark, levID);
-				}
-
-
-
 
 		}
 
@@ -185,7 +194,7 @@ function commitButtons(buttons){
 //collapse groups
 function getStudentMarks(load){
 	var data = {
-			"userID": "admin", "courseID": "id1",
+			"userID": "student1", "courseID": "mam100017",
 		}
 		$.ajax({
 			url: '/getStudentMarks',
@@ -211,7 +220,7 @@ function addlevel1(collapseData, turpleName, mark, levelnumber){
               '</a>'+
             '</span>'+
             '<span class="panel-title float-right">'+
-              mark+
+              mark+ "%" +
             '</span>'+
           '</div>'+
         '</h4>'+
@@ -222,7 +231,7 @@ function addlevel1(collapseData, turpleName, mark, levelnumber){
 };
 
 
-function addlevel2(collapseData, turpleName, mark, levelnumber){
+function addlevel2(collapseData, turpleName, percentage, levelnumber, mark, maxMark){
 
 	collapseData += 
 		'<div class="card">'+
@@ -235,7 +244,7 @@ function addlevel2(collapseData, turpleName, mark, levelnumber){
 	              '</a>'+
 	            '</span>'+
 	            '<span class="panel-title float-right">'+
-	              mark+
+	              percentage+ "%  (" + mark + "/" + maxMark+ ")"+
 	            '</span>'+
 	          '</div>'+
 	        '</h5>'+
@@ -246,7 +255,7 @@ function addlevel2(collapseData, turpleName, mark, levelnumber){
       return collapseData;
 };
 
-function addlevel3(collapseData, turpleName, mark, levelnumber){
+function addlevel3(collapseData, turpleName, percentage, levelnumber, mark, maxMark){
 
 	collapseData += 
 	'<div class="card">'+
@@ -259,7 +268,7 @@ function addlevel3(collapseData, turpleName, mark, levelnumber){
               '</a>'+
             '</span>'+
             '<span class="panel-title float-right">'+
-              mark+
+              percentage + "%  (" + mark + "/" + maxMark+")"+
             '</span>'+
           '</div>'+
       '</div>'+
@@ -303,12 +312,12 @@ function logout(load) {
 };
 
 
-function getStudentMarks(load){
+function getMarks(load){
 	var data = {
-			"userID": "admin", "courseID": "id1",
+			"userID": "student1", "courseID": "mam100017",
 		}
 		$.ajax({
-			url: '/getStudentMarks',
+			url: '/getMarks',
 			type: 'POST',
 			data: JSON.stringify(data),
 			contentType: 'application/json',

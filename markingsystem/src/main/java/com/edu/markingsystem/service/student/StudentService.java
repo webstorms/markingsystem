@@ -33,7 +33,7 @@ public class StudentService extends Service {
 		});
 
 		Spark.post("/getMarks", (req, res) -> {
-			Log.info(this.getClass().getName(), "POST /getStudentMarks " + req.ip());
+			Log.info(this.getClass().getName(), "POST /getMarks " + req.ip());
 			return getMarks(req, res);
 		});
 
