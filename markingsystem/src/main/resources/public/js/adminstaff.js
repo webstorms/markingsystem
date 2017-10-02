@@ -112,7 +112,8 @@ document.addEventListener("DOMContentLoaded", function(event) {
             });
 
         
-        // ====================  CREATE COURSE TAB ==================== 
+        // ====================  CREATE COURSE TAB ====================
+
             //Add staff member
             $('#createCourse_staff_button').on('click', function(e) {              
 
@@ -137,16 +138,21 @@ document.addEventListener("DOMContentLoaded", function(event) {
 
             });
 
-            
+        // ====================  GENERIC FUNCTIONS ====================
+            //logout
+            $('#logout').on('click', function(e) {
+            logout(function(response) {
+                if (response == "success") {
+                window.location.reload(true); 
+                } 
+            });
+            });
 	
 
 
     });
 });
 
-// ====================  GENERIC ====================
-function getCourseMembers(load){}
-function getCourseDetails(load){}
 
 
 // ====================  MANAGE USERS TAB ==================== 
@@ -260,3 +266,19 @@ function getCourseDetails(load){}
     //create course
     function createCourseButton(load){}
 
+
+// ====================  GENERIC ====================
+function getCourseMembers(load){}
+function getCourseDetails(load){}
+
+function logout(load) {
+  $.ajax({
+    url: '/logout',
+    type: 'POST',
+    contentType: 'application/json',
+    success: function(res) {
+      load(JSON.parse(res));
+    }
+  });
+
+}

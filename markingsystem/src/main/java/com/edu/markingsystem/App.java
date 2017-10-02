@@ -27,6 +27,9 @@ public class App {
 	private static void initTestData(Database db) {
 		// Create admin
 		db.getUserDB().addUser("admin", new User("1234", UserType.ADMIN));
+		
+		// Create admin staff
+		db.getUserDB().addUser("adminstaff", new User("1234", UserType.ADMINSTAFF));
 
 		// Create students
 		db.getUserDB().addUser("student1", new User("1234", UserType.STUDENT));
