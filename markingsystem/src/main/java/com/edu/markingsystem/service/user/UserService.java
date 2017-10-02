@@ -42,6 +42,24 @@ public class UserService extends Service {
 			return logout(req, res);
 		});
 		
+		Spark.post("/findUser", (req, res) -> {
+			Log.info(this.getClass().getName(), "POST /findUser " + req.ip());
+			return findUser(req, res);
+		});
+		
+	}
+	
+	public Object findUser(Request req, Response res) {
+		String response = "success";
+		
+		JsonObject json = Util.stringToJson(req.body());
+		String userID = json.get("userID").getAsString();
+		
+		User user = db.getUserDB().getUser(userID);
+		if(user == null) response = "userNotFound";
+		
+		return Util.objectToJson(response);
+		
 	}
 	
 	/**
