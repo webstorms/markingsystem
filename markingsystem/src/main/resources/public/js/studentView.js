@@ -45,8 +45,6 @@ getMarks(function(response){
 	var counter=0;
 	while(strData!=''){
 
-
-
 		if (strData.slice(0,2)=="[]"){
 			strData=strData.slice(2);
 			maindata=endlevel(maindata);
@@ -61,8 +59,6 @@ getMarks(function(response){
 			levID = levID.slice(0,levID.lastIndexOf("-"));
 			strData=strData.slice(1);
 
-
-
 		}
 
 		else if (strData.slice(0, 1)=="[" || strData.slice(1, 2)=="," || strData.slice(1,2)=="["){
@@ -70,7 +66,6 @@ getMarks(function(response){
 			if (strData.slice(0, 1)=="["){
 				levelCounter++;
 				levID = levID + "-1";
-
 
 			}
 
@@ -80,8 +75,6 @@ getMarks(function(response){
 			}
 
 			else if (strData.slice(1, 2)==","){
-
-
 				var lastNumber=Number((levID.slice(levID.lastIndexOf("-")+1)));
 
 				lastNumber ++;
@@ -92,7 +85,6 @@ getMarks(function(response){
 				}
 
 				strData = strData.slice(strData.indexOf(":")+2);
-
 
 				//data + level specific
 				levelName = strData.slice(0, strData.indexOf('\"'));
@@ -172,6 +164,7 @@ getCourses (function(response){
 	    console.log(nextCourseName);
 	    buttons = addCourseButton(nextCourseName, buttons, Butid);
 	    courseStrArr=courseStrArr.slice(nextInvCom + 2);
+	    //course being selected
 	    $('#Button'+Butid).on('click', function(e) {
 	      sessionStorage.setItem("requestedCourse", nextCourseName);
 	    });
