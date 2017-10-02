@@ -37,9 +37,14 @@ public class User implements java.io.Serializable {
 //		
 //	}
 	
-	public void addCourse(String course, CourseStructure structure) {
-		this.courses.add(course);
-		this.marks.put(course, structure);
+	public void addCourse(String courseID, CourseStructure structure) {
+		this.courses.add(courseID);
+		this.marks.put(courseID, structure);
+		
+	}
+	
+	public void updateMarks(String courseID, CourseStructure structure) {
+		this.marks.put(courseID, structure);
 		
 	}
 	
