@@ -2,6 +2,10 @@
 document.addEventListener("DOMContentLoaded", function(event) { 
 	$(function() {
 
+        // ====================  ON PAGE LOAD ====================
+        //load available courses from backend 
+        
+
         // ====================  MANAGE USERS TAB ==================== 
             //course change on users tab
             $('select[name="manUsers_courseDropDown"]').change(function(){
