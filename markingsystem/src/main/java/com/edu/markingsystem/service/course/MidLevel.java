@@ -28,6 +28,27 @@ public class MidLevel implements java.io.Serializable {
 		return this.bottomLevels.get(index);
 		
 	}
+
+	public void calculatePercentages() {
+		for(BottomLevel level : this.bottomLevels) {
+			level.calculatePercentages();
+			this.mark += level.getMark();
+			this.maxMark = level.getMaxMark();
+			
+		}
+		this.percentage = Math.round((float) this.mark / (float) this.maxMark);
+		
+	}
+
+	public int getPercentage() {
+		return this.percentage;
+		
+	}
+
+	public int getWeight() {
+		return this.weight;
+		
+	}
 	
 	
 }

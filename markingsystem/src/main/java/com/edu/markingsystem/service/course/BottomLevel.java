@@ -17,6 +17,23 @@ public class BottomLevel implements java.io.Serializable {
 		this.mark = mark;
 		
 	}
+
+	public void calculatePercentages() {
+		this.percentage = Math.round((float) this.mark / (float) this.maxMark);
+	}
+
+	public int getPercentage() {
+		return this.percentage;
+		
+	}
+
+	public int getMark() {
+		return this.mark;
+	}
+
+	public int getMaxMark() {
+		return this.maxMark;
+	}
 	
 	
 }

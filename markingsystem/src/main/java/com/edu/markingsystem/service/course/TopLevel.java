@@ -28,6 +28,24 @@ public class TopLevel implements java.io.Serializable {
 		return this.midLevels.get(index);
 		
 	}
+
+	public int getPercentage() {
+		return this.percentage;
+		
+	}
+
+	public int getWeight() {
+		return this.weight;
+		
+	}
+
+	public void calculatePercentages() {
+		for(MidLevel level : this.midLevels) {
+			level.calculatePercentages();
+			this.percentage += level.getPercentage() * level.getWeight();
+		}
+		
+	}
 	
 	
 }

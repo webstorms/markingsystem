@@ -19,6 +19,14 @@ public class CourseStructure implements java.io.Serializable {
 		
 	}
 	
+	public void calculatePercentages() {
+		for(TopLevel level : this.topLevels) {
+			level.calculatePercentages();
+			this.percentage += level.getPercentage() * level.getWeight();
+		}
+		
+	}
+	
 	public void addTopLevel(TopLevel topLevel) {
 		this.topLevels.add(topLevel);
 		

@@ -64,6 +64,7 @@ public class StudentService extends Service {
 		String courseID = json.get("courseID").getAsString();
 		String response = "";
 		CourseStructure marks = db.getUserDB().getUser(userID).getMarks(courseID);
+		marks.calculatePercentages();
 		response = Util.objectToJson(marks);
 		
 		return Util.objectToJson(response);
