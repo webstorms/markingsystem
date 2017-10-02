@@ -1,5 +1,8 @@
 package com.edu.markingsystem.db;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import org.mapdb.DB;
 import org.mapdb.HTreeMap;
 
@@ -40,6 +43,12 @@ public class CourseDB extends DBBase {
 	public Course getCourse(String id) {
 		return (Course) map.get(id);
 
+	}
+	
+	public List<String> getAllCourseIDs(){
+		List<String> output = new ArrayList<String>(map.keySet());
+		
+		return output;
 	}
 
 

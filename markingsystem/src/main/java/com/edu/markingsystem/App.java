@@ -62,6 +62,10 @@ public class App {
 		
 		Course courseA = new Course("Mam1000", "mam100017", "2017", "F", "lec1", lecturers, TAs, students, course);
 		db.getCourseDB().addCourse(courseA);
+		
+		// Placeholder course to test functionality
+		Course courseB = new Course("CSC3003", "CSC300317", "2017", "S", "lec1", lecturers, TAs, students, course);
+		db.getCourseDB().addCourse(courseB);
 
 		// Add courses to user
 		db.getUserDB().addCourse("admin", "mam100017");

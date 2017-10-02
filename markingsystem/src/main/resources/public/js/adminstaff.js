@@ -3,8 +3,18 @@ document.addEventListener("DOMContentLoaded", function(event) {
 	$(function() {
 
         // ====================  ON PAGE LOAD ====================
-        //load available courses from backend 
-        
+        //get course IDs from backend 
+        getAllCourses(function(response) {
+            //loop through list and add to dropdown
+            $.each( response, function( k, v ) {
+                //manUsers_courseDropDown
+                $("#manUsers_courseDropDown").append( $("<option>")
+                    .val(v)
+                    .html(v)
+                );
+                console.log(v);
+            });             
+        });
 
         // ====================  MANAGE USERS TAB ==================== 
             //course change on users tab
@@ -145,11 +155,11 @@ document.addEventListener("DOMContentLoaded", function(event) {
         // ====================  GENERIC FUNCTIONS ====================
             //logout
             $('#logout').on('click', function(e) {
-            logout(function(response) {
-                if (response == "success") {
-                window.location.reload(true); 
-                } 
-            });
+                logout(function(response) {
+                    if (response == "success") {
+                    window.location.reload(true); 
+                    } 
+                });
             });
 	
 
@@ -272,6 +282,19 @@ document.addEventListener("DOMContentLoaded", function(event) {
 
 
 // ====================  GENERIC ====================
+
+function getAllCourses(load){
+ $.ajax({
+    url: '/getAllCourses',
+    type: 'POST',
+    contentType: 'application/json',
+    success: function(res) {
+      load(JSON.parse(res));
+    }
+  });
+}
+
+
 function getCourseMembers(load){}
 function getCourseDetails(load){}
 

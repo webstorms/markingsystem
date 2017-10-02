@@ -36,6 +36,11 @@ public class CourseService extends Service {
 			return getCourse(req, res);
 		});
 		
+		Spark.post("/getAllCourses", (req, res) -> {
+			Log.info(this.getClass().getName(), "POST /getAllCourses " + req.ip());
+			return getAllCourses(req, res);
+		});
+		
 	}
 
 	/*
@@ -99,6 +104,10 @@ public class CourseService extends Service {
 			
 		}
 		
+	}
+	
+	public Object getAllCourses(Request req, Response res) {		
+		return Util.objectToJson(db.getCourseDB().getAllCourseIDs());
 	}
 	
 	public Object addCourseMarks(Request req, Response res) {
