@@ -65,7 +65,7 @@
         <hr>
         <h3 class="form-signin-heading">Select Course</h3>
         <hr>
-        <select class="form-control col-lg-3" id="manUsers_courseDropDown"></select>
+        <select class="form-control col-lg-3" id="manUsers_courseDropDown"><option>Select a course</option></select>
         <hr>
 
         <!-- Main Card -->
@@ -81,7 +81,7 @@
                     <form id = "users_courseDetails" onsubmit="return false">
                         <div class="form-group form-inline">
                             <label for="courseID">Course Name: &nbsp;</label> 
-                            <input type="ID" class="form-control col-lg-3" id="uesrs_courseName">
+                            <input type="ID" class="form-control col-lg-3" id="users_courseName">
                         </div>
 
                         <div class="form-group form-inline">
@@ -119,35 +119,27 @@
                     <h4>Course Members</h4>
                     <hr>
  
-                    <table class="table table-sm ">
+                    <table class="table table-sm " id="manUsers_membersTable">
                     <thead>
                         <tr>
                         <th>User ID</th>
                         <th>Role</th>
-                        <th>First Name</th>
-                        <th>Last Name</th>
                         </tr>
                     </thead>
                     <tbody>
                         <tr>
                         <td>ODTUDA001</td>
                         <td>Student</td>
-                        <td>Udarshan</td>
-                        <td>Oodit</td>
                         </tr>
 
                         <tr>
                         <td>TYLCHR011</td>
                         <td>Student</td>
-                        <td>Luke</td>
-                        <td>Taylor</td>
                         </tr>
 
                         <tr>
                         <td>HMPJAR001</td>
                         <td>Student</td>
-                        <td>Jarad</td>
-                        <td>Humphry</td>
                         </tr>
                     </tbody>
                     </table>

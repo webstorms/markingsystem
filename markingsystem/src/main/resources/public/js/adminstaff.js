@@ -3,35 +3,51 @@ document.addEventListener("DOMContentLoaded", function(event) {
 	$(function() {
 
         // ====================  ON PAGE LOAD ====================
-        //get course IDs from backend 
-        getAllCourses(function(response) {
-            //loop through list and add to dropdown
-            $.each( response, function( k, v ) {
-                //manUsers_courseDropDown
-                $("#manUsers_courseDropDown").append( $("<option>")
-                    .val(v)
-                    .html(v)
-                );
-                console.log(v);
-            });             
-        });
+            //get course IDs from backend 
+            getAllCourses(function(response) {
+                //loop through list and add to dropdown
+                $.each( response, function( k, v ) {
+                    //Manage Users Dropdown
+                    $("#manUsers_courseDropDown").append( $("<option>")
+                        .val(v)
+                        .html(v)
+                    );
+                    //Marks and Structure Dropdown
+                    $("#marksStructure_courseDropDown").append( $("<option>")
+                        .val(v)
+                        .html(v)
+                    );
+                });             
+            });
 
         // ====================  MANAGE USERS TAB ==================== 
-            //course change on users tab
-            $('select[name="manUsers_courseDropDown"]').change(function(){
+            
+            $('#manUsers_courseDropDown').change(function(){
                 //update course details and course members
-                manUsersSelectCourse(function(response){
-                    getCourseDetails(function(response){
+                manUsersSelectCourse(function(course){
+                    if(course == 'courseDoesNotExist'){
+                        //handle error
+                    }
+                    else{
+                        //LOAD COURSE DETAILS
+                        console.log(course);
+                        console.log(course.courseName);
+                        $("#users_courseName").val(course.courseName);
+                        $("#users_courseCode").val(course.courseID);
+                        $("#users_courseYear").val(course.year);
+                        $("#uesrs_coursePeriod").val(course.period);
 
-                        //TODO: refresh course details
-
-                    });
-
-                    getCourseMembers(function(response){
-
-                        //TODO: refresh table
-
-                    });
+                        //LOAD COURSE MEMBERS
+                        $('#manUsers_membersTable tbody > tr').remove();
+                        $.each( course.students, function( i, studentID ) {
+                            $("#manUsers_membersTable").find('tbody') 
+                            .append($('<tr>')
+                                .append($('<td>').text(studentID))
+                                .append($('<td>').text('Student'))
+                            );
+                        });
+                    }
+                    
 
                 }); 
             });
@@ -172,17 +188,17 @@ document.addEventListener("DOMContentLoaded", function(event) {
 // ====================  MANAGE USERS TAB ==================== 
     function manUsersSelectCourse(load){
         var data = {
-        "courseID": $('#manUsers_courseDropDown').val(),
-    }
-        $.ajax({
-        url: '/adminstaff_manUsers_selectCourse',
-        type: 'POST',
-            data: JSON.stringify(data),
-        contentType: 'application/json',
-        success: function(res) {
-        load(JSON.parse(res));
+         "courseID": $('#manUsers_courseDropDown').val(),
         }
-    });	
+        $.ajax({
+            url: '/getCourse',
+            type: 'POST',
+                data: JSON.stringify(data),
+            contentType: 'application/json',
+            success: function(res) {
+            load(JSON.parse(res));
+            }
+        });	
     }
 
     //Add a student to a course
@@ -292,8 +308,8 @@ function getAllCourses(load){
       load(JSON.parse(res));
     }
   });
+  
 }
-
 
 function getCourseMembers(load){}
 function getCourseDetails(load){}
