@@ -27,7 +27,7 @@ getMarks(function(response){
 	headdata = headdata + 
 		'<hr><h1>'+courseName+'<h1><hr>';
 	strData = strData.slice(strData.indexOf(":"));
-	var finalmark = strData.slice(0, strData.indexOf(","));
+	var finalmark = strData.slice(1, strData.indexOf(","));
 
 	console.log(strData.slice(13));
 	headdata = headdata +

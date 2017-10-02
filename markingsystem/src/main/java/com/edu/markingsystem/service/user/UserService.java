@@ -90,7 +90,7 @@ public class UserService extends Service {
 				return new ModelAndView(map, "admin.html");
 			}
 			else if(userType.equalsIgnoreCase("student")){
-				return new ModelAndView(map, "student-home.html"); // <- Jarad replace the x with the name of the student html page
+				return new ModelAndView(map, "student.html"); // <- Jarad replace the x with the name of the student html page
 			}
 			else{
 				return new ModelAndView(map, "main.ftl");
