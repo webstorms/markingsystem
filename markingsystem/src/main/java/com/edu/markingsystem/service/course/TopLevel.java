@@ -46,6 +46,19 @@ public class TopLevel implements java.io.Serializable {
 		}
 		
 	}
+
+	public boolean checkWeight() {
+		int weight = 0;
+		for(MidLevel level : this.midLevels) weight += level.getWeight();
+		
+		return weight == 100;
+		
+	}
+
+	public String getName() {
+		return this.name;
+		
+	}
 	
 	
 }

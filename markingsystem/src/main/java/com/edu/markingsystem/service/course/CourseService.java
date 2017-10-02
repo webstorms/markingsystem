@@ -62,6 +62,12 @@ public class CourseService extends Service {
 			List<String> TAs = Util.toList(json.get("TAs").getAsJsonArray(), String.class);
 			List<String> students = Util.toList(json.get("students").getAsJsonArray(), String.class);
 			CourseStructure structure = Util.fromJson(json.get("structure").getAsString(), CourseStructure.class);
+			String error = structure.isValid();
+			if(error != null) {
+				response = error;
+				return Util.objectToJson(response);
+				
+			}
 			// Create the course
 			db.getCourseDB().addCourse(new Course(courseName, courseID, year, period, courseConvenor, lecturers, TAs, students, structure));       
 			// Add course to each user
