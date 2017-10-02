@@ -40,14 +40,28 @@ public class App {
 
 		// Create a course
 		BottomLevel b1 = new BottomLevel("Section A", 50);
-		BottomLevel b2 = new BottomLevel("Section B", 50);
-		MidLevel midLevel = new MidLevel("Exam1", 100);
-		midLevel.addBottomLevel(b1);
-		midLevel.addBottomLevel(b2);
-		TopLevel topLevel = new TopLevel("Exams", 100, 50);
-		topLevel.addMidLevel(midLevel);
+    	BottomLevel b2 = new BottomLevel("Section B", 50);
+    	BottomLevel b3 = new BottomLevel("Section A", 100);
+    	BottomLevel b4 = new BottomLevel("Section A", 50);
+    	BottomLevel b5 = new BottomLevel("Section B", 50);
+    	MidLevel midLevel = new MidLevel("Exam1", 100);
+    	MidLevel midLevel2 = new MidLevel("Exam2", 100);
+    	MidLevel midLevel3 = new MidLevel("Test1", 100);
+    	MidLevel midLevel4 = new MidLevel("Test2", 100);
+    	midLevel.addBottomLevel(b1);
+    	midLevel.addBottomLevel(b2);
+    	midLevel2.addBottomLevel(b3);
+    	midLevel3.addBottomLevel(b4);
+    	midLevel3.addBottomLevel(b5);
+    	TopLevel topLevel = new TopLevel("Exams", 100, 50);
+    	TopLevel topLevel1 = new TopLevel("Tests", 100, 50);
+    	topLevel.addMidLevel(midLevel);
+    	topLevel.addMidLevel(midLevel2);
+    	topLevel1.addMidLevel(midLevel3);
+    	topLevel1.addMidLevel(midLevel4);
 		CourseStructure course = new CourseStructure();
 		course.addTopLevel(topLevel);
+		course.addTopLevel(topLevel1);
 		
 		List<String> students = new ArrayList<String>();
 		students.add("student1");

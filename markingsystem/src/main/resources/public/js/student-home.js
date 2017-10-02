@@ -12,17 +12,24 @@ getCourses(function(response) {
   var courselistStringLength = courseStrArr.length;
   courseStrArr=courseStrArr.slice(1, courselistStringLength-1);
   console.log(courseStrArr);
+  var Butid = 1;
   while(courseStrArr!=""){
     courseStrArr = courseStrArr.slice(1);
     var nextInvCom = courseStrArr.indexOf("\"");
     var nextCourseName = courseStrArr.slice(0, nextInvCom);
-    courselistdata = addCourse(courselistdata, nextCourseName);
+    courselistdata = addCourse(courselistdata, nextCourseName, Butid);
     // $('#'+nextCourseName).on('click', function(e) {
     //   openStudentView(function(response), courseID){
     //     window.location.reload(true);
     //   }
     // });
     courseStrArr=courseStrArr.slice(nextInvCom + 2);
+    
+    $('#Button'+id).on('click', function(e) {
+      sessionStorage.setItem("requestedCourse", nextCourseName);
+
+    });
+    Butid++;
   }
   console.log(courselistdata);
   commitCourseList(courselistdata);
@@ -95,12 +102,12 @@ function addStudentname(studentName){
 	$('#studentName').html(studentName);
 };
 
-function addCourse(courseList, courseName){
+function addCourse(courseList, courseName, id){
 	courseList +=
   '<div class="card">'+
    '<h4>'+
-      '<a id="'+courseName+'" href="#">'+
-		    courseName+
+      '<a id="' + "Button" + id + '" href="#">' +
+		    courseName +
 
       '</a>'+
     '<h4>'+

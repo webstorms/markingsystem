@@ -3,6 +3,7 @@ $(function() {
 // Get server user courses
 // For course in courses 
 // Add button to navbar with course name
+var reqCourse = sessionStorage.getItem("requestedCourse");
 
 $('#logout-button').on('click', function(e) {
     logout(function(response) {
@@ -21,7 +22,7 @@ getMarks(function(response){
 	console.log(response);
 	strData = response;
 	strData=strData.slice(9)
-	var courseName="mam100017"; ///hardcoded
+	var courseName=reqCourse; ///hardcoded
 
 	headdata = headdata + 
 		'<hr><h1>'+courseName+'<h1><hr>';
@@ -163,13 +164,17 @@ getCourses (function(response){
 	courseStrArr=courseStrArr.slice(1, courselistStringLength-1);
 	console.log(courseStrArr);
 	console.log(courseStrArr)
+	var Butid=1
 	while(courseStrArr!=""){
 	    courseStrArr = courseStrArr.slice(1);
 	    var nextInvCom = courseStrArr.indexOf("\"");
 	    var nextCourseName = courseStrArr.slice(0, nextInvCom);
 	    console.log(nextCourseName);
-	    buttons = addCourseButton(nextCourseName, buttons);
+	    buttons = addCourseButton(nextCourseName, buttons, Butid);
 	    courseStrArr=courseStrArr.slice(nextInvCom + 2);
+	    $('#Button'+Butid).on('click', function(e) {
+	      sessionStorage.setItem("requestedCourse", nextCourseName);
+	    });
 	}
 	console.log(buttons);
 	commitButtons(buttons);
@@ -182,8 +187,8 @@ getCourses (function(response){
 });
 
 //buttons
-function addCourseButton(buttonTitle, buttons){
-	buttons +='<button id="but" class="btn navbar-btn btn-secondary">' + buttonTitle + '</button>';
+function addCourseButton(buttonTitle, buttons, id){
+	buttons +='<button id="Button"' + id + ' class="btn navbar-btn btn-secondary">' + buttonTitle + '</button>';
 	return buttons;
 };
 
