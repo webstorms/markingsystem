@@ -18,14 +18,10 @@ getCourses(function(response) {
     var nextInvCom = courseStrArr.indexOf("\"");
     var nextCourseName = courseStrArr.slice(0, nextInvCom);
     courselistdata = addCourse(courselistdata, nextCourseName, Butid);
-    // $('#'+nextCourseName).on('click', function(e) {
-    //   openStudentView(function(response), courseID){
-    //     window.location.reload(true);
-    //   }
-    // });
+
     courseStrArr=courseStrArr.slice(nextInvCom + 2);
-    
-    $('#Button'+id).on('click', function(e) {
+    // Course being selected
+    $('#Button'+Butid).on('click', function(e) {
       sessionStorage.setItem("requestedCourse", nextCourseName);
 
     });
@@ -51,23 +47,7 @@ $('#logout-button').on('click', function(e) {
 
 
 });
-//logout button stuff
 
-// function openStudentView(load, courseID) {
-//   var data = {
-//     "courseID": $('#'+courseID).val()
-//   }
-
-//   $.ajax({
-//     url: '/openStudentView',
-//     type: 'POST',
-//     data: JSON.stringify(data),
-//     contentType: 'application/json',
-//     success: function(res) {
-//       load(JSON.parse(res));
-//     }
-//   });
-// }
 
 function logout(load) {
   $.ajax({
