@@ -30,8 +30,6 @@ document.addEventListener("DOMContentLoaded", function(event) {
                     }
                     else{
                         //LOAD COURSE DETAILS
-                        console.log(course);
-                        console.log(course.courseName);
                         $("#users_courseName").val(course.courseName);
                         $("#users_courseCode").val(course.courseID);
                         $("#users_courseYear").val(course.year);
