@@ -67,6 +67,7 @@ public class App {
 		Course courseB = new Course("CSC3003", "CSC300317", "2017", "S", "lec1", lecturers, TAs, students, course);
 		db.getCourseDB().addCourse(courseB);
 
+
 		// Add courses to user
 		db.getUserDB().addCourse("admin", "mam100017");
 		db.getUserDB().addCourse("student1", "mam100017");

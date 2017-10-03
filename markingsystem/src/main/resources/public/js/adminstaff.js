@@ -119,9 +119,13 @@ document.addEventListener("DOMContentLoaded", function(event) {
                 marksStructureSelectCourse(function(response){
 
                     //TODO update course details, marks and course structure based on response
+
                     
                 }); 
             });
+
+
+
 
 
         // ====================  STUDENT SEARCH TAB ==================== 
@@ -165,6 +169,124 @@ document.addEventListener("DOMContentLoaded", function(event) {
                 //reset form
 
             });
+
+            //Create Course Structure
+            var upperLevelCounter = 0;
+            
+            $('#addUpperLevel_CreateStructure').on('click', function(e){
+            	upperLevelCounter++;
+            	console.log(upperLevelCounter);
+            	$('#courseStructure_CreateStructure').append(
+            		
+            		'<div class="card" id="upperLevelID_'+ upperLevelCounter +'">'+
+				      '<div class="card-header" role="tab">'+
+				        '<h4 class="mb-0">'+
+				        	'<div class="row">'+
+					            '<div class="col-lg-4">'+
+					              '<div class="form-group">'+
+					              	'<label for=sectionTitle_"' + upperLevelCounter + '_CreateCourseStructure>Assignment Type</label>'+
+					              	'<input type="text" class="form-control" id="sectionTitle_' + upperLevelCounter + '_CreateCourseStructure" placeholder="Enter the Assignment type">' +
+					              '</div>'+
+					            '</div>'+
+					            '<div class="col-lg-4">'+
+					              '<div class="form-group">'+
+					              	'<label for=DPReq_"' + upperLevelCounter + '_CreateCourseStructure>Assignment</label>'+
+					              	'<input type="text" class="form-control" id="DPreq_' + upperLevelCounter + '_CreateCourseStructure" placeholder="Enter the DP requirement">' +
+					              '</div>'+
+					            '</div>'+
+					            '<div class="col-lg-4">'+
+					              '<div class="form-group">'+
+					              	'<label for=weighting_"' + upperLevelCounter + '_CreateCourseStructure>Weighting</label>'+
+					              	'<input type="text" class="form-control" id="weighting_' + upperLevelCounter + '_CreateCourseStructure" placeholder="Enter the weighting (5)">' +
+					              '</div>'+
+					            '</div>'+
+					        '</div>'+
+
+			            	'<button class="btn btn-primary" id="addLowerLayer_'+upperLevelCounter+'_CreateStructure" style="margin:5px;">Add Assignment</button>'+
+			            	'<button class="btn btn-danger" id="removeCurrentLayer_'+upperLevelCounter+'_CreateStructure" style="margin:5px;">Remove Assignment Type</button>'+
+			            	'<button class="btn btn-info" id="ExpandCollapse_'+upperLevelCounter+'_CreateStructure" type="button" data-toggle="collapse" data-target="#midLevel' + upperLevelCounter + '" aria-expanded="true" aria-controls="midLevel' + upperLevelCounter + '">'+
+		                         'Expand/Collapse'+
+		                    '</button>'+
+
+				        '</h4>'+
+				      '</div>'+
+				       	'<div class="collapse show" id="midLevel' + upperLevelCounter+ '" style="margin-left:5px;">' +
+
+		                '</div>'
+
+            	);
+            	//Upper level Buttons
+            	//remove current section
+            	$('#removeCurrentLayer_'+upperLevelCounter+'_CreateStructure').on('click', function(e){
+            		var item = $(this).attr('id').slice($(this).attr('id').indexOf("_")+1, $(this).attr('id').lastIndexOf("_")); //used to get the classes ID - upperlevel default to the most recent level created
+            		console.log(item);
+            		item='#upperLevelID_' + item;
+            		$(item).remove();
+            		console.log(item);
+            	});
+            	
+
+            	//add new subsection
+            	var midLevelCounter=0;
+            	$('#addLowerLayer_'+upperLevelCounter+'_CreateStructure').on('click', function(e){
+            		midLevelCounter++;
+            		var item = $(this).attr('id').slice($(this).attr('id').indexOf("_")+1, $(this).attr('id').lastIndexOf("_"));
+ 					var midLevelID=item+"-"+midLevelCounter;
+ 					console.log(midLevelID);
+ 					$("#midLevel"+item).append(
+ 						'<div class="card" id="upperLevelID_'+ midLevelID +'">'+
+				      '<div class="card-header" role="tab">'+
+				        '<h4 class="mb-0">'+
+				        	'<div class="row">'+
+					            '<div class="col-lg-4">'+
+					              '<div class="form-group">'+
+					              	'<label for=testTitle_"' + midLevelID + '_CreateCourseStructure>Assignment Name</label>'+
+					              	'<input type="text" class="form-control" id="assignmentTitle_' + midLevelID + '_CreateCourseStructure" placeholder="Enter Assignment Title">' +
+					              '</div>'+
+					            '</div>'+
+					            '<div class="col-lg-4">'+
+					              '<div class="form-group">'+
+					              	'<label for=maxMark_"' + midLevelID + '_CreateCourseStructure>Maximum Mark</label>'+
+				              		'<input type="text" class="form-control" id="maxMark_' + midLevelID + '_CreateCourseStructure" placeholder="Enter Maximum Mark">' +
+					              '</div>'+
+					            '</div>'+
+					            '<div class="col-lg-4">'+
+					              '<div class="form-group">'+
+					              	'<label for=weighting_"' + midLevelID + '_CreateCourseStructure>Weighting</label>'+
+					              	'<input type="text" class="form-control" id="weighting_' + midLevelID + '_CreateCourseStructure" placeholder="Enter the weighting (%)">' +
+					              '</div>'+
+					            '</div>'+
+					        '</div>'+
+
+
+			            	'<button class="btn btn-primary" id="addLowerLayer_'+midLevelID+'_CreateStructure" style="margin:5px;">Add Sub Section</button>'+
+			            	'<button class="btn btn-danger" id="removeCurrentLayer_'+midLevelID+'_CreateStructure" style="margin:5px;">Remove Current Section</button>'+
+			            	'<button class="btn btn-info" id="ExpandCollapse_'+midLevelID+'_CreateStructure" type="button" data-toggle="collapse" data-target="#midLevel"' + midLevelID + ' aria-expanded="true" aria-controls="collapseExample">'+
+		                         'Expand/Collapse'+
+		                    '</button>'+
+			            	'</div>'+
+				        '</h4>'+
+				      '</div>'+
+				       	'<div class="collapse show" id="midLevel"' + midLevelID+ '" style="margin-left:5px;">' +
+		                  	
+		                '</div>'
+
+ 					);
+
+ 					$('#removeCurrentLayer_'+midLevelID+'_CreateStructure').on('click', function(e){
+	            		var item = $(this).attr('id').slice($(this).attr('id').indexOf("_")+1, $(this).attr('id').lastIndexOf("_")); //used to get the classes ID - upperlevel default to the most recent level created
+	            		console.log(item);
+	            		item='#upperLevelID_' + item;
+	            		$(item).remove();
+	            		console.log(item);
+            		});
+            	});
+
+            	
+
+            });
+
+
 
         // ====================  GENERIC FUNCTIONS ====================
             //logout
