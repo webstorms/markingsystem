@@ -2,6 +2,7 @@ package com.edu.markingsystem.service;
 
 import com.edu.markingsystem.Util;
 import com.edu.markingsystem.db.Database;
+import com.edu.markingsystem.service.course.CourseStructure;
 import com.edu.markingsystem.service.user.User;
 import com.edu.markingsystem.service.user.UserType;
 import com.esotericsoftware.minlog.Log;
@@ -34,6 +35,8 @@ public class AdminService extends Service {
 			Log.info(this.getClass().getName(), "POST /admin_changePass " + req.ip());
 			return admin_changePass(req, res);
 		});
+		
+
 
 	}
 
@@ -85,6 +88,7 @@ public class AdminService extends Service {
 		return Util.objectToJson(response);
 		
 	}
+
 	
 	
 }
