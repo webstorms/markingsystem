@@ -226,7 +226,7 @@ document.addEventListener("DOMContentLoaded", function(event) {
             	});
             	
 
-            	//add new subsection
+            	//midlevel
             	var midLevelCounter=0;
             	$('#addLowerLayer_'+upperLevelCounter+'_CreateStructure').on('click', function(e){
             		midLevelCounter++;
@@ -234,7 +234,7 @@ document.addEventListener("DOMContentLoaded", function(event) {
  					var midLevelID=item+"-"+midLevelCounter;
  					console.log(midLevelID);
  					$("#midLevel"+item).append(
- 						'<div class="card" id="upperLevelID_'+ midLevelID +'">'+
+ 						'<div class="card" id="midLevelID_'+ midLevelID +'">'+
 				      '<div class="card-header" role="tab">'+
 				        '<h4 class="mb-0">'+
 				        	'<div class="row">'+
@@ -260,26 +260,83 @@ document.addEventListener("DOMContentLoaded", function(event) {
 
 
 			            	'<button class="btn btn-primary" id="addLowerLayer_'+midLevelID+'_CreateStructure" style="margin:5px;">Add Sub Section</button>'+
-			            	'<button class="btn btn-danger" id="removeCurrentLayer_'+midLevelID+'_CreateStructure" style="margin:5px;">Remove Current Section</button>'+
+			            	'<button class="btn btn-danger" id="removeCurrentLayer_'+midLevelID+'_CreateStructure" style="margin:5px;">Remove Assesment</button>'+
 			            	'<button class="btn btn-info" id="ExpandCollapse_'+midLevelID+'_CreateStructure" type="button" data-toggle="collapse" data-target="#midLevel"' + midLevelID + ' aria-expanded="true" aria-controls="collapseExample">'+
 		                         'Expand/Collapse'+
 		                    '</button>'+
 			            	'</div>'+
 				        '</h4>'+
 				      '</div>'+
-				       	'<div class="collapse show" id="midLevel"' + midLevelID+ '" style="margin-left:5px;">' +
+				       	'<div class="collapse show" id="bottomLevel' + midLevelID+ '" style="margin-left:5px;">' +
 		                  	
 		                '</div>'
 
  					);
-
+                    //remove bottom level
  					$('#removeCurrentLayer_'+midLevelID+'_CreateStructure').on('click', function(e){
 	            		var item = $(this).attr('id').slice($(this).attr('id').indexOf("_")+1, $(this).attr('id').lastIndexOf("_")); //used to get the classes ID - upperlevel default to the most recent level created
 	            		console.log(item);
-	            		item='#upperLevelID_' + item;
+	            		item='#midLevelID_' + item;
 	            		$(item).remove();
 	            		console.log(item);
             		});
+
+                    //bottomlevel
+                    var bottomLevelCounter=0;
+                    console.log(midLevelID);
+                    $('#addLowerLayer_'+midLevelID+'_CreateStructure').on('click', function(e){
+                        bottomLevelCounter++;
+                        var item = $(this).attr('id').slice($(this).attr('id').indexOf("_")+1, $(this).attr('id').lastIndexOf("_"));
+                        var bottomLevelID=item+"-"+bottomLevelCounter;
+                        console.log(bottomLevelID);
+                        console.log("hgi");
+                        console.log("#bottomLevel"+item);
+                        $("#bottomLevel"+item).append(
+                            '<div class="card" id="bottomLevelID_'+ bottomLevelID +'">'+
+                          '<div class="card-header" role="tab">'+
+                            '<h4 class="mb-0">'+
+                                '<div class="row">'+
+                                    '<div class="col-lg-4">'+
+                                      '<div class="form-group">'+
+                                        '<label for=testTitle_"' + bottomLevelID + '_CreateCourseStructure>Section Title</label>'+
+                                        '<input type="text" class="form-control" id="sectionTitle_' + bottomLevelID + '_CreateCourseStructure" placeholder="Enter Section Title">' +
+                                      '</div>'+
+                                    '</div>'+
+                                    '<div class="col-lg-4">'+
+                                      '<div class="form-group">'+
+                                        '<label for=maxMark_"' + bottomLevelID + '_CreateCourseStructure>Maximum Mark</label>'+
+                                        '<input type="text" class="form-control" id="maxMark_' + bottomLevelID + '_CreateCourseStructure" placeholder="Enter Maximum Mark">' +
+                                      '</div>'+
+                                    '</div>'+
+                                    '<div class="col-lg-4">'+
+                                      '<div class="form-group">'+
+                                        '<label for=weighting_"' + bottomLevelID + '_CreateCourseStructure>Weighting</label>'+
+                                        '<input type="text" class="form-control" id="weighting_' + bottomLevelID + '_CreateCourseStructure" placeholder="Enter the weighting (%)">' +
+                                      '</div>'+
+                                    '</div>'+
+                                '</div>'+
+
+                                '<button class="btn btn-danger" id="removeCurrentLayer_'+bottomLevelID+'_CreateStructure" style="margin:5px;">Remove Current Section</button>'+
+
+                                '</div>'+
+                            '</h4>'+
+                          '</div>'+
+                            '<div class="collapse show" id="bottomLevel' + bottomLevelID+ '" style="margin-left:5px;">' +
+                                
+                            '</div>'
+
+                        );
+
+
+                        //remove
+                        $('#removeCurrentLayer_'+bottomLevelID+'_CreateStructure').on('click', function(e){
+                            var item = $(this).attr('id').slice($(this).attr('id').indexOf("_")+1, $(this).attr('id').lastIndexOf("_")); //used to get the classes ID - upperlevel default to the most recent level created
+                            console.log(item);
+                            item='#bottomLevelID_' + item;
+                            $(item).remove();
+                            console.log(item);
+                        });
+                    });
             	});
 
             	

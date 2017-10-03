@@ -62,6 +62,7 @@ public class App {
 		
 		Course courseA = new Course("Mam1000", "mam100017", "2017", "F", "lec1", lecturers, TAs, students, course);
 		db.getCourseDB().addCourse(courseA);
+		System.out.println(courseA.getStructure().toString());
 		
 		// Placeholder course to test functionality
 		Course courseB = new Course("CSC3003", "CSC300317", "2017", "S", "lec1", lecturers, TAs, students, course);
@@ -72,7 +73,7 @@ public class App {
 		db.getUserDB().addCourse("admin", "mam100017");
 		db.getUserDB().addCourse("student1", "mam100017");
 		db.getUserDB().addCourse("student2", "mam100017");
-		
+
 	}
 
 
