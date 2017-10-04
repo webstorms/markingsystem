@@ -184,26 +184,26 @@ document.addEventListener("DOMContentLoaded", function(event) {
 				        	'<div class="row">'+
 					            '<div class="col-lg-4">'+
 					              '<div class="form-group">'+
-					              	'<label for=sectionTitle_"' + upperLevelCounter + '_CreateCourseStructure>Assignment Type</label>'+
-					              	'<input type="text" class="form-control" id="sectionTitle_' + upperLevelCounter + '_CreateCourseStructure" placeholder="Enter the Assignment type">' +
+					              	'<label for=sectionTitle_"' + upperLevelCounter + '_CreateCourseStructure>Assesment Type</label>'+
+					              	'<input type="text" class="form-control" id="sectionTitle_' + upperLevelCounter + '_CreateCourseStructure" placeholder="Enter the Assesment type">' +
 					              '</div>'+
 					            '</div>'+
 					            '<div class="col-lg-4">'+
 					              '<div class="form-group">'+
-					              	'<label for=DPReq_"' + upperLevelCounter + '_CreateCourseStructure>Assignment</label>'+
+					              	'<label for=DPReq_"' + upperLevelCounter + '_CreateCourseStructure>DP Requirement</label>'+
 					              	'<input type="text" class="form-control" id="DPreq_' + upperLevelCounter + '_CreateCourseStructure" placeholder="Enter the DP requirement">' +
 					              '</div>'+
 					            '</div>'+
 					            '<div class="col-lg-4">'+
 					              '<div class="form-group">'+
 					              	'<label for=weighting_"' + upperLevelCounter + '_CreateCourseStructure>Weighting</label>'+
-					              	'<input type="text" class="form-control" id="weighting_' + upperLevelCounter + '_CreateCourseStructure" placeholder="Enter the weighting (5)">' +
+					              	'<input type="text" class="form-control" id="weighting_' + upperLevelCounter + '_CreateCourseStructure" placeholder="Enter the weighting (%)">' +
 					              '</div>'+
 					            '</div>'+
 					        '</div>'+
 
-			            	'<button class="btn btn-primary" id="addLowerLayer_'+upperLevelCounter+'_CreateStructure" style="margin:5px;">Add Assignment</button>'+
-			            	'<button class="btn btn-danger" id="removeCurrentLayer_'+upperLevelCounter+'_CreateStructure" style="margin:5px;">Remove Assignment Type</button>'+
+			            	'<button class="btn btn-primary" id="addLowerLayer_'+upperLevelCounter+'_CreateStructure" style="margin:5px;">Add Assesment</button>'+
+			            	'<button class="btn btn-danger" id="removeCurrentLayer_'+upperLevelCounter+'_CreateStructure" style="margin:5px;">Remove Assesment Type</button>'+
 			            	'<button class="btn btn-info" id="ExpandCollapse_'+upperLevelCounter+'_CreateStructure" type="button" data-toggle="collapse" data-target="#midLevel' + upperLevelCounter + '" aria-expanded="true" aria-controls="midLevel' + upperLevelCounter + '">'+
 		                         'Expand/Collapse'+
 		                    '</button>'+
@@ -240,8 +240,8 @@ document.addEventListener("DOMContentLoaded", function(event) {
 				        	'<div class="row">'+
 					            '<div class="col-lg-4">'+
 					              '<div class="form-group">'+
-					              	'<label for=testTitle_"' + midLevelID + '_CreateCourseStructure>Assignment Name</label>'+
-					              	'<input type="text" class="form-control" id="assignmentTitle_' + midLevelID + '_CreateCourseStructure" placeholder="Enter Assignment Title">' +
+					              	'<label for=testTitle_"' + midLevelID + '_CreateCourseStructure>Assesment Name</label>'+
+					              	'<input type="text" class="form-control" id="assesmentTitle_' + midLevelID + '_CreateCourseStructure" placeholder="Enter Assesment Title">' +
 					              '</div>'+
 					            '</div>'+
 					            '<div class="col-lg-4">'+
@@ -306,12 +306,6 @@ document.addEventListener("DOMContentLoaded", function(event) {
                                       '<div class="form-group">'+
                                         '<label for=maxMark_"' + bottomLevelID + '_CreateCourseStructure>Maximum Mark</label>'+
                                         '<input type="text" class="form-control" id="maxMark_' + bottomLevelID + '_CreateCourseStructure" placeholder="Enter Maximum Mark">' +
-                                      '</div>'+
-                                    '</div>'+
-                                    '<div class="col-lg-4">'+
-                                      '<div class="form-group">'+
-                                        '<label for=weighting_"' + bottomLevelID + '_CreateCourseStructure>Weighting</label>'+
-                                        '<input type="text" class="form-control" id="weighting_' + bottomLevelID + '_CreateCourseStructure" placeholder="Enter the weighting (%)">' +
                                       '</div>'+
                                     '</div>'+
                                 '</div>'+
