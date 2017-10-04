@@ -52,9 +52,8 @@ document.addEventListener("DOMContentLoaded", function(event) {
                         manUsersRefreshCourse();
                         $('#manUsers_addStaff_IDerror').html('<small id="manUsers_addStaff_IDerror" class="form-text text-danger"></small>');
                     }
-                    //no ID error
-                    else if(response == "noStaffID"){
-                        $('#manUsers_addStaff_IDerror').html('<small id="manUsers_addStaff_IDerror" class="form-text text-danger">'+'No staff member with this id exsists'+'</small>');
+                    else {
+                        $('#manUsers_addStaff_IDerror').html('<small id="manUsers_addStaff_IDerror" class="form-text text-danger">'+response+'</small>');
                     }
                 });        
 
@@ -98,18 +97,19 @@ document.addEventListener("DOMContentLoaded", function(event) {
             //Search for a student
             $('#studentSearch_button').on('click', function(e) {
                 searchStudent(function(response) {
-                    if (response == "noStudents") {
+                    if (response == "userNotFound") {
                          $('#searchStudents_table').html('<table class="table table-sm" id = "searchStudents_table"> <thead> <tr> <th>No Results</th> </tr> </thead> </table>');
                     }
                     else if(response == "success"){
-
-                        //TODO: build table display results
-
+                        //put entry in table
+                        var studentID = $('#student_searchBox').val();
+                        $('#searchStudents_table tbody > tr').remove();
+                        $("#searchStudents_table").find('tbody').append($('<tr>').append($('<td>').html('<a onclick="loadStudentPage(\''+studentID+'\')" href="">'+studentID+'</a>')));
                     }
                 });
             });
 
-        
+            
         // ====================  CREATE COURSE TAB ====================
 
             //Add staff member
@@ -323,32 +323,16 @@ document.addEventListener("DOMContentLoaded", function(event) {
 
 
 // ====================  MANAGE USERS TAB ==================== 
-    function manUsersSelectCourse(load){
-        var data = {
-         "courseID": $('#manUsers_courseDropDown').val(),
-        }
-        $.ajax({
-            url: '/getCourse',
-            type: 'POST',
-                data: JSON.stringify(data),
-            contentType: 'application/json',
-            success: function(res) {
-            load(JSON.parse(res));
-            }
-        });	
-    }
-
-
     //Add a user to a course
     function manUsersAddUser(role,userID,courseID,load){
         var data = {
             "role": role,
-            "studentID": userID,
+            "userID": userID,
             "courseID": courseID,
         }
           
         $.ajax({
-            url: '/adminstaff_addUser', //URL TBC
+            url: '/addUser', 
             type: 'POST',
                 data: JSON.stringify(data),
             contentType: 'application/json',
@@ -367,7 +351,7 @@ document.addEventListener("DOMContentLoaded", function(event) {
 
     //refresh course details and members
     function manUsersRefreshCourse(){
-        manUsersSelectCourse(function(course){
+        manUsersGetCourse(function(course){ //send a post request to get course object
             if(course == 'courseDoesNotExist'){
                 //handle error
             }
@@ -411,9 +395,23 @@ document.addEventListener("DOMContentLoaded", function(event) {
                         );
                     });  
             }
-        }); 
+        });    
     }
 
+    function manUsersGetCourse(load){
+        var data = {
+            "courseID": $('#manUsers_courseDropDown').val(),
+        }
+        $.ajax({
+            url: '/getCourse',
+            type: 'POST',
+                data: JSON.stringify(data),
+            contentType: 'application/json',
+            success: function(res) {
+            load(JSON.parse(res));
+            }
+        });	
+    }
 // ====================  MARKS AND STRUCTURE TAB ====================
     function marksStructureSelectCourse(load){
         var data = {
@@ -438,7 +436,7 @@ document.addEventListener("DOMContentLoaded", function(event) {
         "userID": $('#student_searchBox').val(),
     }
         $.ajax({
-        url: '/adminstaff_searchStudent',
+        url: '/findUser',
         type: 'POST',
             data: JSON.stringify(data),
         contentType: 'application/json',
@@ -449,6 +447,10 @@ document.addEventListener("DOMContentLoaded", function(event) {
 
     }
 
+    //TODO: Luke
+    function loadStudentPage(studentID){
+        console.log(studentID);
+    }   
 
 // ====================  CREATE COURSE TAB ====================
     //TODO: write functions
@@ -494,3 +496,4 @@ function logout(load) {
   });
 
 }
+

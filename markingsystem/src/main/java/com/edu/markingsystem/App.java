@@ -34,6 +34,9 @@ public class App {
 		// Create students
 		db.getUserDB().addUser("student1", new User("1234", UserType.STUDENT));
 		db.getUserDB().addUser("student2", new User("1234", UserType.STUDENT));
+		for(int i=3; i<4; i++){
+			db.getUserDB().addUser("student"+i, new User("1234", UserType.STUDENT));
+		}
 
 		// Create TA
 		db.getUserDB().addUser("ta1", new User("1234", UserType.TA));

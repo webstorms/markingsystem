@@ -7,6 +7,7 @@ import org.mapdb.DB;
 import org.mapdb.HTreeMap;
 
 import com.edu.markingsystem.service.course.Course;
+import com.edu.markingsystem.service.user.User;
 
 public class CourseDB extends DBBase {
 
@@ -49,6 +50,12 @@ public class CourseDB extends DBBase {
 		List<String> output = new ArrayList<String>(map.keySet());
 		
 		return output;
+	}
+	
+	public void updateCourse(String courseID){
+		Course c = (Course) map.get(courseID);
+		map.replace(courseID, c);
+		db.commit();
 	}
 
 

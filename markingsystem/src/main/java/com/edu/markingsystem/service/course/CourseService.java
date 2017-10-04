@@ -41,6 +41,10 @@ public class CourseService extends Service {
 			return getAllCourses(req, res);
 		});
 		
+		Spark.post("/addUser", (req, res) -> {
+			Log.info(this.getClass().getName(), "POST /addUser " + req.ip());
+			return addUser(req, res);
+		});
 	}
 
 	/*
@@ -102,6 +106,63 @@ public class CourseService extends Service {
 		else{ 
 			return Util.objectToJson(course);
 			
+		}
+		
+	}
+	
+	//TODO: Luke fix plis
+	public Object addUser(Request req, Response res) {
+		JsonObject json = Util.stringToJson(req.body());
+		String role = json.get("role").getAsString();
+		String userID = json.get("userID").getAsString();
+		String courseID = json.get("courseID").getAsString();
+	
+		if(db.getUserDB().getUser(userID)==null){
+			return Util.objectToJson("User does not exist");
+		}
+		else{
+			Course course = db.getCourseDB().getCourse(courseID);
+			if(course == null) {
+				return Util.objectToJson("Course does not exist");		
+			}
+			else{ 
+				
+				//							not working
+				/*
+				 *
+				db.getUserDB().getUser(userID).addCourse(course.getCourseID(), course.getStructure());
+				switch(role){
+				case "student":
+					course.addStudent(userID);
+					System.out.println("added student: "+userID);
+					break;
+				case "Lecturer":
+					course.addLecturers(userID);
+					break;
+				case "TA":
+					course.addTA(userID);
+					break;
+				case "Course Convener":
+					if(course.getCourseConvenor()!=null){
+						return Util.objectToJson("A course convener already exists");
+					}
+					else{
+						course.setCourseConvenor(userID);
+					}
+					break;
+				}
+				
+				db.getCourseDB().updateCourse(courseID);
+				
+				for ( String student : db.getCourseDB().getCourse(courseID).getStudents()) {
+					System.out.println(student);
+				}
+				*
+				*/
+				
+								
+				return Util.objectToJson("success");
+			}
 		}
 		
 	}

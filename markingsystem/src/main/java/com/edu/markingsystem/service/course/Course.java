@@ -48,17 +48,33 @@ public class Course implements java.io.Serializable {
 	public String getCourseConvenor() {
 		return courseConvenor;
 	}
+	
+	public void setCourseConvenor(String convener) {
+		this.courseConvenor = convener;
+	}
 
 	public List<String> getLecturers() {
 		return lecturers;
+	}
+	
+	public void addLecturers(String ID){
+		this.lecturers.add(ID);
 	}
 
 	public List<String> getTAs() {
 		return TAs;
 	}
 
+	public void addTA(String ID){
+		this.TAs.add(ID);
+	}
+	
 	public List<String> getStudents() {
 		return students;
+	}
+	
+	public void addStudent(String ID){
+		this.students.add(ID);
 	}
 
 	public CourseStructure getStructure() {
