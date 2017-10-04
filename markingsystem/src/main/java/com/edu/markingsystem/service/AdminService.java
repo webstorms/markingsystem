@@ -36,10 +36,28 @@ public class AdminService extends Service {
 			return admin_changePass(req, res);
 		});
 		
+		//=======	FOR DEBUGGING ========
+		Spark.post("/adminstaff_addUser", (req, res) -> {
+			Log.info(this.getClass().getName(), "POST /admin_changePass " + req.ip());
+			return placeholder(req, res);
+		});
+		//===============================
 
 
 	}
-
+	
+	
+	
+	//=======	FOR DEBUGGING ========
+	public Object placeholder(Request req, Response res) {
+		JsonObject json = Util.stringToJson(req.body());
+		String role = json.get("role").getAsString();
+		System.out.println(role);
+		return Util.objectToJson("success");
+	}
+	//===============================
+	
+	
 	public Object admin_createUser(Request req, Response res) {
 		JsonObject json = Util.stringToJson(req.body());
 		String userID = json.get("userID").getAsString();

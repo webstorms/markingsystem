@@ -8,15 +8,10 @@ document.addEventListener("DOMContentLoaded", function(event) {
                 //loop through list and add to dropdown
                 $.each( response, function( k, v ) {
                     //Manage Users Dropdown
-                    $("#manUsers_courseDropDown").append( $("<option>")
-                        .val(v)
-                        .html(v)
-                    );
+                    $("#manUsers_courseDropDown").append( $("<option>").val(v).html(v));
+
                     //Marks and Structure Dropdown
-                    $("#marksStructure_courseDropDown").append( $("<option>")
-                        .val(v)
-                        .html(v)
-                    );
+                    $("#marksStructure_courseDropDown").append( $("<option>").val(v).html(v));
                 });             
             });
 
@@ -24,66 +19,54 @@ document.addEventListener("DOMContentLoaded", function(event) {
             
             $('#manUsers_courseDropDown').change(function(){
                 //update course details and course members
-                manUsersSelectCourse(function(course){
-                    if(course == 'courseDoesNotExist'){
-                        //handle error
-                    }
-                    else{
-                        //LOAD COURSE DETAILS
-                        $("#users_courseName").val(course.courseName);
-                        $("#users_courseCode").val(course.courseID);
-                        $("#users_courseYear").val(course.year);
-                        $("#uesrs_coursePeriod").val(course.period);
-
-                        //LOAD COURSE MEMBERS
-                        $('#manUsers_membersTable tbody > tr').remove();
-                        $.each( course.students, function( i, studentID ) {
-                            $("#manUsers_membersTable").find('tbody') 
-                            .append($('<tr>')
-                                .append($('<td>').text(studentID))
-                                .append($('<td>').text('Student'))
-                            );
-                        });
-                    }
-                    
-
-                }); 
+                manUsersRefreshCourse();
             });
 
             //Add a student to a course
             $('#manUsers_addStudent_button').on('click', function(e) {
-                manUsersAddStudent(function(response) {
-                    //success
+                var role = "student";
+                var studentID = $('#manUser_studentID').val();
+                var courseID = $('#manUsers_courseDropDown').val();
+
+                manUsersAddUser(role,studentID,courseID,function(response) {
                     if (response == "success") {
+                        manUsersRefreshCourse();
                         $('#manUsers_addStudent_error').html('<small id="manUsers_addStudent_error" class="form-text text-danger"></small>');
-                        getCourseMembers(function(response){
-
-                        //TODO: refresh table
-
-                        });
                         $('#manUser_addStudent')[0].reset();
                     }
-                    //error
                     else {
                         $('#manUsers_addStudent_error').html('<small id="manUsers_addStudent_error" class="form-text text-danger">'+response+'</small>');
                     }
                 });                
+
+            });
+
+            //Add staff member to a course
+            $('#manUser_staff_button').on('click', function(e) {
+                var role = $('#manUser_staffRole').val();
+                var studentID = $('#manUser_staffID').val();
+                var courseID = $('#manUsers_courseDropDown').val();
+
+                manUsersAddUser(role,studentID,courseID,function(response) {
+                    if (response == "success") {
+                        manUsersRefreshCourse();
+                        $('#manUsers_addStaff_IDerror').html('<small id="manUsers_addStaff_IDerror" class="form-text text-danger"></small>');
+                    }
+                    //no ID error
+                    else if(response == "noStaffID"){
+                        $('#manUsers_addStaff_IDerror').html('<small id="manUsers_addStaff_IDerror" class="form-text text-danger">'+'No staff member with this id exsists'+'</small>');
+                    }
+                });        
+
             });
 
             //Import students to a course
             $('#manUser_studentImport_button').on('click', function(e) {
-                
-                //TODO: allow admin staff to select file
-
                 manUsersImportStudents(function(response) {
                     //success
                     if (response == "success") {
+                        manUsersRefreshCourse();
                         $('#manUsers_importStudent_error').html('<small id="manUsers_importStudent_error" class="form-text text-danger"></small>');
-                        getCourseMembers(function(response){
-
-                        //TODO: refresh table
-
-                        });
                         confirm("Successfully imported users!");
                     }
                     //error
@@ -93,24 +76,7 @@ document.addEventListener("DOMContentLoaded", function(event) {
                 });                
             });
 
-            //Add staff member to a course
-            $('#manUser_staff_button').on('click', function(e) {
-                manUsersAddStaff(function(response) {
-                    //success
-                    if (response == "success") {
-                        $('#manUsers_addStaff_IDerror').html('<small id="manUsers_addStaff_IDerror" class="form-text text-danger"></small>');
-                        getCourseMembers(function(response){
-
-                        //TODO: refresh table
-
-                        });
-                    }
-                    //no ID error
-                    else if(response == "noID"){
-                        $('#manUsers_addStaff_IDerror').html('<small id="manUsers_addStaff_IDerror" class="form-text text-danger">'+'No staff member with this id exsists'+'</small>');
-                    }
-                });                
-            });
+            
         
         // ====================  MARKS AND STRUCTURE TAB ==================== 
             //course change on marks&structure tab
@@ -372,41 +338,24 @@ document.addEventListener("DOMContentLoaded", function(event) {
         });	
     }
 
-    //Add a student to a course
-    function manUsersAddStudent(load){
+
+    //Add a user to a course
+    function manUsersAddUser(role,userID,courseID,load){
         var data = {
-        "studentID": $('#manUser_studentID').val(),
-        "courseID": $('#manUsers_courseDropDown').val(),
-    }
-
+            "role": role,
+            "studentID": userID,
+            "courseID": courseID,
+        }
+          
         $.ajax({
-        url: '/adminstaff_manUsers_addStudent',
-        type: 'POST',
-            data: JSON.stringify(data),
-        contentType: 'application/json',
-        success: function(res) {
-        load(JSON.parse(res));
-        }
-    });	
-    }
-
-    //Add staff member to a course
-    function manUsersAddStaff(load){
-        var data = {
-        "staffID": $('#manUser_staffID').val(),
-        "staffRole": $('#manUser_staffRole').val(),
-        "courseID": $('#manUsers_courseDropDown').val(),
-        }
-
-        $.ajax({
-        url: '/adminstaff_manUsers_addStaff',
-        type: 'POST',
-            data: JSON.stringify(data),
-        contentType: 'application/json',
-        success: function(res) {
-        load(JSON.parse(res));
-        }
-        });	
+            url: '/adminstaff_addUser', //URL TBC
+            type: 'POST',
+                data: JSON.stringify(data),
+            contentType: 'application/json',
+            success: function(res) {
+            load(JSON.parse(res));
+            }
+        });
     }
 
     //Import students to a course
@@ -414,6 +363,55 @@ document.addEventListener("DOMContentLoaded", function(event) {
 
         //TODO: send data ta backend 
 
+    }
+
+    //refresh course details and members
+    function manUsersRefreshCourse(){
+        manUsersSelectCourse(function(course){
+            if(course == 'courseDoesNotExist'){
+                //handle error
+            }
+            else{
+                //load course details
+                $("#users_courseName").val(course.courseName);
+                $("#users_courseCode").val(course.courseID);
+                $("#users_courseYear").val(course.year);
+                $("#uesrs_coursePeriod").val(course.period);
+
+                //load course members to table
+                $('#manUsers_membersTable tbody > tr').remove();
+                    //Course Convener:
+                    $("#manUsers_membersTable").find('tbody') 
+                    .append($('<tr>')
+                        .append($('<td>').text(course.courseConvenor))
+                        .append($('<td>').text('Course Convenor'))
+                    );
+                    //Lecturers:
+                    $.each( course.lecturers, function( i, lecturerID ) {
+                        $("#manUsers_membersTable").find('tbody') 
+                        .append($('<tr>')
+                            .append($('<td>').text(lecturerID))
+                            .append($('<td>').text('Lecturer'))
+                        );
+                    });
+                    //TA:
+                     $.each( course.TAs, function( i, taID ) {
+                        $("#manUsers_membersTable").find('tbody') 
+                        .append($('<tr>')
+                            .append($('<td>').text(taID))
+                            .append($('<td>').text('TA'))
+                        );
+                    });
+                    //Students:
+                    $.each( course.students, function( i, studentID ) {
+                        $("#manUsers_membersTable").find('tbody') 
+                        .append($('<tr>')
+                            .append($('<td>').text(studentID))
+                            .append($('<td>').text('Student'))
+                        );
+                    });  
+            }
+        }); 
     }
 
 // ====================  MARKS AND STRUCTURE TAB ====================
