@@ -9,6 +9,7 @@ import javax.sound.midi.Synthesizer;
 import com.edu.markingsystem.Util;
 import com.edu.markingsystem.db.Database;
 import com.edu.markingsystem.service.Service;
+import com.edu.markingsystem.service.user.UserService;
 import com.esotericsoftware.minlog.Log;
 import com.google.gson.JsonObject;
 
@@ -54,8 +55,32 @@ public class CourseService extends Service {
 			Log.info(this.getClass().getName(), "POST /removeUser " + req.ip());
 			return removeUser(req, res);
 		});
+		
+		Spark.post("/isCourseConv", (req, res) -> {
+			Log.info(this.getClass().getName(), "POST /isCourseConv " + req.ip());
+			return isCourseConv(req, res);
+		});
 	}
 
+	public Object isCourseConv(Request req, Response res) {
+		JsonObject json = Util.stringToJson(req.body());
+		String courseID = json.get("courseID").getAsString();
+		String courseConv = db.getCourseDB().getCourse(courseID).getCourseConvenor();
+		
+		//==========
+		//	TODO: get ID from session
+		//		String sessionID;
+		//		if(sessionID.equalsIgnoreCase(courseConv)){
+		//			return Util.objectToJson("true");
+		//		}
+		//		else{
+		//			return Util.objectToJson("false");
+		//		}
+		//==========
+		
+		return Util.objectToJson("true");
+	}
+	
 	/*
 	 * Note: 
 	 * Make sure to pass JSONArrays for the lecturers, TAs and students.

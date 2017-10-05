@@ -18,6 +18,25 @@ document.addEventListener("DOMContentLoaded", function(event) {
             //update course details and course members
             $('#manUsers_courseDropDown').change(function(){
                 manUsersRefreshCourse();
+                isCourseConv(function(response) {
+                    var vis;
+                    var notVis;
+                    if(response=="true"){
+                        vis = "block";
+                        notVis = "none";
+                    }
+                    else{
+                        vis = "none";
+                        notVis = "block";
+                    }
+                    var elems = document.getElementsByClassName("courseConv");
+                    for (var i = 0; i < elems.length; i++) {
+                        elems[i].style.display = vis;
+                    }
+
+                    document.getElementById("editMarksDiv").style.display = vis;
+                    document.getElementById("viewMarksDiv").style.display = notVis;   
+                });
             });
             
 
@@ -59,10 +78,27 @@ document.addEventListener("DOMContentLoaded", function(event) {
 
 
 // ====================  MARKS AND STRUCTURE TAB ====================
+    function isCourseConv(load){
+        console.log($('#manUsers_courseDropDown').val())
+        var data = {
+            "courseID": $('#manUsers_courseDropDown').val(),
+        }
+        $.ajax({
+            url: '/isCourseConv',
+            type: 'POST',
+                data: JSON.stringify(data),
+            contentType: 'application/json',
+            success: function(res) {
+            load(JSON.parse(res));
+            }
+        });
+    }
+
+
     function marksStructureSelectCourse(load){
         var data = {
-        "courseID": $('#marksStrucutre_courseDropDown').val(),
-    }
+        "courseID": $('#manUsers_courseDropDown').val(),
+        }
         $.ajax({
         url: '/adminstaff_marksStrucutre_selectCourse',
         type: 'POST',

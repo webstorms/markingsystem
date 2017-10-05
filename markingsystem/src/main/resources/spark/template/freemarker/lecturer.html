@@ -103,12 +103,26 @@
              <!-- Course Marks -->
             <div class="card card-outline-success">
             <div class="card-block">
-                <hr>
-                <h3 align="center">View Marks </h3>
-                <hr>
+                <div id="viewMarksDiv">
+                    <hr>
+                    <h3 align="center">View Marks </h3>
+                    <hr>
 
-                <div class="form-group">
-                    <textarea class="form-control" id="marks_textArea" rows="3">marks here</textarea>
+                    <div class="form-group">
+                        <textarea class="form-control" id="marks_textArea" rows="3">marks here</textarea>
+                    </div>
+
+                </div>
+
+                <div id="editMarksDiv">
+                    <hr>
+                    <h3 align="center">Edit Marks </h3>
+                    <hr>
+
+                    <div class="form-group">
+                        <textarea class="form-control" id="marks_textArea" rows="3">edit marks here</textarea>
+                    </div>
+
                 </div>
 
 
@@ -134,9 +148,37 @@
                         <div class="form-group">
                             <button class="btn btn-primary" id="addUser_staff_button">Export</button>
                         </div>
+                        
                     </div>
                     </div>
                     </div>
+
+                    <!-- Import -->
+                    
+                        <div class = "col-sm-6">
+                        <div class = "courseConv">
+                        <div class="card">
+                        <div class="card-block">
+                            <hr>
+                            <h4>Import Marks</h4>
+                            <hr>
+
+                            <div class="form-group">
+                                <label for="sel1">Select Level</label>
+                                <select class="form-control col-lg-6" id="addUser_staffRole">
+                                    <option>1</option>
+                                    <option>2</option>
+                                    <option>3</option>
+                                </select>
+                            </div>
+                                
+                            <div class="form-group">
+                                <button class="btn btn-primary" id="addUser_staff_button">Import</button>
+                            </div>
+                        </div>
+                        </div>
+                        </div>
+                        </div>
                 </div>
             </div>
             </div>
