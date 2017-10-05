@@ -36,10 +36,11 @@ public class AdminService extends Service {
 			return admin_changePass(req, res);
 		});
 		
-		//=======	FOR DEBUGGING ========
-		Spark.post("/adminstaff_addUser", (req, res) -> {
-			Log.info(this.getClass().getName(), "POST /admin_changePass " + req.ip());
-			return placeholder(req, res);
+		//=======	TODO ========
+		// move to new adminstaff service class?
+		Spark.post("/adminstaff_createCourseAddUser", (req, res) -> {
+			Log.info(this.getClass().getName(), "POST /adminstaff_createCourseAddUser " + req.ip());
+			return createCourse_AddUserToCourse(req, res);
 		});
 		//===============================
 
@@ -47,12 +48,24 @@ public class AdminService extends Service {
 	}
 	
 	
-	
-	//=======	FOR DEBUGGING ========
-	public Object placeholder(Request req, Response res) {
+	//=======	TODO  ========
+	// move to new adminstaff service class?
+	/*	checks if a user can be added to the course members
+	 * 	checks:
+	 * 		- does the user exist?
+	 * 		- trying to add duplicates?
+	 * 		- trying to add multiple course conveners?
+	 * */	
+	public Object createCourse_AddUserToCourse(Request req, Response res) {
 		JsonObject json = Util.stringToJson(req.body());
+		String userID = json.get("userID").getAsString();
 		String role = json.get("role").getAsString();
+		String table = json.get("table").getAsString();		
+
+		System.out.println(userID);
 		System.out.println(role);
+		System.out.println(table);
+		
 		return Util.objectToJson("success");
 	}
 	//===============================

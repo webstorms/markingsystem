@@ -235,9 +235,7 @@
         <h3 class="form-signin-heading">Select Course</h3>
         <hr>
         <select class="form-control col-lg-3" id="marksStrucutre_courseDropDown">
-            <option>Course 1</option>
-            <option>Course 2</option>
-            <option>Course 3</option>
+            <option>Select a course</option>
         </select>
         <hr>
 
@@ -446,7 +444,7 @@
 
                     <div class="form-group">
                         <label for="sel1">Course Period</label>
-                        <select class="form-control col-lg-3"  id="createCourse_year">
+                        <select class="form-control col-lg-3"  id="createCourse_period">
                             <option>F</option>
                             <option>S</option>
                             <option>H</option>
@@ -471,7 +469,18 @@
                         <hr>
 
                         <div class="form-group">
-                            <textarea class="form-control" id="createCourse_membersTextArea" rows="3">course members here</textarea>
+                            <table class="table table-sm" id = "createCourse_membersTable">
+                            <thead>
+                                <tr>
+                                <th>User ID</th>
+                                <th>Role</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <td>ODTUDA001</td>
+                                <td>Student</td>
+                            </tbody>
+                            </table>
                         </div>
                     </div>
                     </div>
@@ -549,9 +558,8 @@
 
 
                     <div class="form-group">
-                        <button class="btn btn-primary" id="addUpperLevel_CreateStructure" style="margin:5px 0px 5px 0px">Add Assignment Type</button>  
+                        <button class="btn btn-primary" id="addUpperLevel_CreateStructure" style="margin:5px 0px 5px 0px">Add Assignment Type</button>
                         <div class="container" id="courseStructure_CreateStructure">
-                        
                         </div>
                     </div>
                 </div>
@@ -562,7 +570,7 @@
                     <button class="btn btn-success btn-lg" id="createCourse_button">Create Course</button>
                 </div>
                 </form>
-          <div id="wrong-course-structure"></div>   
+             <div id="wrong-course-structure"></div>   
           </div>
         
         </div>

@@ -1,5 +1,6 @@
 package com.edu.markingsystem.service.course;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import com.edu.markingsystem.Util;
@@ -66,10 +67,17 @@ public class CourseService extends Service {
 			String courseID = json.get("courseID").getAsString();
 			String year = json.get("year").getAsString();
 			String period = json.get("period").getAsString();
-			String courseConvenor = json.get("courseConvenor").getAsString();
-			List<String> lecturers = Util.toList(json.get("lecturers").getAsJsonArray(), String.class);
-			List<String> TAs = Util.toList(json.get("TAs").getAsJsonArray(), String.class);
-			List<String> students = Util.toList(json.get("students").getAsJsonArray(), String.class);
+			
+			String courseConvenor = "";
+			List<String> lecturers = new ArrayList<>();
+			List<String> TAs = new ArrayList<>();
+			List<String> students = new ArrayList<>();
+			
+			String membersTable = json.get("membersTable").getAsString();
+			/*	TODO: String processing to get all users and build lists. membersTable is represented as:
+				{{<heading1>,<headin2>},{<userID>,<role>},{<userID>,<role>},	...	{<userID>,<role>}}
+			*/
+			
 			CourseStructure structure = Util.fromJson(json.get("structure").getAsString(), CourseStructure.class);
 			String error = structure.isValid();
 			if(error != null) {
