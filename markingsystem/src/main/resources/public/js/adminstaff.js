@@ -127,136 +127,162 @@ document.addEventListener("DOMContentLoaded", function(event) {
 
             });
 
-            //Create course
-            $('#createCourse_button').on('click', function(e) {
-
-                //TODO: 
-                //update database
-                //reset form
-
-            });
 
             //Create Course Structure
-            var upperLevelCounter = 0;
-            
+            var upperLevelCounter = 0; //tracks upper level index
+            var addedCourses_CreateCourseStructure=[]; //tracks which courses have been added - this is used to get course IDs when getting data entered by the user
             $('#addUpperLevel_CreateStructure').on('click', function(e){
-            	upperLevelCounter++;
-            	console.log(upperLevelCounter);
-            	$('#courseStructure_CreateStructure').append(
-            		
-            		'<div class="card" id="upperLevelID_'+ upperLevelCounter +'">'+
-				      '<div class="card-header" role="tab">'+
-				        '<h4 class="mb-0">'+
-				        	'<div class="row">'+
-					            '<div class="col-lg-4">'+
-					              '<div class="form-group">'+
-					              	'<label for=sectionTitle_"' + upperLevelCounter + '_CreateCourseStructure>Assesment Type</label>'+
-					              	'<input type="text" class="form-control" id="sectionTitle_' + upperLevelCounter + '_CreateCourseStructure" placeholder="Enter the Assesment type">' +
-					              '</div>'+
-					            '</div>'+
-					            '<div class="col-lg-4">'+
-					              '<div class="form-group">'+
-					              	'<label for=DPReq_"' + upperLevelCounter + '_CreateCourseStructure>DP Requirement</label>'+
-					              	'<input type="text" class="form-control" id="DPreq_' + upperLevelCounter + '_CreateCourseStructure" placeholder="Enter the DP requirement">' +
-					              '</div>'+
-					            '</div>'+
-					            '<div class="col-lg-4">'+
-					              '<div class="form-group">'+
-					              	'<label for=weighting_"' + upperLevelCounter + '_CreateCourseStructure>Weighting</label>'+
-					              	'<input type="text" class="form-control" id="weighting_' + upperLevelCounter + '_CreateCourseStructure" placeholder="Enter the weighting (%)">' +
-					              '</div>'+
-					            '</div>'+
-					        '</div>'+
+                upperLevelCounter++;
+                upperLevelID= upperLevelCounter + "upper" ; //create an ID for the levl index
+                addedCourses_CreateCourseStructure.push(upperLevelID);
+                $('#courseStructure_CreateStructure').append(       
+                    '<div class="card" id="upperLevelID_'+ upperLevelID +'">'+
+                        '<div class="card-header" role="tab">'+
+                            '<h4>'+
+                            '<div class="row">'+
+                                '<div class="col-lg-4">'+
+                                  '<div class="form-group">'+
+                                    '<label for=sectionTitle_"' + upperLevelID + '_CreateCourseStructure>Assesment Type</label>'+
+                                    '<input type="text" class="form-control" id="sectionTitle_' + upperLevelID + '_CreateCourseStructure" placeholder="Enter the Assesment type">' +
+                                  '</div>'+
+                                '</div>'+
+                                '<div class="col-lg-4">'+
+                                    '<div class="form-group">'+
+                                        '<label for=DPReq_"' + upperLevelID + '_CreateCourseStructure>DP Requirement</label>'+
+                                        '<input type="text" class="form-control" id="DPreq_' + upperLevelID + '_CreateCourseStructure" placeholder="Enter the DP Requirement">' +
+                                    '</div>'+
+                                '</div>'+
+                                '<div class="col-lg-4">'+
+                                  '<div class="form-group">'+
+                                    '<label for=weighting_"' + upperLevelID + '_CreateCourseStructure>Weighting</label>'+
+                                    '<input type="text" class="form-control" id="weighting_' + upperLevelID + '_CreateCourseStructure" placeholder="Enter the weighting (%)">' +
+                                  '</div>'+
+                                '</div>'+
+                            '</div>'+
+                            '<h4>'+
 
-			            	'<button class="btn btn-primary" id="addLowerLayer_'+upperLevelCounter+'_CreateStructure" style="margin:5px;">Add Assesment</button>'+
-			            	'<button class="btn btn-danger" id="removeCurrentLayer_'+upperLevelCounter+'_CreateStructure" style="margin:5px;">Remove Assesment Type</button>'+
-			            	'<button class="btn btn-info" id="ExpandCollapse_'+upperLevelCounter+'_CreateStructure" type="button" data-toggle="collapse" data-target="#midLevel' + upperLevelCounter + '" aria-expanded="true" aria-controls="midLevel' + upperLevelCounter + '">'+
-		                         'Expand/Collapse'+
-		                    '</button>'+
-
-				        '</h4>'+
-				      '</div>'+
-				       	'<div class="collapse show" id="midLevel' + upperLevelCounter+ '" style="margin-left:5px;">' +
-
-		                '</div>'
-
-            	);
-            	//Upper level Buttons
-            	//remove current section
-            	$('#removeCurrentLayer_'+upperLevelCounter+'_CreateStructure').on('click', function(e){
-            		var item = $(this).attr('id').slice($(this).attr('id').indexOf("_")+1, $(this).attr('id').lastIndexOf("_")); //used to get the classes ID - upperlevel default to the most recent level created
-            		console.log(item);
-            		item='#upperLevelID_' + item;
-            		$(item).remove();
-            		console.log(item);
-            	});
-            	
-
-            	//midlevel
-            	var midLevelCounter=0;
-            	$('#addLowerLayer_'+upperLevelCounter+'_CreateStructure').on('click', function(e){
-            		midLevelCounter++;
-            		var item = $(this).attr('id').slice($(this).attr('id').indexOf("_")+1, $(this).attr('id').lastIndexOf("_"));
- 					var midLevelID=item+"-"+midLevelCounter;
- 					console.log(midLevelID);
- 					$("#midLevel"+item).append(
- 						'<div class="card" id="midLevelID_'+ midLevelID +'">'+
-				      '<div class="card-header" role="tab">'+
-				        '<h4 class="mb-0">'+
-				        	'<div class="row">'+
-					            '<div class="col-lg-4">'+
-					              '<div class="form-group">'+
-					              	'<label for=testTitle_"' + midLevelID + '_CreateCourseStructure>Assesment Name</label>'+
-					              	'<input type="text" class="form-control" id="assesmentTitle_' + midLevelID + '_CreateCourseStructure" placeholder="Enter Assesment Title">' +
-					              '</div>'+
-					            '</div>'+
-					            '<div class="col-lg-4">'+
-					              '<div class="form-group">'+
-					              	'<label for=maxMark_"' + midLevelID + '_CreateCourseStructure>Maximum Mark</label>'+
-				              		'<input type="text" class="form-control" id="maxMark_' + midLevelID + '_CreateCourseStructure" placeholder="Enter Maximum Mark">' +
-					              '</div>'+
-					            '</div>'+
-					            '<div class="col-lg-4">'+
-					              '<div class="form-group">'+
-					              	'<label for=weighting_"' + midLevelID + '_CreateCourseStructure>Weighting</label>'+
-					              	'<input type="text" class="form-control" id="weighting_' + midLevelID + '_CreateCourseStructure" placeholder="Enter the weighting (%)">' +
-					              '</div>'+
-					            '</div>'+
-					        '</div>'+
+                            '<button class="btn btn-primary" id="addLowerLayer_'+upperLevelID+'_CreateStructure" style="margin:5px;">Add Assesment</button>'+
+                            '<button class="btn btn-danger" id="removeCurrentLayer_'+upperLevelID+'_CreateStructure" style="margin:5px;">Remove Assesment Type</button>'+
+                            '<button class="btn btn-info" id="ExpandCollapse_'+upperLevelID+'_CreateStructure" type="button" data-toggle="collapse" data-target="#midLevel' + upperLevelID + '" aria-expanded="true" aria-controls="midLevel' + upperLevelCounter + '">'+
+                                 'Expand/Collapse'+
+                            '</button>'+
 
 
-			            	'<button class="btn btn-primary" id="addLowerLayer_'+midLevelID+'_CreateStructure" style="margin:5px;">Add Sub Section</button>'+
-			            	'<button class="btn btn-danger" id="removeCurrentLayer_'+midLevelID+'_CreateStructure" style="margin:5px;">Remove Assesment</button>'+
-			            	'<button class="btn btn-info" id="ExpandCollapse_'+midLevelID+'_CreateStructure" type="button" data-toggle="collapse" data-target="#midLevel"' + midLevelID + ' aria-expanded="true" aria-controls="collapseExample">'+
-		                         'Expand/Collapse'+
-		                    '</button>'+
-			            	'</div>'+
-				        '</h4>'+
-				      '</div>'+
-				       	'<div class="collapse show" id="bottomLevel' + midLevelID+ '" style="margin-left:5px;">' +
-		                  	
-		                '</div>'
+                      '</div>'+
+                        '<div class="collapse show" id="midLevel' + upperLevelID+ '" style="margin-left:15px;">' +
 
- 					);
+                        '</div>'+
+                    '</div>'
+
+                );
+
+
+                //remove current section
+                $('#removeCurrentLayer_'+upperLevelID+'_CreateStructure').on('click', function(e){
+                    var item = $(this).attr('id').slice($(this).attr('id').indexOf("_")+1, $(this).attr('id').lastIndexOf("_")); //used to get the classes ID - upperlevel default to the most recent level created
+
+                    item1='#upperLevelID_' + item; //recreates ID for the selected item to delete
+
+                    $(item1).remove();
+
+                    addedCourses_CreateCourseStructure.splice(addedCourses_CreateCourseStructure.indexOf(item), 1); // removes item from the array
+                    var ArrLength = addedCourses_CreateCourseStructure.length;
+                    for(var i=0; i<ArrLength; i++){         //looks for any sub sections that need to also be removed
+
+                        console.log("looking for " + item);
+                        if (addedCourses_CreateCourseStructure[i].indexOf(item)!=-1){
+                            addedCourses_CreateCourseStructure.splice(i, 1);
+                            i--;
+                            ArrLength--;
+                        }
+
+                    }
+
+
+                });
+                
+
+                //midlevel
+                var midLevelCounter=0;
+                $('#addLowerLayer_'+upperLevelID+'_CreateStructure').on('click', function(e){
+                    midLevelCounter++;
+                    var item = $(this).attr('id').slice($(this).attr('id').indexOf("_")+1, $(this).attr('id').lastIndexOf("_"));
+                    var midLevelID=item+"-"+midLevelCounter+"mid";
+                    addedCourses_CreateCourseStructure.push(midLevelID);
+
+                    $("#midLevel"+item).append(
+                      '<div class="card" id="midLevelID_'+ midLevelID +'">'+
+                            '<div class="card-header" role="tab">'+
+                                '<h4 class="mb-0">'+
+                                   '<div class="row">'+
+                                       '<div class="col-lg-4">'+
+                                           '<div class="form-group">'+
+                                            '<label for=testTitle_"' + midLevelID + '_CreateCourseStructure>Assesment Name</label>'+
+                                            '<input type="text" class="form-control" id="assesmentTitle_' + midLevelID + '_CreateCourseStructure" placeholder="Enter Assesment Title">' +
+                                           '</div>'+
+                                       '</div>'+
+                                    // '<div class="col-lg-4">'+
+                                    //   '<div class="form-group">'+
+                                    //      '<label for=maxMark_"' + midLevelID + '_CreateCourseStructure>Maximum Mark</label>'+
+                                    //          '<input type="text" class="form-control" id="maxMark_' + midLevelID + '_CreateCourseStructure" placeholder="Enter Maximum Mark">' +
+                                    //   '</div>'+
+                                    // '</div>'+
+                                        '<div class="col-lg-4">'+
+                                           '<div class="form-group">'+
+                                                '<label for=weighting_"' + midLevelID + '_CreateCourseStructure>Weighting</label>'+
+                                                '<input type="text" class="form-control" id="weighting_' + midLevelID + '_CreateCourseStructure" placeholder="Enter the weighting (%)">' +
+                                           '</div>'+
+                                        '</div>'+
+                                   '</div>'+
+                                '<h4>'+
+
+
+                                '<button class="btn btn-primary" id="addLowerLayer_'+midLevelID+'_CreateStructure" style="margin:5px;">Add Sub Section</button>'+
+                                '<button class="btn btn-danger" id="removeCurrentLayer_'+midLevelID+'_CreateStructure" style="margin:5px;">Remove Assesment</button>'+
+                                '<button class="btn btn-info" id="ExpandCollapse_'+midLevelID+'_CreateStructure" type="button" data-toggle="collapse" data-target="#bottomLevel' + midLevelID + '" aria-expanded="true" aria-controls="collapseExample">'+
+                                     'Expand/Collapse'+
+                                '</button>'+
+                                '</div>'+
+
+
+                            '<div class="collapse show" id="bottomLevel' + midLevelID+ '" style="margin-left:15px;">' +
+                                
+                            '</div>'+
+                        '</div>'
+
+
+                    );
                     //remove bottom level
- 					$('#removeCurrentLayer_'+midLevelID+'_CreateStructure').on('click', function(e){
-	            		var item = $(this).attr('id').slice($(this).attr('id').indexOf("_")+1, $(this).attr('id').lastIndexOf("_")); //used to get the classes ID - upperlevel default to the most recent level created
-	            		console.log(item);
-	            		item='#midLevelID_' + item;
-	            		$(item).remove();
-	            		console.log(item);
-            		});
+                    $('#removeCurrentLayer_' + midLevelID + '_CreateStructure').on('click', function(e){
+                        var item = $(this).attr('id').slice($(this).attr('id').indexOf("_")+1, $(this).attr('id').lastIndexOf("_")); //used to get the classes ID - upperlevel default to the most recent level created
+
+                        item1='#midLevelID_' + item;
+                        $(item1).remove();
+ 
+                        var ArrLength = addedCourses_CreateCourseStructure.length;
+                        for(var i=0; i<ArrLength; i++){
+
+                            if (addedCourses_CreateCourseStructure[i].indexOf(item)!=-1){
+                                addedCourses_CreateCourseStructure.splice(i, 1);
+                                i--;
+                                ArrLength--;
+                            }
+                            ;
+
+                        }
+
+
+                    });
 
                     //bottomlevel
                     var bottomLevelCounter=0;
-                    console.log(midLevelID);
+
+
                     $('#addLowerLayer_'+midLevelID+'_CreateStructure').on('click', function(e){
                         bottomLevelCounter++;
                         var item = $(this).attr('id').slice($(this).attr('id').indexOf("_")+1, $(this).attr('id').lastIndexOf("_"));
-                        var bottomLevelID=item+"-"+bottomLevelCounter;
-                        console.log(bottomLevelID);
-                        console.log("hgi");
-                        console.log("#bottomLevel"+item);
+                        var bottomLevelID=item+"-"+bottomLevelCounter+"lower";
+                        addedCourses_CreateCourseStructure.push(bottomLevelID);
                         $("#bottomLevel"+item).append(
                             '<div class="card" id="bottomLevelID_'+ bottomLevelID +'">'+
                           '<div class="card-header" role="tab">'+
@@ -281,7 +307,7 @@ document.addEventListener("DOMContentLoaded", function(event) {
                                 '</div>'+
                             '</h4>'+
                           '</div>'+
-                            '<div class="collapse show" id="bottomLevel' + bottomLevelID+ '" style="margin-left:5px;">' +
+                            '<div class="collapse show" id="bottomLevel' + bottomLevelID+ '" style="margin-left:15px;">' +
                                 
                             '</div>'
 
@@ -291,17 +317,39 @@ document.addEventListener("DOMContentLoaded", function(event) {
                         //remove
                         $('#removeCurrentLayer_'+bottomLevelID+'_CreateStructure').on('click', function(e){
                             var item = $(this).attr('id').slice($(this).attr('id').indexOf("_")+1, $(this).attr('id').lastIndexOf("_")); //used to get the classes ID - upperlevel default to the most recent level created
-                            console.log(item);
-                            item='#bottomLevelID_' + item;
-                            $(item).remove();
-                            console.log(item);
+                            var item1='#bottomLevelID_' + item;
+                            $(item1).remove();
+                            addedCourses_CreateCourseStructure.splice(addedCourses_CreateCourseStructure.indexOf(item), 1);
+
                         });
                     });
-            	});
+                });
 
-            	
+                
 
             });
+
+            //Create course 
+            //Udarshan I added some stuff here to get the course structure
+            $('#createCourse_button').on('click', function(e) {
+                var jsonObj = {};
+                var courseArrr = addedCourses_CreateCourseStructure.slice(); //save old data in case error is returned, then data will not be lost
+                var structureData = createCourseGetStructure(addedCourses_CreateCourseStructure, jsonObj);
+                if (structureData==false){//if values are incorrect
+                    addedCourses_CreateCourseStructure =courseArrr.slice();  
+                }
+                else{
+                    jsonObj["structure"]=structureData;
+                    console.log(jsonObj);
+                }
+
+                //TODO: 
+                //update database
+                //reset form
+
+            });
+
+
 
 
 
@@ -463,6 +511,97 @@ document.addEventListener("DOMContentLoaded", function(event) {
 
     //add student
     function createCourseAddStudent(load){}
+
+    //get structure
+    function createCourseGetStructure(courseArr, jsonObj){
+        //TODO add cases that force there to be all three levels.
+        var data = $('#courseStructure_CreateStructure').html();
+        var courseArray= courseArr; //used so that the data is not lost when an error is rerurned
+        courseArray = courseArray.sort(); 
+        courseArray = courseArray.reverse(); //makes it easier to control array with pop()
+
+        console.log(courseArray);
+        var structure = {       // create base structure
+            percentage: 0,
+            
+        };                  
+        structure["topLevels"]=[];
+        var topCounter=-1;
+        var midCounter=0;
+        var bottomCounter=0;
+        var topDP=0;
+        var topWeight = 0;
+        var midWeight = 0;
+        while(courseArray.length!=0){ //loop through array of levelIDs
+            var currentItem = courseArray.pop();
+
+            var numberOfDashes = currentItem.split("-").length - 1; //IDs are split by dashes, this counts the level
+
+            
+            if (numberOfDashes==0){     //top level
+                if (midCounter==-1){    //checks if there is a midlevel for the toplevel
+                    $('#wrong-course-structure').html('<div class="alert alert-danger"role="alert"><p class="text-center">' +  'Assignments Types must have sub sections' + '</p></div>');
+                    return false;
+                }
+                midCounter=-1;
+                topCounter ++;
+                topWeight = topWeight + Number($('#weighting_' + currentItem + '_CreateCourseStructure').val());    //totals topWeight
+
+                if(midWeight!=0&&midWeight!=100){ //checks the previous midweight total - calling a new top level signifies the end of the current mid level
+                    $('#wrong-course-structure').html('<div class="alert alert-danger"role="alert"><p class="text-center">' +  'The weighting of a middle layers do not add up to 100' + '</p></div>');
+                    return false;
+                }
+                midWeight=0;
+                if ($('#sectionTitle_' + currentItem + '_CreateCourseStructure').val()==""||Number($('#weighting_' + currentItem + '_CreateCourseStructure').val())==0){ //checks for null values
+                    $('#wrong-course-structure').html('<div class="alert alert-danger"role="alert"><p class="text-center">' +  'Enter information into all of the feilds (numerical values cannot be set to 0)' + '</p></div>');
+                    return false;
+
+                }
+                structure.topLevels.push({name: $('#sectionTitle_' + currentItem + '_CreateCourseStructure').val(), weight: Number($('#weighting_' + currentItem + '_CreateCourseStructure').val()), percentage: 0, dp: Number($('#DPreq_' + currentItem + '_CreateCourseStructure').val()), midLevels: []});
+                
+            }
+            
+            if (numberOfDashes==1){
+                if (bottomCounter==-1){ //checks if there is a midlevel bottom layer for the midlayer
+                    $('#wrong-course-structure').html('<div class="alert alert-danger"role="alert"><p class="text-center">' +  'Assignments must have sub sections' + '</p></div>');
+                    return false;
+                }
+                bottomCounter=-1;
+                midCounter++;
+                midWeight= midWeight + Number($('#weighting_' + currentItem + '_CreateCourseStructure').val());
+
+                if ($('#assesmentTitle_' + currentItem + '_CreateCourseStructure').val()==""||Number($('#weighting_' + currentItem + '_CreateCourseStructure').val())==0){
+                    $('#wrong-course-structure').html('<div class="alert alert-danger"role="alert"><p class="text-center">' +  'Enter information into all of the feilds (numerical values cannot be set to 0)' + '</p></div>');
+                    return false;
+                }
+                structure.topLevels[topCounter].midLevels.push({name: $('#assesmentTitle_' + currentItem + '_CreateCourseStructure').val(), weight: Number($('#weighting_' + currentItem + '_CreateCourseStructure').val()), percentage: 0, bottomLevels: []});
+            }
+
+            if (numberOfDashes==2){
+                bottomCounter ++;
+                structure.topLevels[topCounter].midLevels[bottomCounter].bottomLevels.push({name: $('#sectionTitle_' + currentItem + '_CreateCourseStructure').val(), weight: Number($('#weighting_' + currentItem + '_CreateCourseStructure').val()), percentage: 0});
+                if ($('#sectionTitle_' + currentItem + '_CreateCourseStructure').val()==null||Number($('#weighting_' + currentItem + '_CreateCourseStructure').val())==null||Number($('#DPreq_' + currentItem + '_CreateCourseStructure').val())==null){
+                    $('#wrong-course-structure').html('<div class="alert alert-danger"role="alert"><p class="text-center">' +  'Enter information into all of the feilds' + '</p></div>');
+
+                    return false;
+                }
+            }
+        }
+        if(topWeight!=100){
+            $('#wrong-course-structure').html('<div class="alert alert-danger"role="alert"><p class="text-center">' +  'The weighting of the upper layers do not add up to 100' + '</p></div>');
+            return false;
+        }
+
+        if(midWeight!=100){ //check one more time for the final level - only check each time a new top is called - no new top layer for the final sections
+            $('#wrong-course-structure').html('<div class="alert alert-danger"role="alert"><p class="text-center">' +  'The weighting of a middle layers do not add up to 100' + '</p></div>');
+            return false;
+        }
+
+        //reset html
+        $('#courseStructure_CreateStructure').html("");
+        $('#wrong-course-structure').html("");
+        return structure;
+    }
 
     //create course
     function createCourseButton(load){}
