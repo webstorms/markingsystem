@@ -22,6 +22,11 @@ document.addEventListener("DOMContentLoaded", function(event) {
 	    //   });
 	    });
 
+	  $('#password-button').on('click', function(e) {
+    window.location.href = '/getPasswordChangeView';
+
+  });
+
 		$('#createUser_button').on('click', function(e) {
 	  	createUser(function(response) {
 				if (response == "userExists") {
