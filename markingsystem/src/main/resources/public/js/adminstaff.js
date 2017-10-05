@@ -145,7 +145,14 @@ document.addEventListener("DOMContentLoaded", function(event) {
             });
             //Import students
             $('#createCourse_studentImport_button').on('click', function(e) {
-
+                createCourse(function(response) {
+                    if(response=="success"){
+                        
+                    }
+                    else{
+                        alert(response);
+                    }
+                })
             });
 
             
@@ -153,9 +160,6 @@ document.addEventListener("DOMContentLoaded", function(event) {
             //Create course
             $('#createCourse_button').on('click', function(e) {
 
-                //TODO: 
-                //update database
-                //reset form
 
             });
 
@@ -539,7 +543,6 @@ document.addEventListener("DOMContentLoaded", function(event) {
     //create course
     function createCourse(load){
 
-        //TODO:
         var jsonObj = {};
         var courseArrr = addedCourses_CreateCourseStructure.slice(); //save old data in case error is returned, then data will not be lost
         var structureData = createCourseGetStructure(addedCourses_CreateCourseStructure, jsonObj);
