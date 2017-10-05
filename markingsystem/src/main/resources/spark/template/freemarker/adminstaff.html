@@ -81,22 +81,22 @@
                     <form id = "users_courseDetails" onsubmit="return false">
                         <div class="form-group form-inline">
                             <label for="courseID">Course Name: &nbsp;</label> 
-                            <input type="ID" class="form-control col-lg-3" id="users_courseName">
+                            <input type="ID" class="form-control col-lg-3" id="users_courseName" readonly>
                         </div>
 
                         <div class="form-group form-inline">
                             <label for="courseID">Course Code: &nbsp;</label>
-                            <input type="ID" class="form-control col-lg-3" id="users_courseCode">
+                            <input type="ID" class="form-control col-lg-3" id="users_courseCode" readonly>
                         </div>
 
                         <div class="form-group form-inline">
                             <label for="sel1">Course Year: &nbsp;</label>
-                            <input type="ID" class="form-control col-lg-3" id="users_courseYear">
+                            <input type="ID" class="form-control col-lg-3" id="users_courseYear" readonly>
                         </div>
 
                         <div class="form-group form-inline">
                             <label for="sel1">Course Period: &nbsp;</label>
-                            <input type="ID" class="form-control col-lg-3" id="uesrs_coursePeriod">
+                            <input type="ID" class="form-control col-lg-3" id="uesrs_coursePeriod" readonly>
                         </div>
                     </form>
 
@@ -112,40 +112,6 @@
             <hr>
             <h3 align="center"> Users</h3>
             <hr>
-                <!-- Members -->
-                <div class="card ">
-                <div class="card-block ">
-                    <hr>
-                    <h4>Course Members</h4>
-                    <hr>
- 
-                    <table class="table table-sm " id="manUsers_membersTable">
-                    <thead>
-                        <tr>
-                        <th>User ID</th>
-                        <th>Role</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr>
-                        <td>ODTUDA001</td>
-                        <td>Student</td>
-                        </tr>
-
-                        <tr>
-                        <td>TYLCHR011</td>
-                        <td>Student</td>
-                        </tr>
-
-                        <tr>
-                        <td>HMPJAR001</td>
-                        <td>Student</td>
-                        </tr>
-                    </tbody>
-                    </table>
-                </div>
-                </div>
-                <br>
                 <!-- Add Users -->
                 <div class="row">
                     <!-- Staff -->
@@ -234,6 +200,41 @@
                     </div>
                 </div>
                 <br>
+
+                <!-- Members -->
+                <div class="card ">
+                <div class="card-block ">
+                    <hr>
+                    <h4>Course Members</h4>
+                    <hr>
+ 
+                    <table class="table table-sm " id="manUsers_membersTable">
+                    <thead>
+                        <tr>
+                        <th>User ID</th>
+                        <th>Role</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                        <td>ODTUDA001</td>
+                        <td>Student</td>
+                        </tr>
+
+                        <tr>
+                        <td>TYLCHR011</td>
+                        <td>Student</td>
+                        </tr>
+
+                        <tr>
+                        <td>HMPJAR001</td>
+                        <td>Student</td>
+                        </tr>
+                    </tbody>
+                    </table>
+                </div>
+                </div>
+                <br>
             </div>
             </div>
             <!-- end of users -->
@@ -265,11 +266,25 @@
             <!-- Course Details -->
             <div class="card card-outline-success">
             <div class="card-block">
-                <hr>
-                <h3 align="center"> Course Details</h3>
-                <hr>
+                <div class="form-group form-inline">
+                    <label for="courseID">Course Name: &nbsp;</label> 
+                    <input type="ID" class="form-control col-lg-3" id="search_courseName" readonly>
+                </div>
 
-                <textarea class="form-control" id="course_textArea" rows="3">course details here</textarea>
+                <div class="form-group form-inline">
+                    <label for="courseID">Course Code: &nbsp;</label>
+                    <input type="ID" class="form-control col-lg-3" id="search_courseCode" readonly>
+                </div>
+
+                <div class="form-group form-inline">
+                    <label for="sel1">Course Year: &nbsp;</label>
+                    <input type="ID" class="form-control col-lg-3" id="search_courseYear" readonly>
+                </div>
+
+                <div class="form-group form-inline">
+                    <label for="sel1">Course Period: &nbsp;</label>
+                    <input type="ID" class="form-control col-lg-3" id="search_coursePeriod" readonly>
+                </div>
             </div>
             </div>
             <br>

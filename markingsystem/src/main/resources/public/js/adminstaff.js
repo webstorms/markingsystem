@@ -94,14 +94,10 @@ document.addEventListener("DOMContentLoaded", function(event) {
             
         // ====================  MARKS AND STRUCTURE TAB ==================== 
             //course change on marks&structure tab
-            $('select[name="marksStructure_courseDropDown"]').change(function(){
-                //update course details and course members
-                marksStructureSelectCourse(function(response){
-
-                    //TODO update course details, marks and course structure based on response
-
-                    
-                }); 
+            $('#marksStrucutre_courseDropDown').change(function(){                
+                marksRefreshCourse();
+                
+                //marksStructureSelectCourse(function(response){}); 
             });
 
 
@@ -113,7 +109,7 @@ document.addEventListener("DOMContentLoaded", function(event) {
             $('#studentSearch_button').on('click', function(e) {
                 searchStudent(function(response) {
                     if (response == "userNotFound") {
-                         $('#searchStudents_table').html('<table class="table table-sm" id = "searchStudents_table"> <thead> <tr> <th>No Results</th> </tr> </thead> </table>');
+                        $('#searchStudents_table tbody > tr').remove();
                     }
                     else if(response == "success"){
                         //put entry in table
@@ -545,6 +541,37 @@ document.addEventListener("DOMContentLoaded", function(event) {
 
     }
 
+    //refresh course details and members
+    function marksRefreshCourse(){
+        marksGetCourse(function(course){ //send a post request to get course object
+            if(course == 'courseDoesNotExist'){
+                //handle error
+            }
+            else{
+                //load course details
+                $("#search_courseName").val(course.courseName);
+                $("#search_courseCode").val(course.courseID);
+                $("#search_courseYear").val(course.year);
+                $("#search_coursePeriod").val(course.period);
+
+            }
+        });    
+    }
+
+    function marksGetCourse(load){
+        var data = {
+            "courseID": $('#marksStrucutre_courseDropDown').val(),
+        }
+        $.ajax({
+            url: '/getCourse',
+            type: 'POST',
+                data: JSON.stringify(data),
+            contentType: 'application/json',
+            success: function(res) {
+            load(JSON.parse(res));
+            }
+        });	
+    }
 // ====================  STUDENT SEARCH TAB ==================== 
 
     function searchStudent(load){
@@ -784,6 +811,5 @@ function logout(load) {
       load(JSON.parse(res));
     }
   });
-
 }
 
