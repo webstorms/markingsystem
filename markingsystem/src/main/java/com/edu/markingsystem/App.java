@@ -51,7 +51,6 @@ public class App {
 		
 		List<String> students = new ArrayList<String>();
 		students.add("student1");
-		students.add("student2");
 		List<String> TAs = new ArrayList<String>();
 		TAs.add("ta1");
 		List<String> lecturers = new ArrayList<String>();
@@ -64,9 +63,7 @@ public class App {
 		db.getCourseDB().addCourse(courseB);
 
 		// Add courses to user
-		db.getUserDB().addCourse("admin", "mam100017");
 		db.getUserDB().addCourse("student1", "mam100017");
-		db.getUserDB().addCourse("student1", "csc100017");
 		db.getUserDB().addCourse("student2", "mam100017");
 		
 	}

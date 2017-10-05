@@ -5,6 +5,7 @@ import java.util.List;
 import com.edu.markingsystem.Util;
 import com.edu.markingsystem.db.Database;
 import com.edu.markingsystem.service.Service;
+import com.edu.markingsystem.service.user.UserType;
 import com.esotericsoftware.minlog.Log;
 import com.google.gson.JsonObject;
 
@@ -34,6 +35,11 @@ public class CourseService extends Service {
 		Spark.post("/getCourse", (req, res) -> {
 			Log.info(this.getClass().getName(), "POST /getCourse " + req.ip());
 			return getCourse(req, res);
+		});
+		
+		Spark.post("/addStudentToCourse", (req, res) -> {
+			Log.info(this.getClass().getName(), "POST /addStudentToCourse " + req.ip());
+			return addStudentToCourse(req, res);
 		});
 		
 	}
@@ -99,6 +105,25 @@ public class CourseService extends Service {
 			return Util.objectToJson(course);
 			
 		}
+		
+	}
+	
+	public Object addStudentToCourse(Request req, Response res) {
+		JsonObject json = Util.stringToJson(req.body());
+		String userID = json.get("userID").getAsString();
+		UserType role =  UserType.valueOf(json.get("role").getAsString());
+		String courseID = json.get("courseID").getAsString();
+		Course course = db.getCourseDB().getCourse(courseID);
+		
+		if(role == UserType.STUDENT && !course.getStudents().contains(userID)) course.getStudents().add(userID);
+		else if(role == UserType.TA && !course.getTAs().contains(userID)) course.getTAs().add(userID);
+		else if(role == UserType.LECTURER && !course.getLecturers().contains(userID)) course.getLecturers().add(userID);
+		else if(role == UserType.CONVENOR) course.setCourseConvenor(userID);
+		
+		db.getUserDB().addCourse(userID, courseID);
+		db.getCourseDB().addCourse(course);
+		
+		return Util.objectToJson("success");
 		
 	}
 	

@@ -29,6 +29,11 @@ public class Course implements java.io.Serializable {
 		
 	}
 	
+	public void setCourseConvenor(String id) {
+		this.courseConvenor = id;
+		
+	}
+	
 	public String getCourseName() {
 		return courseName;
 	}
