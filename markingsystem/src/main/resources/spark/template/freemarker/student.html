@@ -19,9 +19,15 @@
 <body>
 
   <nav class="navbar navbar-toggleable-md navbar-inverse bg-inverse mb-4">
+    <div id="studentName"></div>
     
     <div id="buttons" class="nav navbar-nav navbar-left" style="max-width:60%;display:inline-block;padding:0px">
-    <a class="btn navbar-btn btn-outline-secondary" href="/" >back</a>
+    <button class="btn navbar-btn btn-outline-secondary" onclick="goBack()" >back</button>
+    <script>
+      function goBack() {
+      window.history.back();
+    }
+    </script>
     </div>
 
     <div  style="width:25%; " class="collapse navbar-collapse ml-auto" id="navbarCollapse">

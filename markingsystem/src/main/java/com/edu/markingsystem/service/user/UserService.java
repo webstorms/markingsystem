@@ -37,6 +37,11 @@ public class UserService extends Service {
 			return this.getStudentView(req, res); 
 		}, new FreeMarkerEngine());
 		
+		Spark.get("/getStudentHomeView", (req, res) -> {
+			Log.info(this.getClass().getName(), "GET /getStudentHomeView " + req.ip());
+			return this.getStudentHomeView(req, res);
+		}, new FreeMarkerEngine());
+		
 		Spark.get("/getPasswordChangeView", (req, res) -> {
 			Log.info(this.getClass().getName(), "GET /getPasswordChangeView " + req.ip());
 			return this.getPasswordChangeView(req, res);
@@ -134,6 +139,12 @@ public class UserService extends Service {
 			
 		}
 		
+
+	}
+	
+	public ModelAndView getStudentHomeView(Request req, Response res) {
+		Map<String, Object> map = new HashMap<String, Object>();
+		return new ModelAndView(map, "student-home.html");
 
 	}
 	

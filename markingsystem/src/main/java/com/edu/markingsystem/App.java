@@ -21,7 +21,7 @@ public class App {
 		Database db = new Database(DB_NAME, DB_PASS);
 		initTestData(db);
 		new Server(db);
-
+		
 	}
 
 	private static void initTestData(Database db) {

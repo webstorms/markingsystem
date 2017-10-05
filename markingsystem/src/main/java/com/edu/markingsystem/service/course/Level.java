@@ -2,7 +2,7 @@ package com.edu.markingsystem.service.course;
 
 import java.util.UUID;
 
-public class Level {
+public class Level implements java.io.Serializable {
 
 	protected String name;
 	protected String ID;

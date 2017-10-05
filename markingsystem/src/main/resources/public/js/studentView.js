@@ -5,6 +5,13 @@ $(function() {
 // Add button to navbar with course name
 var reqCourse = sessionStorage.getItem("requestedCourse");
 
+var reqUser = sessionStorage.getItem("requestedUser");
+if(reqUser != null) {
+  // Add student name
+  $('#studentName').html('<h1 class="navbar-brand mb-0">' + reqUser + '</h1>');
+
+}
+
 $('#logout-button').on('click', function(e) {
     logout(function(response) {
         if (response == "success") {

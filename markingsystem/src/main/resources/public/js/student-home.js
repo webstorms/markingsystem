@@ -5,10 +5,18 @@ var test = "test";
 
 $(function() {
 
-// Get server user courses
-// For course in courses 
-// Add button to navbar with course name
-getCourses(function(response) {
+var reqUser = sessionStorage.getItem("requestedUser");
+console.log(reqUser);
+// Arrived from admin-staff view
+if(reqUser != null) {
+  // Add student name
+  $('#studentName').html('<h1 class="navbar-brand mb-0">' + reqUser + '</h1>');
+  // Add back button
+  $('#backButton').html('<a class="btn navbar-btn btn-outline-secondary" href="/" >back</a>');
+
+}
+
+getCourses(reqUser, function(response) {
   courseStrArr = response;
   var courselistStringLength = courseStrArr.length;
   courseStrArr=courseStrArr.slice(1, courselistStringLength - 1);
@@ -79,10 +87,14 @@ function logout(load) {
 
 }
 
-function getCourses(load) {
+function getCourses(id, load) {
+  var data = {
+      "userID": id
+    }
     $.ajax({
       url: '/getCourses',
       type: 'POST',
+      data: JSON.stringify(data),
       contentType: 'application/json',
       success: function(res) {
         load(JSON.parse(res));
@@ -134,6 +146,5 @@ function getCourse(id, load) {
         load(JSON.parse(res));
       }
     }); 
+
 }
-
-
