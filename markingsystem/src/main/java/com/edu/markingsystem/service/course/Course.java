@@ -69,6 +69,11 @@ public class Course implements java.io.Serializable {
 	public CourseStructure getStructure() {
 		return structure;
 	}
+
+	public void setStructure(CourseStructure newStructure) {
+		this.structure = newStructure;
+		
+	}
 	
 	
 }

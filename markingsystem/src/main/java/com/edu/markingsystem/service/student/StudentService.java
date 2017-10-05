@@ -29,10 +29,10 @@ public class StudentService extends Service {
 			return getCourses(req, res);
 		});
 
-		Spark.post("/addMark", (req, res) -> {
-			Log.info(this.getClass().getName(), "POST /addMark " + req.ip());
-			return addMark(req, res);
-		});
+//		Spark.post("/addMark", (req, res) -> {
+//			Log.info(this.getClass().getName(), "POST /addMark " + req.ip());
+//			return addMark(req, res);
+//		});
 
 		Spark.post("/getMarks", (req, res) -> {
 			Log.info(this.getClass().getName(), "POST /getStudentMarks " + req.ip());
@@ -81,26 +81,26 @@ public class StudentService extends Service {
 	// EXAMPLE: EXAME > EXAM1, EXAM2. EXAM1 > SECTONA, SECTIONB.
 	// To add mark for SECTIONA top = 0, mid = 0, bottom = 0
 	
-	public Object addMark(Request req, Response res) {
-		String response = "success";
-		try{
-			JsonObject json = Util.stringToJson(req.body());
-			String userID = json.get("userID").getAsString();
-			String courseID = json.get("courseID").getAsString();
-			int mark = json.get("mark").getAsInt();
-			int top = json.get("top").getAsInt();
-			int mid = json.get("mid").getAsInt();
-			int bottom = json.get("bottom").getAsInt();
-			CourseStructure marks = db.getUserDB().getUser(userID).getMarks(courseID);
-			marks.getTop(top).getMid(mid).getBottom(bottom).setMark(mark);
-			db.getUserDB().addMark(userID, courseID, marks);
-		}
-		catch(Exception e) {
-			response = "invalidParamters";
-		}
-		return Util.objectToJson(response);
-
-	}
+//	public Object addMark(Request req, Response res) {
+//		String response = "success";
+//		try{
+//			JsonObject json = Util.stringToJson(req.body());
+//			String userID = json.get("userID").getAsString();
+//			String courseID = json.get("courseID").getAsString();
+//			int mark = json.get("mark").getAsInt();
+//			int top = json.get("top").getAsInt();
+//			int mid = json.get("mid").getAsInt();
+//			int bottom = json.get("bottom").getAsInt();
+//			CourseStructure marks = db.getUserDB().getUser(userID).getMarks(courseID);
+//			marks.getTop(top).getMid(mid).getBottom(bottom).setMark(mark);
+//			db.getUserDB().addMark(userID, courseID, marks);
+//		}
+//		catch(Exception e) {
+//			response = "invalidParamters";
+//		}
+//		return Util.objectToJson(response);
+//
+//	}
 
 
 }

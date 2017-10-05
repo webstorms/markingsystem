@@ -30,7 +30,7 @@ getMarks(function(response) {
 	var sub = "";
 	getCourse(reqCourse, function(_response) {
      	courseName = _response.courseName;
-    });
+  });
 
 	// console.log(response);
 
@@ -160,7 +160,7 @@ function addlevel2(collapseData, turpleName, percentage, levelnumber, mark, maxM
       return collapseData;
 };
 
-function addlevel3(collapseData, turpleName, percentage, levelnumber, mark, maxMark){
+function addlevel3(collapseData, turpleName, percentage, levelnumber, mark, maxMark) {
 
 	collapseData += 
 	'<div class="card">'+

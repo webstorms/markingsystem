@@ -3,18 +3,16 @@ package com.edu.markingsystem.service.course;
 import java.util.ArrayList;
 import java.util.List;
 
-public class MidLevel implements java.io.Serializable {
-
-	private String name;
+public class MidLevel extends Level implements java.io.Serializable {
+	
 	private int weight; // out of 100
-	private int percentage;
 	private int mark;
 	private int maxMark;
 	private List<BottomLevel> bottomLevels;
 	
 	public MidLevel(String name, int weight) {
+		super(name);
 		this.bottomLevels = new ArrayList<BottomLevel>();
-		this.name = name;
 		this.weight = weight;
 		
 	}
@@ -23,12 +21,12 @@ public class MidLevel implements java.io.Serializable {
 		this.bottomLevels.add(bottomLevel);
 		
 	}
-	
-	public BottomLevel getBottom(int index) {
-		return this.bottomLevels.get(index);
+
+	public List<BottomLevel> getBottomLevel() {
+		return this.bottomLevels;
 		
 	}
-
+	
 	public void calculatePercentages() {
 		for(BottomLevel level : this.bottomLevels) {
 			level.calculatePercentages();
@@ -39,7 +37,7 @@ public class MidLevel implements java.io.Serializable {
 		this.percentage = Math.round((float) this.mark / (float) this.maxMark);
 		
 	}
-
+	
 	public int getPercentage() {
 		return this.percentage;
 		
