@@ -120,6 +120,9 @@ public class UserService extends Service {
 			else if(userType.equalsIgnoreCase("student")){
 				return new ModelAndView(map, "student-home.html");
 			}
+			else if(userType.equalsIgnoreCase("adminstaff")){
+				return new ModelAndView(map, "adminstaff.html");
+			}
 			else {
 				return new ModelAndView(map, "main.ftl");
 			}

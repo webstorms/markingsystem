@@ -27,10 +27,16 @@ public class App {
 	private static void initTestData(Database db) {
 		// Create admin
 		db.getUserDB().addUser("admin", new User("1234", UserType.ADMIN));
+		
+		// Create admin staff
+		db.getUserDB().addUser("adminstaff", new User("1234", UserType.ADMINSTAFF));
 
 		// Create students
 		db.getUserDB().addUser("student1", new User("1234", UserType.STUDENT));
 		db.getUserDB().addUser("student2", new User("1234", UserType.STUDENT));
+		for(int i=3; i<4; i++){
+			db.getUserDB().addUser("student"+i, new User("1234", UserType.STUDENT));
+		}
 
 		// Create TA
 		db.getUserDB().addUser("ta1", new User("1234", UserType.TA));
@@ -61,11 +67,17 @@ public class App {
 		
 		Course courseB = new Course("CSC1016", "csc100017", "2017", "F", "lec1", lecturers, TAs, students, course);
 		db.getCourseDB().addCourse(courseB);
+		
+//		System.out.println(courseA.getStructure().toString());
+//		
+//		// Placeholder course to test functionality
+//		Course courseB = new Course("CSC3003", "CSC300317", "2017", "S", "lec1", lecturers, TAs, students, course);
+//		db.getCourseDB().addCourse(courseB);
 
 		// Add courses to user
 		db.getUserDB().addCourse("student1", "mam100017");
 		db.getUserDB().addCourse("student2", "mam100017");
-		
+
 	}
 
 

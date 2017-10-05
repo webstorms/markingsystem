@@ -1,0 +1,613 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="">
+    <meta name="author" content="">
+    
+    <title>Admin Staff</title> 
+
+
+<!-- Bootstrap CSS -->
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.6/css/bootstrap.min.css" integrity="sha384-rwoIResjU2yc3z8GV/NPeZWAv56rSmLldC3R/AZzGRnGxQQKnKkoFVhFQhNUwEyJ" crossorigin="anonymous">
+ 	<link rel='stylesheet prefetch' href='http://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.1.0/css/font-awesome.min.css'>
+
+<!-- Bootstrap core JavaScript 
+    ================================================== -->
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/tether/1.4.0/js/tether.min.js" integrity="sha384-DztdAPBWPRXSA/3eYEEUWrWCy7G5KFbe8fFjk5JAIxUYHKkDx6Qin1DkWx51bBrb" crossorigin="anonymous"></script>
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>		
+	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.6/js/bootstrap.min.js" integrity="sha384-vBWWzlZJ8ea9aCX4pEW3rVHjgjt7zpkNpZk+02D9phzyeVkE+jo0ieGizqPLForn" crossorigin="anonymous"></script>
+
+<!-- Javascript -->
+    <script src="js/adminstaff.js"></script>
+  </head>
+
+<body>
+
+<!-- navbar -->
+
+    <nav class="navbar navbar-toggleable-md navbar-inverse bg-inverse mb-4">
+      <h3 class="navbar-brand" href="#">StuMaSym</h3>
+			<h3 class="navbar-brand" href="#">Admin Staff</h3>
+
+      <div class="collapse navbar-collapse" id="navbarCollapse">
+        <ul class="navbar-nav mr-auto"> </ul>
+          <button class="btn btn-outline-info">Change My Password</button>
+					<button id="logout" class="btn btn-outline-info">Log out</button>
+      </div>
+    </nav>
+
+<!-- Nav tabs -->
+
+<ul class="nav nav-tabs" role="tablist">
+  <li class="nav-item">
+    <a class="nav-link active" href="#courses" role="tab" data-toggle="tab">Manage Users</a>
+  </li>
+  <li class="nav-item">
+    <a class="nav-link" href="#marks" role="tab" data-toggle="tab">Marks & Structure</a>
+  </li>
+  <li class="nav-item">
+    <a class="nav-link" href="#students" role="tab" data-toggle="tab">Student Search</a>
+  </li>
+  <li class="nav-item">
+    <a class="nav-link" href="#createCourses" role="tab" data-toggle="tab">Create Course</a>
+  </li>
+</ul>
+
+<!-- Tab panes -->
+<div class="tab-content">
+
+    <!-- Manaage Users Tab -->
+    <div role="tabpanel" class="tab-pane active" id="courses">
+    <div class="container">
+
+        <hr>
+        <h3 class="form-signin-heading">Select Course</h3>
+        <hr>
+        <select class="form-control col-lg-3" id="manUsers_courseDropDown"><option>Select a course</option></select>
+        <hr>
+
+        <!-- Main Card -->
+        <div class="card card-block card-outline-primary">
+            
+            <!-- Course Details -->
+                <div class="card card-outline-success">
+                <div class="card-block ">
+                    <hr>
+                    <h4>Course Details</h4>
+                    <hr>
+
+                    <form id = "users_courseDetails" onsubmit="return false">
+                        <div class="form-group form-inline">
+                            <label for="courseID">Course Name: &nbsp;</label> 
+                            <input type="ID" class="form-control col-lg-3" id="users_courseName" readonly>
+                        </div>
+
+                        <div class="form-group form-inline">
+                            <label for="courseID">Course Code: &nbsp;</label>
+                            <input type="ID" class="form-control col-lg-3" id="users_courseCode" readonly>
+                        </div>
+
+                        <div class="form-group form-inline">
+                            <label for="sel1">Course Year: &nbsp;</label>
+                            <input type="ID" class="form-control col-lg-3" id="users_courseYear" readonly>
+                        </div>
+
+                        <div class="form-group form-inline">
+                            <label for="sel1">Course Period: &nbsp;</label>
+                            <input type="ID" class="form-control col-lg-3" id="uesrs_coursePeriod" readonly>
+                        </div>
+                    </form>
+
+                </div>
+                </div>
+                <br>
+
+          
+
+            <!-- Users -->
+            <div class="card card-outline-success">
+            <div class="card-block ">
+            <hr>
+            <h3 align="center"> Users</h3>
+            <hr>
+                <!-- Add Users -->
+                <div class="row">
+                    <!-- Staff -->
+                    <div class = " col-sm-4">
+                    <div class="card">
+                    <div class="card-block">
+                        <form id="manUser_addStaff" onsubmit="return false">
+                            <hr>
+                            <h4>Add Staff</h4>
+                            <hr>
+
+                            <div class="form-group">
+                                <label>Staff ID</label>
+                                <input type="ID" class="form-control col-lg-6" id="manUser_staffID" placeholder="Enter staff user ID">    
+                                 <small id="manUsers_addStaff_IDerror"></small>
+                            </div>
+
+                            <div class="form-group">
+                                <label for="sel1">Staff Role</label>
+                                <select class="form-control col-lg-6" id="manUser_staffRole">
+                                    <option>Lecturer</option>
+                                    <option>Course Convener</option>
+                                    <option>TA</option>
+                                </select>
+                            </div>
+                                
+                            <div class="form-group">
+                                <label>Add Staff Member</label><br>
+                                <button class="btn btn-primary" id="manUser_staff_button">Add Staff Member</button>
+                            </div>
+                        </form>
+                    </div>
+                    </div>
+                    </div>
+        
+                    <!-- Students -->
+                    <div class="col-sm-4">
+                    <div class="card">
+                    <div class="card-block">
+                        <form id="manUser_addStudent" onsubmit="return false">
+                            <hr>
+                            <h4>Add Students</h4>
+                            <hr>
+
+                            <div class="form-group">
+                                <label>Import Students</label><br>
+                                <input type="file" id='manUsers_file'></input><br><br>
+                                <button class="btn btn-primary" id="manUser_studentImport_button">Submit</button>
+                                <small id="manUsers_importStudent_error"></small>
+                            </div>
+
+                            <hr>
+
+                            <div class="form-group">
+                                <label>Add a student</label>
+                                <input class="form-control col-lg-6" id="manUser_studentID" placeholder="Enter student ID">    
+                            </div>
+
+                            <div class="form-group">
+                                <button class="btn btn-primary" id="manUsers_addStudent_button">Add Student</button>
+                                <small id="manUsers_addStudent_error"></small>
+                        </div>
+                        </form>
+                    </div>
+                    </div>
+                    </div>
+
+                    <!-- Remove User -->
+                    <div class="col-sm-4">
+                    <div class="card">
+                    <div class="card-block">
+                        <hr>
+                        <h4>Remove Users</h4>
+                        <hr>
+
+                        <div class="form-group">
+                            <label>User ID</label>
+                            <input class="form-control col-lg-6" id="manUsers_removeID" placeholder="Enter student ID">    
+                        </div>
+
+                        <div class="form-group">
+                            <button class="btn btn-primary" id="manUsers_removeUser_button">Remove User</button>
+                        </div>
+                    </div>
+                    </div>
+                    </div>
+                </div>
+                <br>
+
+                <!-- Members -->
+                <div class="card ">
+                <div class="card-block ">
+                    <hr>
+                    <h4>Course Members</h4>
+                    <hr>
+ 
+                    <table class="table table-sm " id="manUsers_membersTable">
+                    <thead>
+                        <tr>
+                        <th>User ID</th>
+                        <th>Role</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                    </tbody>
+                    </table>
+                </div>
+                </div>
+                <br>
+            </div>
+            </div>
+            <!-- end of users -->
+            <br>
+            
+            
+            <br>
+        </div>
+        <br>
+
+    </div>
+    </div>
+
+    <!-- Marks Tab -->
+    <div role="tabpanel" class="tab-pane fade" id="marks">
+        <div class="container">
+
+        <hr>
+        <h3 class="form-signin-heading">Select Course</h3>
+        <hr>
+        <select class="form-control col-lg-3" id="marksStrucutre_courseDropDown">
+            <option>Select a course</option>
+        </select>
+        <hr>
+
+        <div class="card card-block card-outline-primary">
+        <form id="studentSearch_form" onsubmit="return false">
+
+            <!-- Course Details -->
+            <div class="card card-outline-success">
+            <div class="card-block">
+                <div class="form-group form-inline">
+                    <label for="courseID">Course Name: &nbsp;</label> 
+                    <input type="ID" class="form-control col-lg-3" id="search_courseName" readonly>
+                </div>
+
+                <div class="form-group form-inline">
+                    <label for="courseID">Course Code: &nbsp;</label>
+                    <input type="ID" class="form-control col-lg-3" id="search_courseCode" readonly>
+                </div>
+
+                <div class="form-group form-inline">
+                    <label for="sel1">Course Year: &nbsp;</label>
+                    <input type="ID" class="form-control col-lg-3" id="search_courseYear" readonly>
+                </div>
+
+                <div class="form-group form-inline">
+                    <label for="sel1">Course Period: &nbsp;</label>
+                    <input type="ID" class="form-control col-lg-3" id="search_coursePeriod" readonly>
+                </div>
+            </div>
+            </div>
+            <br>
+
+             <!-- Course Marks -->
+            <div class="card card-outline-success">
+            <div class="card-block">
+                <hr>
+                <h3 align="center">Edit Marks </h3>
+                <hr>
+
+                <div class="form-group">
+                    <textarea class="form-control" id="marks_textArea" rows="3">marks here</textarea>
+                </div>
+
+
+                <!-- Import/Export Marks -->
+                <div class="row">
+                    <!-- Import -->
+                    <div class = " col-sm-6">
+                    <div class="card">
+                    <div class="card-block">
+                        <hr>
+                        <h4>Import Marks</h4>
+                        <hr>
+
+                        <div class="form-group">
+                            <label for="sel1">Select Level</label>
+                            <select class="form-control col-lg-6" id="addUser_staffRole">
+                                <option>1</option>
+                                <option>2</option>
+                                <option>3</option>
+                            </select>
+                        </div>
+                            
+                        <div class="form-group">
+                            <button class="btn btn-primary" id="addUser_staff_button">Import</button>
+                        </div>
+                    </div>
+                    </div>
+                    </div>
+        
+                   
+                    <!-- Export -->
+                    <div class = " col-sm-6">
+                    <div class="card">
+                    <div class="card-block">
+                        <hr>
+                        <h4>Export Marks</h4>
+                        <hr>
+
+                        <div class="form-group">
+                            <label for="sel1">Select Level</label>
+                            <select class="form-control col-lg-6" id="addUser_staffRole">
+                                <option>1</option>
+                                <option>2</option>
+                                <option>3</option>
+                            </select>
+                        </div>
+                            
+                        <div class="form-group">
+                            <button class="btn btn-primary" id="addUser_staff_button">Export</button>
+                        </div>
+                    </div>
+                    </div>
+                    </div>
+                </div>
+            </div>
+            </div>
+            <br>
+
+            <!-- Course Structure -->
+            <div class="card card-outline-success">
+            <div class="card-block">
+                <hr>
+                <h3 align="center">Edit Structure </h3>
+                <hr>
+
+                <textarea class="form-control" id="marks_textArea" rows="3">structure here</textarea>
+            </div>
+            </div>
+            <br>
+            
+        </form>
+
+            <br>
+        </div>
+        <br>
+
+
+    
+    </div>
+    </div>
+
+    <!-- Students Tab -->
+    <div role="tabpanel" class="tab-pane fade" id="students">
+        <div class="container">
+
+        <hr>
+        <h3 class="form-signin-heading">Search for a student</h3>
+        <hr>
+
+        <div class="card card-block card-outline-primary">
+
+        <form id="studentSearch_form" onsubmit="return false">
+            <hr>
+            <h3 align="center">Search</label></h3>
+            <hr>
+
+            <div class="form-group">
+                <label>Student ID</label>
+                <input type="ID" class="form-control col-lg-3" id="student_searchBox" placeholder="Enter student user ID">    
+            </div>
+
+            <div class="form-group">
+                <button class="btn btn-primary" id="studentSearch_button">Search</button>
+            </div>
+    
+
+            <div class="form-group">
+                <hr>
+                <h3 align="center"><label>Results</label></h3>
+                <hr>
+
+                <table class="table table-sm" id = "searchStudents_table">
+                <thead>
+                    <tr>
+                    <th>User ID</th>
+                    </tr>
+                </thead>
+                <tbody>
+                </tbody>
+                </table>
+            </div>
+            
+        </form>
+        <br>
+        </div>
+        <br>
+    
+    </div>
+    </div>
+
+    <!-- Create Course Tab -->
+    <div role="tabpanel" class="tab-pane " id="createCourses">
+        <div class="container">
+        
+            <hr>
+            <h3 class="form-signin-heading">Create Course</h3>
+            <hr>
+            <div class="card card-block card-outline-primary">
+
+             <form id="createCourse_form" onsubmit="return false">
+                
+            
+                 
+                <!-- Course Details -->
+                <div class="card card-outline-success">
+                <div class="card-block ">
+                    <hr>
+                    <h4>Course Details</h4>
+                    <hr>
+
+                    <div class="form-group">
+                        <label for="courseID">Course Name</label>
+                        <input type="ID" class="form-control col-lg-3" id="createCourse_name" placeholder="Enter course code">
+                    </div>
+
+                    <div class="form-group">
+                        <label for="courseID">Course Code</label>
+                        <input type="ID" class="form-control col-lg-3" id="createCourse_code" placeholder="Enter course code">
+                    </div>
+
+                    <div class="form-group">
+                        <label for="sel1">Course Year</label>
+                        <select class="form-control col-lg-3"  id="createCourse_year">
+                            <option>2017</option>
+                            <option>2018</option>
+                        </select>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="sel1">Course Period</label>
+                        <select class="form-control col-lg-3"  id="createCourse_period">
+                            <option>F</option>
+                            <option>S</option>
+                            <option>H</option>
+                        </select>
+                    </div>
+
+                </div>
+                </div>
+                <br>
+
+                <!-- Users -->
+                <div class="card card-outline-success">
+                <div class="card-block ">
+                <hr>
+                <h3 align="center"> Users</h3>
+                <hr>
+                    <!-- Members -->
+                    <div class="card ">
+                    <div class="card-block ">
+                        <hr>
+                        <h4>Course Members</h4>
+                        <hr>
+
+                        <div class="form-group">
+                            <table class="table table-sm" id = "createCourse_membersTable">
+                            <thead>
+                                <tr>
+                                <th>User ID</th>
+                                <th>Role</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                            </tbody>
+                            </table>
+                        </div>
+                    </div>
+                    </div>
+                    <br>
+                    <!-- Add Users -->
+                    <div class="row">
+                        <!-- Staff -->
+                        <div class = " col-sm-4">
+                        <div class="card">
+                        <div class="card-block">
+                            <hr>
+                            <h4>Add Staff</h4>
+                            <hr>
+
+                            <div class="form-group">
+                                <label>Staff ID</label>
+                                <input type="ID" class="form-control col-lg-6" id="createCourse_staffID" placeholder="Enter staff user ID">    
+                            </div>
+
+                            <div class="form-group">
+                                <label for="sel1">Staff Role</label>
+                                <select class="form-control col-lg-6" id="createCourse_staffRole">
+                                    <option>Lecturer</option>
+                                    <option>Course Convener</option>
+                                    <option>TA</option>
+                                </select>
+                            </div>
+                                
+                            <div class="form-group">
+                                <label>Add Staff Member</label><br>
+                                <button class="btn btn-primary" id="createCourse_staff_button">Add Staff Member</button>
+                            </div>
+                        </div>
+                        </div>
+                        </div>
+            
+                        <!-- Students -->
+                        <div class="col-sm-4">
+                        <div class="card">
+                        <div class="card-block">
+                            <hr>
+                            <h4>Add Students</h4>
+                            <hr>
+
+                            <div class="form-group">
+                                <label>Import Students</label><br>
+                                <button class="btn btn-primary" id="createCourse_studentImport_button">Select File</button>
+                            </div>
+
+                            <hr>
+
+                            <div class="form-group">
+                                <label>Add a student</label>
+                                <input class="form-control col-lg-6" id="createCourse_studentID" placeholder="Enter student ID">    
+                            </div>
+
+                            <div class="form-group">
+                                <button class="btn btn-primary" id="createCourse_addStudent_button">Add Student</button>
+                            </div>
+                        </div>
+                        </div>
+                        </div>
+
+                        
+
+                        <!-- Remove User -->
+                        <div class="col-sm-4">
+                        <div class="card">
+                        <div class="card-block">
+                            <hr>
+                            <h4>Remove Users</h4>
+                            <hr>
+
+                            <div class="form-group">
+                                <label>User ID</label>
+                                <input class="form-control col-lg-6" id="createCourse_removeID" placeholder="Enter student ID">    
+                            </div>
+
+                            <div class="form-group">
+                                <button class="btn btn-primary" id="createCourse_removeStudent_button">Remove User</button>
+                            </div>
+                        </div>
+                        </div>
+                        </div>
+                    </div>
+                    <br>
+                </div>
+                </div>
+                <!-- end of users -->
+
+                <br>
+
+                <!-- Course Structure -->
+                <div class="card card-block card-outline-success">
+                    <hr>
+                    <h4>Course Structure</h4>
+
+
+                    <div class="form-group">
+                        <button class="btn btn-primary" id="addUpperLevel_CreateStructure" style="margin:5px 0px 5px 0px">Add Assignment Type</button>
+                        <div class="container" id="courseStructure_CreateStructure">
+                        </div>
+                    </div>
+                </div>
+                <br>
+
+                <!-- Finish -->
+                <div class="form-group">
+                    <button class="btn btn-success btn-lg" id="createCourse_button">Create Course</button>
+                </div>
+                </form>
+             <div id="wrong-course-structure"></div>   
+          </div>
+        
+        </div>
+    </div>
+
+</div>
+ 
+</body>
+</html>
+

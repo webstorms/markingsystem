@@ -1,6 +1,6 @@
 package com.edu.markingsystem.service.user;
 
 public enum UserType {
-	STUDENT, TA, LECTURER, CONVENOR, STAFF, ADMIN
+	STUDENT, TA, LECTURER, CONVENOR, ADMINSTAFF, ADMIN
 	
 }
