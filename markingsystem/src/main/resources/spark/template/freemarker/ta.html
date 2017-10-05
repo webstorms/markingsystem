@@ -59,7 +59,7 @@
         <hr>
         <h3 class="form-signin-heading">Select Course</h3>
         <hr>
-        <select class="form-control col-lg-3" id="marksStrucutre_courseDropDown">
+        <select class="form-control col-lg-3" id="manUsers_courseDropDown">
             <option>Select a course</option>
         </select>
         <hr>
@@ -69,33 +69,36 @@
 
             <!-- Course Details -->
             <div class="card card-outline-success">
-            <div class="card-block">
-                <hr>
-                <h4>Course Details</h4>
-                <hr>
-                
-                <div class="form-group form-inline">
-                    <label for="courseID">Course Name: &nbsp;</label> 
-                    <input type="ID" class="form-control col-lg-3" id="search_courseName" readonly>
-                </div>
+                <div class="card-block ">
+                    <hr>
+                    <h4 align="center">Course Details</h4>
+                    <hr>
 
-                <div class="form-group form-inline">
-                    <label for="courseID">Course Code: &nbsp;</label>
-                    <input type="ID" class="form-control col-lg-3" id="search_courseCode" readonly>
-                </div>
+                    <form id = "users_courseDetails" onsubmit="return false">
+                        <div class="form-group form-inline">
+                            <label for="courseID">Course Name: &nbsp;</label> 
+                            <input type="ID" class="form-control col-lg-3" id="users_courseName" readonly>
+                        </div>
 
-                <div class="form-group form-inline">
-                    <label for="sel1">Course Year: &nbsp;</label>
-                    <input type="ID" class="form-control col-lg-3" id="search_courseYear" readonly>
-                </div>
+                        <div class="form-group form-inline">
+                            <label for="courseID">Course Code: &nbsp;</label>
+                            <input type="ID" class="form-control col-lg-3" id="users_courseCode" readonly>
+                        </div>
 
-                <div class="form-group form-inline">
-                    <label for="sel1">Course Period: &nbsp;</label>
-                    <input type="ID" class="form-control col-lg-3" id="search_coursePeriod" readonly>
+                        <div class="form-group form-inline">
+                            <label for="sel1">Course Year: &nbsp;</label>
+                            <input type="ID" class="form-control col-lg-3" id="users_courseYear" readonly>
+                        </div>
+
+                        <div class="form-group form-inline">
+                            <label for="sel1">Course Period: &nbsp;</label>
+                            <input type="ID" class="form-control col-lg-3" id="uesrs_coursePeriod" readonly>
+                        </div>
+                    </form>
+
                 </div>
-            </div>
-            </div>
-            <br>
+                </div>
+                <br>
 
              <!-- Course Marks -->
             <div class="card card-outline-success">
@@ -105,43 +108,18 @@
                 <hr>
 
                 <div class="form-group">
-                    <textarea class="form-control" id="marks_textArea" rows="3">marks here</textarea>
+                    <textarea class="form-control" id="marks_textArea" rows="3">edit marks here</textarea>
                 </div>
 
 
                 <!-- Import/Export Marks -->
                 <div class="row">
-                    <!-- Import -->
+                   <!-- Export -->
                     <div class = " col-sm-6">
                     <div class="card">
                     <div class="card-block">
                         <hr>
-                        <h4>Import Marks</h4>
-                        <hr>
-
-                        <div class="form-group">
-                            <label for="sel1">Select Level</label>
-                            <select class="form-control col-lg-6" id="addUser_staffRole">
-                                <option>1</option>
-                                <option>2</option>
-                                <option>3</option>
-                            </select>
-                        </div>
-                            
-                        <div class="form-group">
-                            <button class="btn btn-primary" id="addUser_staff_button">Import</button>
-                        </div>
-                    </div>
-                    </div>
-                    </div>
-        
-                   
-                    <!-- Export -->
-                    <div class = " col-sm-6">
-                    <div class="card">
-                    <div class="card-block">
-                        <hr>
-                        <h4>Export Marks</h4>
+                        <h4 >Export Marks</h4>
                         <hr>
 
                         <div class="form-group">
@@ -164,17 +142,28 @@
             </div>
             <br>
 
-            <!-- Course Structure -->
+            <!-- Members -->
             <div class="card card-outline-success">
-            <div class="card-block">
+            <div class="card-block  ">
                 <hr>
-                <h3 align="center">Edit Structure </h3>
+                <h4 align="center">Course Members</h4>
                 <hr>
 
-                <textarea class="form-control" id="marks_textArea" rows="3">structure here</textarea>
+                <table class="table table-sm " id="manUsers_membersTable">
+                <thead>
+                    <tr>
+                    <th>User ID</th>
+                    <th>Role</th>
+                    </tr>
+                </thead>
+                <tbody>
+                </tbody>
+                </table>
             </div>
             </div>
             <br>
+
+             
             
         </form>
 

@@ -51,11 +51,24 @@ public class AdminService extends Service {
 		});
 		//===============================
 
-
+		//=======	TA ========
+		Spark.post("/TAsearch", (req, res) -> {
+			Log.info(this.getClass().getName(), "POST /TAsearch " + req.ip());
+			return TAsearch(req, res);
+		});
+		//===============================
 	}
 	
-	
-	//=======	TODO  ========
+	public Object TAsearch(Request req, Response res) {
+		JsonObject json = Util.stringToJson(req.body());
+		String 	searchUserID = json.get("userID").getAsString();
+		
+		//TODO: find all users that match searchUsersID and that are enrolled in the TA's courses
+		return Util.objectToJson("success");
+		
+	}
+
+
 	//	move to new adminstaff service class?
 	//	checks if a user can be added to the course members
 	 

@@ -107,7 +107,7 @@ document.addEventListener("DOMContentLoaded", function(event) {
         // ====================  STUDENT SEARCH TAB ==================== 
             //Search for a student
             $('#studentSearch_button').on('click', function(e) {
-                searchStudent(function(response) {
+                searchStudentAsTA(function(response) {
                     if (response == "userNotFound") {
                         $('#searchStudents_table tbody > tr').remove();
                     }
@@ -468,12 +468,12 @@ document.addEventListener("DOMContentLoaded", function(event) {
     }
 
 // ====================  STUDENT SEARCH TAB ==================== 
-    function searchStudent(load){
+    function searchStudentAsTA(load){
         var data = {
         "userID": $('#student_searchBox').val(),
     }
         $.ajax({
-        url: '/findUser',
+        url: '/TAsearch',
         type: 'POST',
             data: JSON.stringify(data),
         contentType: 'application/json',
