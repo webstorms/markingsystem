@@ -149,7 +149,7 @@
                 <!-- Add Users -->
                 <div class="row">
                     <!-- Staff -->
-                    <div class = " col-sm-6">
+                    <div class = " col-sm-4">
                     <div class="card">
                     <div class="card-block">
                         <form id="manUser_addStaff" onsubmit="return false">
@@ -182,7 +182,7 @@
                     </div>
         
                     <!-- Students -->
-                    <div class="col-sm-6">
+                    <div class="col-sm-4">
                     <div class="card">
                     <div class="card-block">
                         <form id="manUser_addStudent" onsubmit="return false">
@@ -209,6 +209,26 @@
                                 <small id="manUsers_addStudent_error"></small>
                         </div>
                         </form>
+                    </div>
+                    </div>
+                    </div>
+
+                    <!-- Remove User -->
+                    <div class="col-sm-4">
+                    <div class="card">
+                    <div class="card-block">
+                        <hr>
+                        <h4>Remove Users</h4>
+                        <hr>
+
+                        <div class="form-group">
+                            <label>User ID</label>
+                            <input class="form-control col-lg-6" id="manUsers_removeID" placeholder="Enter student ID">    
+                        </div>
+
+                        <div class="form-group">
+                            <button class="btn btn-primary" id="manUsers_removeUser_button">Remove User</button>
+                        </div>
                     </div>
                     </div>
                     </div>

@@ -1,6 +1,7 @@
 package com.edu.markingsystem.service.course;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
 
 import javax.sound.midi.Synthesizer;
@@ -47,6 +48,11 @@ public class CourseService extends Service {
 		Spark.post("/addUser", (req, res) -> {
 			Log.info(this.getClass().getName(), "POST /addUser " + req.ip());
 			return addUser(req, res);
+		});
+		
+		Spark.post("/removeUser", (req, res) -> {
+			Log.info(this.getClass().getName(), "POST /removeUser " + req.ip());
+			return removeUser(req, res);
 		});
 	}
 
@@ -156,53 +162,37 @@ public class CourseService extends Service {
 		String userID = json.get("userID").getAsString();
 		String courseID = json.get("courseID").getAsString();
 	
-		if(db.getUserDB().getUser(userID)==null){
-			return Util.objectToJson("User does not exist");
+		//=======================
+		//TODO: add user
+		//=======================
+		
+		return Util.objectToJson("success");
+	}
+	
+	public Object removeUser(Request req, Response res) {
+		JsonObject json = Util.stringToJson(req.body());
+		String userID = json.get("userID").getAsString();
+		String courseID = json.get("courseID").getAsString();
+	
+		Course course = db.getCourseDB().getCourse(courseID);
+		HashSet<String> users = new HashSet<>();
+		users.add(course.getCourseConvenor());
+		users.addAll(course.getLecturers());
+		users.addAll(course.getStudents());
+		users.addAll(course.getTAs());
+
+		if(!users.contains(userID)){
+			return Util.objectToJson("User is not in this course.");
 		}
 		else{
-			Course course = db.getCourseDB().getCourse(courseID);
-			if(course == null) {
-				return Util.objectToJson("Course does not exist");		
-			}
-			else{ 
-				
-				//							not working
-				/*
-				 *
-				db.getUserDB().getUser(userID).addCourse(course.getCourseID(), course.getStructure());
-				switch(role){
-				case "student":
-					course.addStudent(userID);
-					System.out.println("added student: "+userID);
-					break;
-				case "Lecturer":
-					course.addLecturers(userID);
-					break;
-				case "TA":
-					course.addTA(userID);
-					break;
-				case "Course Convener":
-					if(course.getCourseConvenor()!=null){
-						return Util.objectToJson("A course convener already exists");
-					}
-					else{
-						course.setCourseConvenor(userID);
-					}
-					break;
-				}
-				
-				db.getCourseDB().updateCourse(courseID);
-				
-				for ( String student : db.getCourseDB().getCourse(courseID).getStudents()) {
-					System.out.println(student);
-				}
-				*
-				*/
-				
-								
-				return Util.objectToJson("success");
-			}
+
+			//=======================
+			//TODO: remove user
+			//=======================
+			
+			return Util.objectToJson("success");
 		}
+		
 		
 	}
 	

@@ -75,8 +75,23 @@ document.addEventListener("DOMContentLoaded", function(event) {
                 });                
             });
 
+            //Remove a user
+            $('#manUsers_removeUser_button').on('click', function(e) {   
+                var userID = $("#manUsers_removeID").val();
+                var course = $('#manUsers_courseDropDown').val();
+
+                manUsersRemoveUser(userID,course,function(response) {
+                    alert(response);
+                    if (response == "success") {
+                        manUsersRefreshCourse();
+                    }
+                    else {
+                        
+                    }
+                });
+            });
+
             
-        
         // ====================  MARKS AND STRUCTURE TAB ==================== 
             //course change on marks&structure tab
             $('select[name="marksStructure_courseDropDown"]').change(function(){
@@ -496,6 +511,22 @@ document.addEventListener("DOMContentLoaded", function(event) {
             load(JSON.parse(res));
             }
         });	
+    }
+
+    function manUsersRemoveUser(userID,courseID,load){
+        var data = {
+            "userID": userID,
+            "courseID": courseID,
+        }
+        $.ajax({
+            url: '/removeUser',
+            type: 'POST',
+                data: JSON.stringify(data),
+            contentType: 'application/json',
+            success: function(res) {
+            load(JSON.parse(res));
+            }
+        });
     }
 // ====================  MARKS AND STRUCTURE TAB ====================
     function marksStructureSelectCourse(load){
