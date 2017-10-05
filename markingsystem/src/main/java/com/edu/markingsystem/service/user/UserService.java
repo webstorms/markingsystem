@@ -32,11 +32,21 @@ public class UserService extends Service {
 			return getHome(req, res); 
 		}, new FreeMarkerEngine());
 
+		Spark.get("/getStudentView", (req, res) -> {
+			Log.info(this.getClass().getName(), "GET /getStudentView " + req.ip());
+			return this.getStudentView(req, res); 
+		}, new FreeMarkerEngine());
+		
+		Spark.get("/getPasswordChangeView", (req, res) -> {
+			Log.info(this.getClass().getName(), "GET /getPasswordChangeView " + req.ip());
+			return this.getPasswordChangeView(req, res);
+		}, new FreeMarkerEngine());
+		
 		Spark.post("/login", (req, res) -> { 
 			Log.info(this.getClass().getName(), "POST /login " + req.ip());
 			return login(req, res);
 		});
-
+		
 		Spark.post("/logout", (req, res) -> {
 			Log.info(this.getClass().getName(), "POST /login " + req.ip());
 			return logout(req, res);
@@ -108,9 +118,9 @@ public class UserService extends Service {
 				return new ModelAndView(map, "admin.html");
 			}
 			else if(userType.equalsIgnoreCase("student")){
-				return new ModelAndView(map, "x"); // <- Jarad replace the x with the name of the student html page
+				return new ModelAndView(map, "student-home.html");
 			}
-			else{
+			else {
 				return new ModelAndView(map, "main.ftl");
 			}
 			
@@ -124,9 +134,21 @@ public class UserService extends Service {
 
 	}
 	
+	public ModelAndView getStudentView(Request req, Response res) {
+		Map<String, Object> map = new HashMap<String, Object>();
+		return new ModelAndView(map, "student.html");
+
+	}
+	
+	public ModelAndView getPasswordChangeView(Request req, Response res) {
+		Map<String, Object> map = new HashMap<String, Object>();
+		return new ModelAndView(map, "change-password.html");
+		
+	}
+	
 	// These methods register, get and remove session IDs
 	
-	private String getIDFromSession(Request request) {
+	public static String getIDFromSession(Request request) {
 		return request.session().attribute(USER_SESSION_ID);
 		
 	}

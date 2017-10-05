@@ -12,6 +12,7 @@ import java.util.List;
 public class CourseStructure implements java.io.Serializable {
 	
 	private int percentage; // out of 100
+	private boolean complete;
 	private List<TopLevel> topLevels; // Exams, CourseWork, Tests
 	
 	public CourseStructure() {

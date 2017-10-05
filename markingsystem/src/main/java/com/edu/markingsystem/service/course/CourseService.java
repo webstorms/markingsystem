@@ -95,6 +95,7 @@ public class CourseService extends Service {
 			
 		}
 		else{ 
+			System.out.println(course.getCourseName());
 			return Util.objectToJson(course);
 			
 		}

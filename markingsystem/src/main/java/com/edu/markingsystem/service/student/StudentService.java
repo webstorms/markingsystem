@@ -6,7 +6,9 @@ import com.edu.markingsystem.Util;
 import com.edu.markingsystem.db.Database;
 import com.edu.markingsystem.service.Service;
 import com.edu.markingsystem.service.course.CourseStructure;
+import com.edu.markingsystem.service.user.UserService;
 import com.esotericsoftware.minlog.Log;
+import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 
 import spark.Request;
@@ -46,12 +48,16 @@ public class StudentService extends Service {
 	 * @return
 	 */
 	public Object getCourses(Request req, Response res) {
-		JsonObject json = Util.stringToJson(req.body());
-		String userID = json.get("userID").getAsString();
+		
+		String userID;
+		if(req.body().length() == 0) userID = UserService.getIDFromSession(req);
+		else userID = Util.stringToJson(req.body()).get("userID").getAsString();
+		
+		System.out.println(userID);
 		String response = "";
 		List<String> courses = db.getUserDB().getUser(userID).getCourses();
 		response = Util.objectToJson(courses);
-
+		
 		return Util.objectToJson(response);
 
 	}
@@ -65,10 +71,8 @@ public class StudentService extends Service {
 		String response = "";
 		CourseStructure marks = db.getUserDB().getUser(userID).getMarks(courseID);
 		marks.calculatePercentages();
-		response = Util.objectToJson(marks);
-
-		return Util.objectToJson(response);
-
+		return Util.objectToJson(marks);
+		
 	}
 	
 	// Note: top, mid and bottom are indexes. When loading the course

@@ -33,7 +33,7 @@ public class MidLevel implements java.io.Serializable {
 		for(BottomLevel level : this.bottomLevels) {
 			level.calculatePercentages();
 			this.mark += level.getMark();
-			this.maxMark = level.getMaxMark();
+			this.maxMark += level.getMaxMark();
 			
 		}
 		this.percentage = Math.round((float) this.mark / (float) this.maxMark);
