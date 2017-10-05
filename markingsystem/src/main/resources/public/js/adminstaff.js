@@ -143,6 +143,21 @@ document.addEventListener("DOMContentLoaded", function(event) {
                     }
                 })
             });
+            
+            //Remove a user
+            $('#createCourse_removeStudent_button').on('click', function(e) {   
+                var userID = $("#createCourse_removeID").val();
+
+                createCourseRemoveUser(userID,function(response) {
+                    if(response=="user"){
+                       alert(response);
+                    }
+                    else{
+                        deleteRow(response);
+                    }
+                })
+            });
+
             //Import students
             $('#createCourse_studentImport_button').on('click', function(e) {
             });
@@ -171,10 +186,6 @@ document.addEventListener("DOMContentLoaded", function(event) {
                         }
                     })
                 }
-
-                
-
-
             });
 
             //Create Course Structure
@@ -551,6 +562,27 @@ document.addEventListener("DOMContentLoaded", function(event) {
 
     }
 
+    //remove user
+    function createCourseRemoveUser(userID,load){
+        
+        var data = {
+            "table": tableToString(),
+            "userID": userID,
+        }
+
+        $.ajax({
+        url: '/createCourse_removeUserFromCourse',
+        type: 'POST',
+            data: JSON.stringify(data),
+        contentType: 'application/json',
+        success: function(res) {
+        load(JSON.parse(res));
+        }
+        
+        });
+
+    }
+
     //import student
     function createCourseImportStudent(load){}
 
@@ -576,6 +608,11 @@ document.addEventListener("DOMContentLoaded", function(event) {
         }
         
         });
+    }
+
+    //delete row
+    function deleteRow(index){
+        document.getElementById("createCourse_membersTable").deleteRow(index);
     }
 
     //create string from table
