@@ -3,6 +3,8 @@ package com.edu.markingsystem.service.course;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.sound.midi.Synthesizer;
+
 import com.edu.markingsystem.Util;
 import com.edu.markingsystem.db.Database;
 import com.edu.markingsystem.service.Service;
@@ -61,30 +63,57 @@ public class CourseService extends Service {
 	public Object createCourse(Request req, Response res) {		
 		String response = null;
 		
-		try {
+		//try {
 			JsonObject json = Util.stringToJson(req.body());
 			String courseName = json.get("courseName").getAsString();
-			String courseID = json.get("courseID").getAsString();
-			String year = json.get("year").getAsString();
-			String period = json.get("period").getAsString();
+			String courseID = json.get("courseCode").getAsString();
+			String year = json.get("courseYear").getAsString();
+			String period = json.get("coursePeriod").getAsString();
 			
 			String courseConvenor = "";
 			List<String> lecturers = new ArrayList<>();
 			List<String> TAs = new ArrayList<>();
 			List<String> students = new ArrayList<>();
 			
-			String membersTable = json.get("membersTable").getAsString();
-			/*	TODO: String processing to get all users and build lists. membersTable is represented as:
-				{{<heading1>,<headin2>},{<userID>,<role>},{<userID>,<role>},	...	{<userID>,<role>}}
-			*/
 			
-			CourseStructure structure = Util.fromJson(json.get("structure").getAsString(), CourseStructure.class);
+			//	 String processing to get all users and build lists. membersTable is represented as:
+			// 		{{<heading1>,<headin2>}#{<userID>,<role>}#{<userID>,<role>}#	...	#{<userID>,<role>}}
+			 
+			String membersTable = json.get("membersTable").getAsString();
+			
+			String data[] = membersTable.substring(1,membersTable.length()-1).split("#");
+			for(int i=1; i<data.length; i++){
+				String row = data[i].substring(1,data[i].length()-1);
+				String[] cells = row.split(",");
+				String userID = cells[0];
+				String role = cells[1];
+				
+				if(role.equalsIgnoreCase("student")){
+					students.add(userID);
+				}
+				else if(role.equalsIgnoreCase("lecturer")){
+					lecturers.add(userID);
+				}
+				else if(role.equalsIgnoreCase("ta")){
+					TAs.add(userID);
+				}
+				else if(role.equalsIgnoreCase("course convener")){
+					courseConvenor = userID;
+				}
+			}
+			
+			//System.out.println(json.getAsJsonObject("courseStructure"));
+			
+			
+			CourseStructure structure = Util.fromJson(json.getAsJsonObject("courseStructure").toString(), CourseStructure.class);
+		
+			
 			String error = structure.isValid();
 			if(error != null) {
 				response = error;
 				return Util.objectToJson(response);
-				
 			}
+			
 			// Create the course
 			db.getCourseDB().addCourse(new Course(courseName, courseID, year, period, courseConvenor, lecturers, TAs, students, structure));       
 			// Add course to each user
@@ -93,10 +122,12 @@ public class CourseService extends Service {
 			for(String id : TAs) db.getUserDB().getUser(id).addCourse(courseID, structure);
 			for(String id : students) db.getUserDB().getUser(id).addCourse(courseID, structure);
 			
-		}
-		catch(Exception e) {
-			response = "Invalid parameters passed. Check formatting.";
-		}
+			
+		//}
+		//catch(Exception e) {
+		//	System.out.println(e);
+		//		response = "Invalid parameters passed. Check formatting.";
+		//}
 		if(response == null) response = "Successfully created the course";
 		
 		return Util.objectToJson(response);

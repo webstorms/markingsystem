@@ -17,8 +17,8 @@ document.addEventListener("DOMContentLoaded", function(event) {
 
         // ====================  MANAGE USERS TAB ==================== 
             
+            //update course details and course members
             $('#manUsers_courseDropDown').change(function(){
-                //update course details and course members
                 manUsersRefreshCourse();
             });
 
@@ -145,20 +145,34 @@ document.addEventListener("DOMContentLoaded", function(event) {
             });
             //Import students
             $('#createCourse_studentImport_button').on('click', function(e) {
-                createCourse(function(response) {
-                    if(response=="success"){
-                        
-                    }
-                    else{
-                        alert(response);
-                    }
-                })
             });
 
             
-
             //Create course
             $('#createCourse_button').on('click', function(e) {
+                var jsonObj = {};
+                var courseArrr = addedCourses_CreateCourseStructure.slice(); //save old data in case error is returned, then data will not be lost
+                var structureData = createCourseGetStructure(addedCourses_CreateCourseStructure, jsonObj);
+                if (structureData==false){//if values are incorrect
+                    addedCourses_CreateCourseStructure =courseArrr.slice();
+                    return;  
+                }
+                else{
+                    jsonObj["structure"]=structureData;
+                    console.log(jsonObj);
+
+                    createCourse(structureData,function(response) {
+                        alert(response);
+                        if(response=="success"){
+                            
+                        }
+                        else{
+                            
+                        }
+                    })
+                }
+
+                
 
 
             });
@@ -541,20 +555,7 @@ document.addEventListener("DOMContentLoaded", function(event) {
     function createCourseImportStudent(load){}
 
     //create course
-    function createCourse(load){
-
-        var jsonObj = {};
-        var courseArrr = addedCourses_CreateCourseStructure.slice(); //save old data in case error is returned, then data will not be lost
-        var structureData = createCourseGetStructure(addedCourses_CreateCourseStructure, jsonObj);
-        if (structureData==false){//if values are incorrect
-            addedCourses_CreateCourseStructure =courseArrr.slice();
-            return;  
-        }
-        else{
-            jsonObj["structure"]=structureData;
-            console.log(jsonObj);
-        }
-
+    function createCourse(structureData,load){
         var data = {
             "membersTable": tableToString(),
             "courseName": $('#createCourse_name').val(),
@@ -564,6 +565,7 @@ document.addEventListener("DOMContentLoaded", function(event) {
             "courseStructure": structureData,
         }
 
+        console.log(data);
         $.ajax({
         url: '/createCourse',
         type: 'POST',
@@ -590,7 +592,7 @@ document.addEventListener("DOMContentLoaded", function(event) {
 
             rowString = rowString.substring(0, rowString.length - 1);
             rowString += "}";
-            tableString += rowString +",";
+            tableString += rowString +"#";
         }
 
         tableString = tableString.substring(0, tableString.length - 1);

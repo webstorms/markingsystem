@@ -29,7 +29,7 @@ public class CourseStructure implements java.io.Serializable {
 		}
 		
 		for(TopLevel level : this.topLevels) {
-			if(level.checkWeight()) {
+			if(!level.checkWeight()) {
 				response =  level.getName() + "WeightNot100";
 			}
 		}
