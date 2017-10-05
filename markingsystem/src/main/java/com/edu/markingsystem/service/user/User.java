@@ -64,6 +64,12 @@ public class User implements java.io.Serializable {
 		
 	}
 	
+	public void removeCourse(String courseID) {
+		this.courses.remove(courseID);
+		this.marks.remove(courseID);
+		
+	}
+	
 	public void updateMarks(String courseID, CourseStructure structure) {
 		this.marks.put(courseID, structure);
 		
