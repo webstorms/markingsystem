@@ -759,7 +759,7 @@ document.addEventListener("DOMContentLoaded", function(event) {
     //create course
     function createCourse(structureData,load){
         var data = {
-            "membersTable": tableToString(),
+            "membersTable": "",
             "courseName": $('#createCourse_name').val(),
             "courseCode": $('#createCourse_code').val(),
             "courseYear": $('#createCourse_year').val(),
@@ -779,32 +779,6 @@ document.addEventListener("DOMContentLoaded", function(event) {
         });
     }
 
-    //delete row
-    function deleteRow(index){
-        document.getElementById("createCourse_membersTable").deleteRow(index);
-    }
-
-    //create string from table
-    function tableToString(){
-         var tableString = "{";
-
-        var table = document.getElementById("createCourse_membersTable");
-        for (var i = 0, row; row = table.rows[i]; i++) {
-            var rowString = "{";
-
-            for (var j = 0, col; col = row.cells[j]; j++) {
-                rowString += col.innerHTML+",";
-            }
-
-            rowString = rowString.substring(0, rowString.length - 1);
-            rowString += "}";
-            tableString += rowString +"#";
-        }
-
-        tableString = tableString.substring(0, tableString.length - 1);
-        tableString += "}";
-        return tableString;
-    }
 
     //get structure
     function createCourseGetStructure(courseArr, jsonObj) {
