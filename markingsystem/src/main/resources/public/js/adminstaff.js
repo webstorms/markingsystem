@@ -18,7 +18,7 @@ document.addEventListener("DOMContentLoaded", function(event) {
         // ====================  MANAGE USERS TAB ==================== 
             
             //update course details and course members
-            $('#manUsers_courseDropDown').change(function(){
+            $('#manUsers_courseDropDown').change(function() {
                 manUsersRefreshCourse();
             });
 
@@ -409,6 +409,11 @@ document.addEventListener("DOMContentLoaded", function(event) {
                     window.location.reload(true); 
                     } 
                 });
+            });
+
+            $('#password-button').on('click', function(e) {
+                window.location.href = '/getPasswordChangeView';
+
             });
 	
 

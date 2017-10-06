@@ -61,7 +61,7 @@ public class StudentService extends Service {
 		return Util.objectToJson(response);
 
 	}
-
+	
 	// Get the marks of an individual student (array of mark details)
 	// Needed: StudentID, CourseID
 	public Object getMarks(Request req, Response res) {

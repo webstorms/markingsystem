@@ -1,15 +1,13 @@
 package com.edu.markingsystem.service.course;
 
 import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.List;
-
-import javax.sound.midi.Synthesizer;
 
 import com.edu.markingsystem.Util;
 import com.edu.markingsystem.db.Database;
 import com.edu.markingsystem.service.Service;
 import com.edu.markingsystem.service.user.User;
+import com.edu.markingsystem.service.user.UserService;
 import com.edu.markingsystem.service.user.UserType;
 import com.esotericsoftware.minlog.Log;
 import com.google.gson.JsonObject;
@@ -56,6 +54,11 @@ public class CourseService extends Service {
 			Log.info(this.getClass().getName(), "POST /removeUser " + req.ip());
 			return removeUser(req, res);
 		});
+		
+		Spark.post("/isCourseConv", (req, res) -> {
+			Log.info(this.getClass().getName(), "POST /isCourseConv " + req.ip());
+			return isCourseConv(req, res);
+		});
 
 	}
 
@@ -77,7 +80,7 @@ public class CourseService extends Service {
 				User user = this.db.getUserDB().getUser(id);
 				user.updateCourse(courseID, newStructure);
 				this.db.getUserDB().addUser(id, user);
-
+				
 			}
 
 		}
@@ -86,9 +89,18 @@ public class CourseService extends Service {
 		}
 
 		return Util.objectToJson(response);
-
 	}
 
+	public Object isCourseConv(Request req, Response res) {
+		JsonObject json = Util.stringToJson(req.body());
+		String courseID = json.get("courseID").getAsString();
+		String convID = db.getCourseDB().getCourse(courseID).getCourseConvenor();
+		String userID = UserService.getIDFromSession(req);
+		System.out.println((new Boolean(userID.equals(convID))).toString());
+		return Util.objectToJson((new Boolean(userID.equals(convID))).toString());
+		
+	}
+	
 	/*
 	 * Note: 
 	 * Make sure to pass JSONArrays for the lecturers, TAs and students.
