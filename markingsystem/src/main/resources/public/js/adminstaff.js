@@ -104,8 +104,153 @@ document.addEventListener("DOMContentLoaded", function(event) {
                 marksRefreshCourse();
                 
                 //marksStructureSelectCourse(function(response){}); 
+                marksGetCourse(function(course){ //send a post request to get course object
+                    $("#marks_textArea").html('');
+                    var courseData = course;
+                    courseID = courseData.courseID;
+                    stud = courseData.students;
+
+                    $("#marks_textArea").append(
+                        '<thead>'+
+                            '<tr>'+
+                                '<th class="w-20">Student Number </th>'+
+                                '<th class="w-20">Top Level</th>'+
+                                '<th class="w-20">Mid Level</th>'+
+                                '<th class="w-20">Bottom Level</th>'+
+                                '<th class="w-20">Mark</th>'+
+                            '</tr>'+
+                        '<thead>'+
+                        '<tbody id="tableBody">'+
+                        '</tbody>'
+
+                    );
+
+                    var firstStud=true;
+                    var firstTop=true;
+                    var firstMid=true;
+                    for (var i=0; i<stud.length; i++){
+                        firstStud=true;
+                        console.log(stud[i]);
+                        var studi=stud[i];
+                        getMarks(stud[i], function(response){
+                            console.log(response);
+                            console.log(studi);
+                            marks = response;
+                            toplev = marks.topLevels
+                            for (var k = 0; k<toplev.length; k++){
+                                firstTop=true;
+                                console.log(toplev[k]);
+                                midlev = toplev[k].midLevels;
+
+                                for(var j =0; j<midlev.length;j++){
+                                    firstMid=true;
+                                    console.log(midlev[j]);
+                                    bottomlev = midlev[j].bottomLevels;
+                                    for (var p=0; p<bottomlev.length; p++){
+
+                                        if (firstStud==true){
+                                            var studPrint=studi;
+                                        }
+                                        else{
+                                            var studPrint='';
+                                        }
+                                        console.log(studi);
+
+                                        if (firstMid==true){
+                                            var midPrint = midlev[j].name;
+                                            console.log(midlev[j]);
+                                        }
+                                        else{
+                                            var midPrint='';
+                                        }
+
+                                        if(firstTop==true){
+                                            var topPrint=toplev[k].name;
+                                        }
+                                        else{
+                                            var topPrint='';
+                                        }
+
+                                        $("#tableBody").append('<tr>'+
+                                          '<th scope="row">'+studPrint+'</th>'+
+                                          '<td>'+ topPrint +'</td>'+
+                                          '<td>' + midPrint +'</td>'+
+                                          '<td>' + bottomlev[p].name + ' (' + bottomlev[p].maxMark + ')</td>'+
+                                          '<td><input type="text" id="' + i+'-'+k+'-'+j+'-'+p + '" value="' + bottomlev[p].mark + '">' + '</td>'+
+                                        '</tr>'
+                                        )
+                                        
+                                        firstStud=false;
+                                        firstMid=false;
+                                        firstTop=false;
+
+                                    }
+                                }
+                            }
+                        });
+                    }
+
+
+                    
+
+
+                });
+
+                
+                
             });
 
+            $('#commitMarks').on('click', function(e){
+                marksGetCourse(function(course){
+                    var courseData = course;
+                    stud = courseData.students;
+                    var firstStud=true;
+                    var firstTop=true;
+                    var firstMid=true;
+                    var jsonObj ={"Students":[]}
+                    for (var i=0; i<stud.length; i++){
+                        firstStud=true;
+                        var studi=stud[i];
+                        getMarks(stud[i], function(response){
+                            marks = response;
+                            toplev = marks.topLevels
+                            for (var k = 0; k<toplev.length; k++){
+                                firstTop=true;
+                                midlev = toplev[k].midLevels;
+
+                                for(var j =0; j<midlev.length;j++){
+                                    firstMid=true;
+                                    console.log(midlev[j]);
+                                    bottomlev = midlev[j].bottomLevels;
+                                    for (var p=0; p<bottomlev.length; p++){
+
+                                        console.log($('#'+ i+'-'+k+'-'+j+'-'+p).val());
+                                        if ($('#'+ i+'-'+k+'-'+j+'-'+p).val()==0){
+                                            //do nothing
+                                        }
+                                        else if ( isNaN(($('#'+ i+'-'+k+'-'+j+'-'+p).val()))){
+                                            //do nothing
+                                            console.log("not a number");
+                                        }
+                                        else{
+                                            marks.topLevels[k].midLevels[j].bottomLevels[p]["mark"] = Number($('#'+ i+'-'+k+'-'+j+'-'+p).val());
+                                            //console.log(marks);
+                                        }
+                                        firstStud=false;
+                                        firstMid=false;
+                                        firstTop=false;
+
+                                    }
+                                }
+                            }
+                        });
+                    console.log(marks);
+                    jsonObj.Students.push(marks);
+                    }
+                    console.log(jsonObj);
+                });
+
+            });
 
 
 
@@ -825,4 +970,20 @@ function logout(load) {
     }
   });
 }
+
+function getMarks(StudentID, load) {
+        var data = {
+        "userID": StudentID,
+        "courseID": $('#marksStrucutre_courseDropDown').val(),
+      }
+         $.ajax({
+        url: '/getMarks',
+        type: 'POST',
+            data: JSON.stringify(data),
+        contentType: 'application/json',
+        success: function(res) {
+          load(JSON.parse(res));
+        }
+      });
+    }
 

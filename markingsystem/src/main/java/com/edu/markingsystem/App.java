@@ -66,7 +66,7 @@ public class App {
 		Course courseA = new Course("Mam1000", "mam100017", "2017", "F", "lec1", lecturers, TAs, students, course);
 		db.getCourseDB().addCourse(courseA);
 		
-		Course courseB = new Course("CSC1016", "csc100017", "2017", "F", "lec1", lecturers, TAs, students, course);
+		Course courseB = new Course("CSC1017", "csc100017", "2017", "F", "lec1", lecturers, TAs, students, course);
 		db.getCourseDB().addCourse(courseB);
 		
 //		System.out.println(courseA.getStructure().toString());
@@ -78,6 +78,8 @@ public class App {
 		// Add courses to user
 		db.getUserDB().addCourse("student1", "mam100017");
 		db.getUserDB().addCourse("student2", "mam100017");
+		db.getUserDB().addCourse("student1", "csc100017");
+		db.getUserDB().addCourse("student2", "csc100017");
 
 	}
 
