@@ -18,12 +18,12 @@ document.addEventListener("DOMContentLoaded", function(event) {
 	    //     window.alert(response); 
 	    //   });
 	    // getMarks(function(response) {
-	    //     window.alert(response); 
+	    //     console.log(response);
 	    //   });
-	    });
+	    // });
 
-	  $('#password-button').on('click', function(e) {
-    window.location.href = '/getPasswordChangeView';
+	  	$('#password-button').on('click', function(e) {
+    	window.location.href = '/getPasswordChangeView';
 
   });
 
@@ -191,9 +191,9 @@ function changePass(load){
 
 // }
 
-// function getMarks(load){
+// function getMarks(load) {
 // 	var data = {
-//     "userID": "admin",
+//     "userID": "student1",
 //     "courseID": "mam100017",
 //   }
 // 	 $.ajax({
@@ -205,5 +205,5 @@ function changePass(load){
 //       load(JSON.parse(res));
 //     }
 //   });	
-//}
+// }
 

@@ -43,7 +43,8 @@ public class App {
 
 		// Create lecturer
 		db.getUserDB().addUser("lec1", new User("1234", UserType.LECTURER));
-
+		db.getUserDB().addUser("lec2", new User("1234", UserType.LECTURER));
+		
 		// Create a course
 		BottomLevel b1 = new BottomLevel("Section A", 50);
 		BottomLevel b2 = new BottomLevel("Section B", 50);

@@ -80,11 +80,11 @@ public class AdminService extends Service {
 			String userID = cells[0];
 			String role = cells[1];
 			
-			if(userID.equals(add_userID)){
+			if(userID.equals(add_userID)) {
 				return Util.objectToJson("you cannot add duplicate users");
 			}
 			
-			if(role.equalsIgnoreCase("course convener")){
+			if(role.equalsIgnoreCase("convener")) {
 				if(courseConvExists){
 					return Util.objectToJson("you cannot add more than one course convener");
 				}

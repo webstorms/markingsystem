@@ -189,19 +189,23 @@ public class CourseService extends Service {
 		try {
 			JsonObject json = Util.stringToJson(req.body());
 			String userID = json.get("userID").getAsString();
-			UserType role =  UserType.valueOf(json.get("role").getAsString());
+			UserType role =  UserType.valueOf(json.get("role").getAsString().toUpperCase());
 			String courseID = json.get("courseID").getAsString();
+			
+			System.out.println(userID);
+			System.out.println(courseID);
 			Course course = db.getCourseDB().getCourse(courseID);
-
+			
 			if(role == UserType.STUDENT && !course.getStudents().contains(userID)) course.getStudents().add(userID);
 			else if(role == UserType.TA && !course.getTAs().contains(userID)) course.getTAs().add(userID);
 			else if(role == UserType.LECTURER && !course.getLecturers().contains(userID)) course.getLecturers().add(userID);
-			else if(role == UserType.CONVENOR) course.setCourseConvenor(userID);
+			else if(role == UserType.CONVENER) course.setCourseConvenor(userID);
 
 			db.getUserDB().addCourse(userID, courseID);
 			db.getCourseDB().addCourse(course);
 		}
 		catch(Exception e) {
+			e.printStackTrace();
 			response = e.getMessage();
 		}
 
@@ -215,13 +219,13 @@ public class CourseService extends Service {
 			JsonObject json = Util.stringToJson(req.body());
 			String userID = json.get("userID").getAsString();
 			String courseID = json.get("courseID").getAsString();
-
+			
 			Course course = db.getCourseDB().getCourse(courseID);
-			if(course.getStudents().contains(userID)) course.getStudents().remove(courseID);
-			else if(course.getTAs().contains(userID)) course.getTAs().remove(courseID);
-			else if(course.getLecturers().contains(userID)) course.getLecturers().remove(courseID);
-			else if(course.getCourseConvenor().equals(userID)) course.setCourseConvenor("");
-
+			if(course.getStudents().contains(userID)) course.getStudents().remove(userID);
+			else if(course.getTAs().contains(userID)) course.getTAs().remove(userID);
+			else if(course.getLecturers().contains(userID)) course.getLecturers().remove(userID);
+			if(course.getCourseConvenor().equals(userID)) course.setCourseConvenor("");
+			
 			db.getUserDB().removeCourse(userID, courseID);
 			db.getCourseDB().addCourse(course);
 		}

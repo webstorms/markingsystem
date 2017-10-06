@@ -4,6 +4,8 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
+import com.google.gson.annotations.Expose;
+
 /**
  * This claass contains the structure of a course.
  * @author admin
