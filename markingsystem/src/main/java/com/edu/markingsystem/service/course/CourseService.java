@@ -1,6 +1,8 @@
 package com.edu.markingsystem.service.course;
 
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.HashSet;
 import java.util.List;
 
 import com.edu.markingsystem.Util;
@@ -60,8 +62,48 @@ public class CourseService extends Service {
 			return isCourseConv(req, res);
 		});
 
+		Spark.post("/manUsers_importUsers", (req, res) -> {
+			Log.info(this.getClass().getName(), "POST /manUsers_importUsers " + req.ip());
+			return importUsers(req, res);
+		});
+		
 	}
 
+	public Object importUsers(Request req, Response res) {
+		String response = "success";
+		try {
+			JsonObject json = Util.stringToJson(req.body());
+			String file = json.get("file").getAsString();
+			String courseID = json.get("courseID").getAsString();
+			
+			System.out.println(file);
+			file = file.substring(1, file.length() - 1);
+			String[] obj = file.split(",");
+			obj = new HashSet<String>(Arrays.asList(obj)).toArray(new String[0]); // remove duplicates
+			
+			Course course = this.db.getCourseDB().getCourse(courseID);
+			
+			for(String id : obj) {
+				System.out.println(id);
+				JsonObject j = Util.stringToJson(id);
+				System.out.println(j.get("ID").getAsString());
+				course.addStudent(j.get("ID").getAsString());
+				
+			}
+			
+			this.db.getCourseDB().addCourse(course);
+			
+		}
+		catch(Exception e) {
+			e.printStackTrace();
+			response = e.getMessage();
+			
+		}
+		
+		return Util.objectToJson(response);
+	
+	}
+	
 	public Object updateCourse(Request req, Response res) {
 		String response = "success";
 		try {
@@ -125,32 +167,6 @@ public class CourseService extends Service {
 		List<String> lecturers = new ArrayList<>();
 		List<String> TAs = new ArrayList<>();
 		List<String> students = new ArrayList<>();
-
-		//	 String processing to get all users and build lists. membersTable is represented as:
-		// 		{{<heading1>,<headin2>}#{<userID>,<role>}#{<userID>,<role>}#	...	#{<userID>,<role>}}
-
-		String membersTable = json.get("membersTable").getAsString();
-
-		String data[] = membersTable.substring(1,membersTable.length()-1).split("#");
-		for(int i=1; i<data.length; i++){
-			String row = data[i].substring(1,data[i].length()-1);
-			String[] cells = row.split(",");
-			String userID = cells[0];
-			String role = cells[1];
-
-			if(role.equalsIgnoreCase("student")){
-				students.add(userID);
-			}
-			else if(role.equalsIgnoreCase("lecturer")){
-				lecturers.add(userID);
-			}
-			else if(role.equalsIgnoreCase("ta")){
-				TAs.add(userID);
-			}
-			else if(role.equalsIgnoreCase("course convener")){
-				courseConvenor = userID;
-			}
-		}
 		
 		CourseStructure structure = Util.fromJson(json.getAsJsonObject("courseStructure").toString(), CourseStructure.class);
 
@@ -164,9 +180,6 @@ public class CourseService extends Service {
 		db.getCourseDB().addCourse(new Course(courseName, courseID, year, period, courseConvenor, lecturers, TAs, students, structure));       
 		// Add course to each user
 		db.getUserDB().getUser(courseConvenor).addCourse(courseID, structure);
-		for(String id : lecturers) db.getUserDB().getUser(id).addCourse(courseID, structure);
-		for(String id : TAs) db.getUserDB().getUser(id).addCourse(courseID, structure);
-		for(String id : students) db.getUserDB().getUser(id).addCourse(courseID, structure);
 		
 		if(response == null) response = "Successfully created the course";
 

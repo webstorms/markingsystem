@@ -34,6 +34,11 @@ public class App {
 		// Create students
 		db.getUserDB().addUser("student1", new User("1234", UserType.STUDENT));
 		db.getUserDB().addUser("student2", new User("1234", UserType.STUDENT));
+		db.getUserDB().addUser("student3", new User("1234", UserType.STUDENT));
+		db.getUserDB().addUser("student4", new User("1234", UserType.STUDENT));
+		db.getUserDB().addUser("student5", new User("1234", UserType.STUDENT));
+		db.getUserDB().addUser("student6", new User("1234", UserType.STUDENT));
+		
 		for(int i=3; i<4; i++){
 			db.getUserDB().addUser("student"+i, new User("1234", UserType.STUDENT));
 		}
@@ -78,7 +83,8 @@ public class App {
 		// Add courses to user
 		db.getUserDB().addCourse("student1", "mam100017");
 		db.getUserDB().addCourse("student2", "mam100017");
-
+		
+		
 	}
 
 

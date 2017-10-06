@@ -72,7 +72,8 @@ document.addEventListener("DOMContentLoaded", function(event) {
                 var reader = new FileReader();
                 reader.onload = function () {
                     //document.getElementById('out').innerHTML = reader.result;
-                    manUsersImportStudents(reader.result);
+                    manUsersImportStudents(reader.result, function(response) {manUsersRefreshCourse();});
+                    
                 };
                 // start reading the file. When it is done, calls the onload event defined above.
                 reader.readAsBinaryString(fileInput.files[0]);
@@ -274,7 +275,6 @@ document.addEventListener("DOMContentLoaded", function(event) {
 
                     }
 
-
                 });
                 
 
@@ -450,9 +450,10 @@ document.addEventListener("DOMContentLoaded", function(event) {
     }
 
     //Import students to a course
-    function manUsersImportStudents(load){
+    function manUsersImportStudents(input, load) {
     var data = {
-        "file": csvJSON(load),
+        "file": csvJSON(input),
+        "courseID":$('#manUsers_courseDropDown').val()
     }
         $.ajax({
         url: '/manUsers_importUsers',
