@@ -248,7 +248,6 @@
         </select>
         <hr>
 
-        <div id = "marksTab">
         <div class="card card-block card-outline-primary">
         <form id="studentSearch_form" onsubmit="return false">
 
@@ -285,8 +284,9 @@
                 <h3 align="center">Edit Marks </h3>
                 <hr>
 
+                <button class="btn btn-primary" id="commitMarks">Commit mark changes</button>
                 <div class="form-group">
-                    <textarea class="form-control" id="marks_textArea" rows="3">marks here</textarea>
+                    <table class="table table-bordered" id="marks_textArea" rows="3"></table>
                 </div>
 
 
@@ -360,7 +360,6 @@
         </form>
 
             <br>
-        </div>
         </div>
         <br>
 
