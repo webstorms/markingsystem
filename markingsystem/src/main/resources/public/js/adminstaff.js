@@ -10,9 +10,10 @@ document.addEventListener("DOMContentLoaded", function(event) {
                 $.each( response, function( k, v ) {
                     //Manage Users 
                     $("#manUsers_courseDropDown").append( $("<option>").val(v).html(v));
-                        $('#manUsersDiv').hide();
+                    $('#manUsersDiv').hide();
                     //Marks and Structure Dropdown
                     $("#marksStrucutre_courseDropDown").append( $("<option>").val(v).html(v));
+                    $('#marksTab').hide();
                 });             
             });
 
@@ -101,7 +102,14 @@ document.addEventListener("DOMContentLoaded", function(event) {
         // ====================  MARKS AND STRUCTURE TAB ==================== 
             //course change on marks&structure tab
             $('#marksStrucutre_courseDropDown').change(function(){                
-                marksRefreshCourse();
+                //update course details and course members
+                if($('#marksStrucutre_courseDropDown').val() =="Select a course"){
+                    $('#marksTab').hide();
+                }
+                else{
+                    $('#marksTab').show();
+                    manUsersRefreshCourse();
+                }
                 
                 //marksStructureSelectCourse(function(response){}); 
             });
