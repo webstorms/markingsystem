@@ -80,17 +80,17 @@
 
                     <form id = "users_courseDetails" onsubmit="return false">
                         <div class="form-group form-inline">
-                            <label for="courseID">Course Name: &nbsp;</label> 
+                            <label for="courseID">Course Name: &nbsp;&nbsp;</label> 
                             <input type="ID" class="form-control col-lg-3" id="users_courseName" readonly>
                         </div>
 
                         <div class="form-group form-inline">
-                            <label for="courseID">Course Code: &nbsp;</label>
+                            <label for="courseID">Course Code: &nbsp;&nbsp;&nbsp;</label>
                             <input type="ID" class="form-control col-lg-3" id="users_courseCode" readonly>
                         </div>
 
                         <div class="form-group form-inline">
-                            <label for="sel1">Course Year: &nbsp;</label>
+                            <label for="sel1">Course Year: &nbsp;&nbsp;&nbsp;&nbsp;</label>
                             <input type="ID" class="form-control col-lg-3" id="users_courseYear" readonly>
                         </div>
 
@@ -113,9 +113,10 @@
             <h3 align="center"> Users</h3>
             <hr>
                 <!-- Add Users -->
-                <div class="row">
+                <div class="container">
+                <div class="row my-flex-card">
                     <!-- Staff -->
-                    <div class = " col-sm-4">
+                    <div class = " col-sm-4 ">
                     <div class="card">
                     <div class="card-block">
                         <form id="manUser_addStaff" onsubmit="return false">
@@ -125,13 +126,13 @@
 
                             <div class="form-group">
                                 <label>Staff ID</label>
-                                <input type="ID" class="form-control col-lg-6" id="manUser_staffID" placeholder="Enter staff user ID">    
+                                <input type="ID" class="form-control col-lg-8" id="manUser_staffID" placeholder="Enter staff user ID">    
                                  <small id="manUsers_addStaff_IDerror"></small>
                             </div>
 
                             <div class="form-group">
                                 <label for="sel1">Staff Role</label>
-                                <select class="form-control col-lg-6" id="manUser_staffRole">
+                                <select class="form-control col-lg-8" id="manUser_staffRole">
                                     <option>Lecturer</option>
                                     <option>Convener</option>
                                     <option>TA</option>
@@ -139,8 +140,7 @@
                             </div>
                                 
                             <div class="form-group">
-                                <label>Add Staff Member</label><br>
-                                <button class="btn btn-primary" id="manUser_staff_button">Add Staff Member</button>
+                                <button class="btn btn-primary col-lg-8" id="manUser_staff_button">Add Staff Member</button>
                             </div>
                         </form>
                     </div>
@@ -157,21 +157,21 @@
                             <hr>
 
                             <div class="form-group">
-                                <label>Import Students</label><br>
+                                <h5 >Import Students</h5>
                                 <input type="file" id='manUsers_file'></input><br><br>
-                                <button class="btn btn-primary" id="manUser_studentImport_button">Submit</button>
+                                <button class="btn btn-primary col-lg-8" id="manUser_studentImport_button">Submit</button>
                                 <small id="manUsers_importStudent_error"></small>
                             </div>
 
                             <hr>
 
                             <div class="form-group">
-                                <label>Add a student</label>
-                                <input class="form-control col-lg-6" id="manUser_studentID" placeholder="Enter student ID">    
+                                <h5 >Add a student</h5>
+                                <input class="form-control col-lg-8" id="manUser_studentID" placeholder="Enter student ID">    
                             </div>
 
                             <div class="form-group">
-                                <button class="btn btn-primary" id="manUsers_addStudent_button">Add Student</button>
+                                <button class="btn btn-primary col-lg-8" id="manUsers_addStudent_button">Add Student</button>
                                 <small id="manUsers_addStudent_error"></small>
                         </div>
                         </form>
@@ -180,7 +180,7 @@
                     </div>
 
                     <!-- Remove User -->
-                    <div class="col-sm-4">
+                    <div class="col-sm-4 ">
                     <div class="card">
                     <div class="card-block">
                         <hr>
@@ -189,11 +189,11 @@
 
                         <div class="form-group">
                             <label>User ID</label>
-                            <input class="form-control col-lg-6" id="manUsers_removeID" placeholder="Enter student ID">    
+                            <input class="form-control col-lg-8" id="manUsers_removeID" placeholder="Enter student ID">    
                         </div>
 
                         <div class="form-group">
-                            <button class="btn btn-primary" id="manUsers_removeUser_button">Remove User</button>
+                            <button class="btn btn-primary col-lg-8" id="manUsers_removeUser_button">Remove User</button>
                         </div>
                     </div>
                     </div>
@@ -221,6 +221,7 @@
                 </div>
                 </div>
                 <br>
+            </div>
             </div>
             </div>
             <!-- end of users -->
@@ -254,17 +255,17 @@
             <div class="card card-outline-success">
             <div class="card-block">
                 <div class="form-group form-inline">
-                    <label for="courseID">Course Name: &nbsp;</label> 
+                    <label for="courseID">Course Name: &nbsp;&nbsp;</label> 
                     <input type="ID" class="form-control col-lg-3" id="search_courseName" readonly>
                 </div>
 
                 <div class="form-group form-inline">
-                    <label for="courseID">Course Code: &nbsp;</label>
+                    <label for="courseID">Course Code: &nbsp;&nbsp;&nbsp;</label>
                     <input type="ID" class="form-control col-lg-3" id="search_courseCode" readonly>
                 </div>
 
                 <div class="form-group form-inline">
-                    <label for="sel1">Course Year: &nbsp;</label>
+                    <label for="sel1">Course Year:&nbsp;&nbsp;&nbsp; &nbsp;</label>
                     <input type="ID" class="form-control col-lg-3" id="search_courseYear" readonly>
                 </div>
 
@@ -506,12 +507,12 @@
 
                             <div class="form-group">
                                 <label>Staff ID</label>
-                                <input type="ID" class="form-control col-lg-6" id="createCourse_staffID" placeholder="Enter staff user ID">    
+                                <input type="ID" class="form-control col-lg-8" id="createCourse_staffID" placeholder="Enter staff user ID">    
                             </div>
 
                             <div class="form-group">
                                 <label for="sel1">Staff Role</label>
-                                <select class="form-control col-lg-6" id="createCourse_staffRole">
+                                <select class="form-control col-lg-8" id="createCourse_staffRole">
                                     <option>Lecturer</option>
                                     <option>Course Convener</option>
                                     <option>TA</option>
@@ -519,7 +520,6 @@
                             </div>
                                 
                             <div class="form-group">
-                                <label>Add Staff Member</label><br>
                                 <button class="btn btn-primary" id="createCourse_staff_button">Add Staff Member</button>
                             </div>
                         </div>
@@ -537,18 +537,18 @@
                             <div class="form-group">
                                 <label>Import Students</label><br>
                                 <input type="file" id='createCouse_file'></input><br><br>
-                                <button class="btn btn-primary" id="createCourse_studentImport_button">Submit</button>
+                                <button class="btn btn-primary col-lg-8" id="createCourse_studentImport_button">Submit</button>
                             </div>
 
                             <hr>
 
                             <div class="form-group">
                                 <label>Add a student</label>
-                                <input class="form-control col-lg-6" id="createCourse_studentID" placeholder="Enter student ID">    
+                                <input class="form-control col-lg-8" id="createCourse_studentID" placeholder="Enter student ID">    
                             </div>
 
                             <div class="form-group">
-                                <button class="btn btn-primary" id="createCourse_addStudent_button">Add Student</button>
+                                <button class="btn btn-primary col-lg-8" id="createCourse_addStudent_button">Add Student</button>
                             </div>
                         </div>
                         </div>
@@ -566,11 +566,11 @@
 
                             <div class="form-group">
                                 <label>User ID</label>
-                                <input class="form-control col-lg-6" id="createCourse_removeID" placeholder="Enter student ID">    
+                                <input class="form-control col-lg-8" id="createCourse_removeID" placeholder="Enter student ID">    
                             </div>
 
                             <div class="form-group">
-                                <button class="btn btn-primary" id="createCourse_removeStudent_button">Remove User</button>
+                                <button class="btn btn-primary col-lg-8" id="createCourse_removeStudent_button">Remove User</button>
                             </div>
                         </div>
                         </div>
