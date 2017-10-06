@@ -12,7 +12,7 @@ document.addEventListener("DOMContentLoaded", function(event) {
                     $('#manUsersDiv').hide();
                     //Marks and Structure Dropdown
                     $("#marksStrucutre_courseDropDown").append( $("<option>").val(v).html(v));
-                    $('#marks').hide();
+                    $('#marksTab').hide();
                 });             
             });
 
@@ -103,17 +103,13 @@ document.addEventListener("DOMContentLoaded", function(event) {
             //course change on marks&structure tab
             $('#marksStrucutre_courseDropDown').change(function(){    
                 //update course details and course members
-                $('#marksStrucutre_courseDropDown').change(function(){
-                    if($('#marksStrucutre_courseDropDown').val() =="Select a course"){
-                        $('#marks').hide();
-                    }
-                    else{
-                        $('#marks').show();
-                       marksRefreshCourse();
-                    }
-                });                            
-
-                //send a post request to get course object
+                if($('#marksStrucutre_courseDropDown').val() =="Select a course"){
+                    $('#marksTab').hide();
+                }
+                else{
+                    $('#marksTab').show();
+                    marksRefreshCourse();
+                     //send a post request to get course object
                 marksGetCourse(function(course){ 
                     $("#marks_textArea").html('');
                     var courseData = course;
@@ -213,6 +209,10 @@ document.addEventListener("DOMContentLoaded", function(event) {
 
 
                 });
+                }
+                                            
+
+               
 
                 
                 
