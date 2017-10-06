@@ -12,7 +12,7 @@ $(function() {
 
     login(function(response) {
         if (response == "success") {
-          sessionStorage.setItem("requestedUser", $('#input_username').val());
+          sessionStorage.setItem("requestedUser", "");
           window.location.reload(true);
 
         } 

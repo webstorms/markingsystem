@@ -8,11 +8,15 @@ $(function() {
 var reqUser = sessionStorage.getItem("requestedUser");
 console.log(reqUser);
 // Arrived from admin-staff view
-if(reqUser != null) {
+if(reqUser != "") {
   // Add student name
   $('#studentName').html('<h1 class="navbar-brand mb-0">' + reqUser + '</h1>');
   // Add back button
   $('#backButton').html('<a class="btn navbar-btn btn-outline-secondary" href="/" >back</a>');
+
+}
+else {
+  $('#studentName').html('<h1 class="navbar-brand mb-0">Student</h1>');
 
 }
 

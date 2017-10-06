@@ -50,7 +50,7 @@ public class StudentService extends Service {
 	public Object getCourses(Request req, Response res) {
 		
 		String userID;
-		if(req.body().length() == 0) userID = UserService.getIDFromSession(req);
+		if(Util.stringToJson(req.body()).get("userID").getAsString().equals("")) userID = UserService.getIDFromSession(req);
 		else userID = Util.stringToJson(req.body()).get("userID").getAsString();
 		
 		System.out.println(userID);
