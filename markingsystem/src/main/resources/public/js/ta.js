@@ -473,7 +473,7 @@ document.addEventListener("DOMContentLoaded", function(event) {
     }
 
 // ====================  STUDENT SEARCH TAB ==================== 
-    function searchStudentAsTA(load){
+    function searchStudentAsTA(load) {
         var data = {
         "userID": $('#student_searchBox').val(),
     }
@@ -497,7 +497,7 @@ document.addEventListener("DOMContentLoaded", function(event) {
 
 // ====================  GENERIC ====================
 
-function getTACourses(load){
+function getTACourses(load) {
  $.ajax({
     url: '/getCourses',
     type: 'POST',
