@@ -410,6 +410,11 @@ document.addEventListener("DOMContentLoaded", function(event) {
                     } 
                 });
             });
+
+            $('#password-button').on('click', function(e) {
+                window.location.href = '/getPasswordChangeView';
+                
+            });
 	
 
 
