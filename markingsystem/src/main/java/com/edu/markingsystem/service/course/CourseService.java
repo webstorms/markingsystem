@@ -129,8 +129,7 @@ public class CourseService extends Service {
 			for(String id : obj) {
 				JsonObject j = Util.stringToJson(id);
 				course.addStudent(j.get("ID").getAsString());
-				db.getUserDB().addCourse(id, courseID);
-
+				db.getUserDB().addCourse(j.get("ID").getAsString(), courseID);
 
 			}
 

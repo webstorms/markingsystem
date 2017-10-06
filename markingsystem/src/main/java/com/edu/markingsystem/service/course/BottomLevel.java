@@ -24,6 +24,7 @@ public class BottomLevel extends Level implements java.io.Serializable {
 	public void calculatePercentages() {
 		// If mark is set we can compute the percentage
 		if(this.mark != null) this.percentage = Math.round(100f * ((float) this.mark / (float) this.maxMark));
+		else this.percentage = null;
 		
 	}
 

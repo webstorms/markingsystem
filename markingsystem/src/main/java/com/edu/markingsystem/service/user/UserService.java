@@ -1,6 +1,7 @@
 package com.edu.markingsystem.service.user;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import com.edu.markingsystem.PasswordUtil;
@@ -70,10 +71,15 @@ public class UserService extends Service {
 		JsonObject json = Util.stringToJson(req.body());
 		String userID = json.get("userID").getAsString();
 		
-		User user = db.getUserDB().getUser(userID);
-		if(user == null) response = "userNotFound";
+		List<String> list = db.getUserDB().getUsers(userID);
 		
-		return Util.objectToJson(response);
+		if(list.isEmpty()) response = "userNotFound";
+		
+		for(String s : list) {
+			System.out.println("User: " + s);
+		}
+		
+		return Util.objectToJson(list);
 		
 	}
 	

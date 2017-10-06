@@ -1,5 +1,9 @@
 package com.edu.markingsystem.db;
 
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Set;
+
 import org.mapdb.DB;
 import org.mapdb.HTreeMap;
 
@@ -27,6 +31,20 @@ public class UserDB extends DBBase {
 	public void deleteUser(String id) {
 		map.remove(id);
 		db.commit();
+		
+	}
+	
+	public List<String> getUsers(String phrase) {
+		Set<String> set = map.keySet();
+		
+		List<String> user = new ArrayList<String>();
+		
+		for(String id : set) {
+			if(id.contains(phrase)) user.add(id);
+			
+		}
+		
+		return user;
 		
 	}
 	

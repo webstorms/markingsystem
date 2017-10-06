@@ -291,11 +291,21 @@ document.addEventListener("DOMContentLoaded", function(event) {
                     if (response == "userNotFound") {
                         $('#searchStudents_table tbody > tr').remove();
                     }
-                    else if(response == "success"){
-                        var studentID = $('#student_searchBox').val();
-                        $('#searchStudents_table tbody > tr').remove();
-                        $("#searchStudents_table").find('tbody').append($('<tr>').append($('<td>').html('<a onclick="loadStudentPage(\''+studentID+'\')">'+studentID+'</a>')));
+                    else {
+                        $('#searchStudents_table tbody > tr').remove()
+                        for(var i = 0; i < response.length; i++) {
+                            var obj = response[i];
+                            $("#searchStudents_table").find('tbody').append($('<tr>').append($('<td>').html('<a onclick="loadStudentPage(\''+obj+'\')">'+obj+'</a>')));
+
+                        }
+
                     }
+                    // else if(response == "success") {
+                    //     var studentID = $('#student_searchBox').val();
+                    //     $('#searchStudents_table tbody > tr').remove();
+                    //     $("#searchStudents_table").find('tbody').append($('<tr>').append($('<td>').html('<a onclick="loadStudentPage(\''+studentID+'\')">'+studentID+'</a>')));
+                    // }
+
                 });
             });
           

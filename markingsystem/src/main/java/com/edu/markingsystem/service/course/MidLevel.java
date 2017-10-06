@@ -34,7 +34,7 @@ public class MidLevel extends Level implements java.io.Serializable {
 		
 		for(BottomLevel level : this.bottomLevels) {
 			level.calculatePercentages();
-			if(level.getMark() == null) complete = false;
+			if(level.getPercentage() == null) complete = false;
 			else {
 				this.mark += level.getMark();
 				this.maxMark += level.getMaxMark();
