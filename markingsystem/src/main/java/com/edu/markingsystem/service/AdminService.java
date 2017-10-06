@@ -51,6 +51,10 @@ public class AdminService extends Service {
 			Log.info(this.getClass().getName(), "POST /createCourse_removeUserFromCourse " + req.ip());
 			return createCourse_removeUserFromCourse(req, res);
 		});
+		Spark.post("/manUsers_importUsers", (req, res) -> {
+			Log.info(this.getClass().getName(), "POST /manUsers_importUsers " + req.ip());
+			return manUsers_importUsers(req, res);
+		});
 		//===============================
 
 	}
@@ -94,6 +98,18 @@ public class AdminService extends Service {
 		}
 		
 		return Util.objectToJson("success");
+	}
+	
+	public Object manUsers_importUsers(Request req, Response res) {
+		JsonObject json = Util.stringToJson(req.body());
+		String file = json.get("file").getAsString();
+
+		System.out.println(file);
+		
+		//TODO: import users 
+		
+		return Util.objectToJson("User not in table");
+	
 	}
 	
 	public Object createCourse_removeUserFromCourse(Request req, Response res) {

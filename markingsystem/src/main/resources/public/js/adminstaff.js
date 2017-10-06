@@ -3,6 +3,7 @@ document.addEventListener("DOMContentLoaded", function(event) {
 	$(function() {
 
         // ====================  ON PAGE LOAD ====================
+
             //get course IDs from backend 
             getAllCourses(function(response) {
                 //loop through list and add to dropdown
@@ -66,20 +67,18 @@ document.addEventListener("DOMContentLoaded", function(event) {
             });
 
             //Import students to a course
-            $('#manUser_studentImport_button').on('click', function(e) {
-                manUsersImportStudents(function(response) {
-                    //success
-                    if (response == "success") {
-                        manUsersRefreshCourse();
-                        $('#manUsers_importStudent_error').html('<small id="manUsers_importStudent_error" class="form-text text-danger"></small>');
-                        confirm("Successfully imported users!");
-                    }
-                    //error
-                    else {
-                        $('#manUsers_importStudent_error').html('<small id="manUsers_importStudent_error" class="form-text text-danger">'+response+'</small>');
-                    }
-                });                
-            });
+            var fileInput = document.getElementById("manUsers_file"),
+            readFile = function () {
+                var reader = new FileReader();
+                reader.onload = function () {
+                    //document.getElementById('out').innerHTML = reader.result;
+                    manUsersImportStudents(reader.result);
+                };
+                // start reading the file. When it is done, calls the onload event defined above.
+                reader.readAsBinaryString(fileInput.files[0]);
+            };
+            fileInput.addEventListener('change', readFile);
+
 
             //Remove a user
             $('#manUsers_removeUser_button').on('click', function(e) {   
@@ -429,7 +428,8 @@ document.addEventListener("DOMContentLoaded", function(event) {
 
 
 
-// ====================  MANAGE USERS TAB ==================== 
+// ====================  MANAGE USERS TAB ====================
+ 
     //Add a user to a course
     function manUsersAddUser(role,userID,courseID,load){
         var data = {
@@ -451,8 +451,18 @@ document.addEventListener("DOMContentLoaded", function(event) {
 
     //Import students to a course
     function manUsersImportStudents(load){
-
-        //TODO: send data ta backend 
+    var data = {
+        "file": csvJSON(load),
+    }
+        $.ajax({
+        url: '/manUsers_importUsers',
+        type: 'POST',
+            data: JSON.stringify(data),
+        contentType: 'application/json',
+        success: function(res) {
+        load(JSON.parse(res));
+        }
+    });	
 
     }
 
@@ -814,6 +824,29 @@ function getAllCourses(load){
   
 }
 
+function manUsersSendFile(fileData){
+
+}
+//var csv is the CSV file with headers
+function csvJSON(csv){
+
+  var lines=csv.split("\n");
+  var result = [];
+  var headers=lines[0].split(",");
+
+  for(var i=1;i<lines.length;i++){
+      var obj = {};
+      var currentline=lines[i].split(",");
+      for(var j=0;j<headers.length;j++){
+          obj[headers[j]] = currentline[j];
+      }
+      result.push(obj);
+
+  }
+
+  //return result; //JavaScript object
+  return JSON.stringify(result); //JSON
+}
 
 function logout(load) {
   $.ajax({
