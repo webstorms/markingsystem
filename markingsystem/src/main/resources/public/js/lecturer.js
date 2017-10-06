@@ -210,7 +210,7 @@ document.addEventListener("DOMContentLoaded", function(event) {
                                                             '<td>'+ topPrint +'</td>'+
                                                             '<td>' + midPrint +'</td>'+
                                                             '<td>' + bottomlev[p].name + ' (' + bottomlev[p].maxMark + ')</td>'+
-                                                            '<td><label type="text" id="' + i+'-'+k+'-'+j+'-'+p + '" style="background-color:#d3d3d3;" value="" >' + '</td>'+
+                                                            '<td><input readonly type="text" id="' + i+'-'+k+'-'+j+'-'+p + '" style="background-color:#d3d3d3;" value="">' + '</td>'+
                                                         '</tr>'
                                                         )
                                                     }
@@ -221,7 +221,7 @@ document.addEventListener("DOMContentLoaded", function(event) {
                                                                 '<td>'+ topPrint +'</td>'+
                                                                 '<td>' + midPrint +'</td>'+
                                                                 '<td>' + bottomlev[p].name + ' (' + bottomlev[p].maxMark + ')</td>'+
-                                                                '<td><label type="text" id="' + i+'-'+k+'-'+j+'-'+p + '" value="' + bottomlev[p].mark + '">' + '</td>'+
+                                                                '<td><input readonly type="text" id="' + i+'-'+k+'-'+j+'-'+p + '" value="' + bottomlev[p].mark + '" >' + '</td>'+
                                                             '</tr>'
                                                         )
                                                     }
