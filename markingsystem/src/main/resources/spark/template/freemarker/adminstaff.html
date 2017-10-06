@@ -1,31 +1,33 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
+<head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <meta name="description" content="">
     <meta name="author" content="">
-    
+
     <title>Admin Staff</title> 
 
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.6/css/bootstrap.min.css" integrity="sha384-rwoIResjU2yc3z8GV/NPeZWAv56rSmLldC3R/AZzGRnGxQQKnKkoFVhFQhNUwEyJ" crossorigin="anonymous">
+    <link rel='stylesheet prefetch' href='http://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.1.0/css/font-awesome.min.css'>
 
-<!-- Bootstrap CSS -->
-	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.6/css/bootstrap.min.css" integrity="sha384-rwoIResjU2yc3z8GV/NPeZWAv56rSmLldC3R/AZzGRnGxQQKnKkoFVhFQhNUwEyJ" crossorigin="anonymous">
- 	<link rel='stylesheet prefetch' href='http://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.1.0/css/font-awesome.min.css'>
-
-<!-- Bootstrap core JavaScript 
+    <!-- Bootstrap core JavaScript 
     ================================================== -->
-	<script src="https://cdnjs.cloudflare.com/ajax/libs/tether/1.4.0/js/tether.min.js" integrity="sha384-DztdAPBWPRXSA/3eYEEUWrWCy7G5KFbe8fFjk5JAIxUYHKkDx6Qin1DkWx51bBrb" crossorigin="anonymous"></script>
-	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>		
-	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.6/js/bootstrap.min.js" integrity="sha384-vBWWzlZJ8ea9aCX4pEW3rVHjgjt7zpkNpZk+02D9phzyeVkE+jo0ieGizqPLForn" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/tether/1.4.0/js/tether.min.js" integrity="sha384-DztdAPBWPRXSA/3eYEEUWrWCy7G5KFbe8fFjk5JAIxUYHKkDx6Qin1DkWx51bBrb" crossorigin="anonymous"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>		
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.6/js/bootstrap.min.js" integrity="sha384-vBWWzlZJ8ea9aCX4pEW3rVHjgjt7zpkNpZk+02D9phzyeVkE+jo0ieGizqPLForn" crossorigin="anonymous"></script>
 
-<!-- Javascript -->
+    <!-- Javascript -->
     <script src="js/adminstaff.js"></script>
-  </head>
+</head>
 
+<!-- ====================================================================== -->
+<!--                                BODY                                    -->
+<!-- ====================================================================== -->
 <body>
 
-<!-- navbar -->
+<!-- ===================   NAVBAR   ===================-->
 
     <nav class="navbar navbar-toggleable-md navbar-inverse bg-inverse mb-4">
       <h1 class="navbar-brand mb-0">Admin Staff</h1>
@@ -37,7 +39,7 @@
       </div>
     </nav>
 
-<!-- Nav tabs -->
+<!-- =================== NAV TABS  =================== -->
 
 <ul class="nav nav-tabs" role="tablist">
   <li class="nav-item">
@@ -54,10 +56,13 @@
   </li>
 </ul>
 
-<!-- Tab panes -->
+
+<!-- =================== TAB PANES =================== -->
 <div class="tab-content">
 
-    <!-- Manaage Users Tab -->
+    <!--======================================================== -->
+    <!--                    MANAGE USERS TAB                     -->
+    <!--======================================================== -->
     <div role="tabpanel" class="tab-pane active" id="courses">
     <div class="container">
 
@@ -67,11 +72,11 @@
         <select class="form-control col-lg-3" id="manUsers_courseDropDown"><option>Select a course</option></select>
         <hr>
 
-        <!-- Main Card -->
+        <!--==============   Main Card ==============-->
         <div id="manUsersDiv">
         <div class="card card-block card-outline-primary">
             
-            <!-- Course Details -->
+            <!--==============   Course Details ==============-->
                 <div class="card card-outline-success">
                 <div class="card-block ">
                     <hr>
@@ -103,18 +108,17 @@
                 </div>
                 </div>
                 <br>
-
-          
-
-            <!-- Users -->
+                
+            <!--==============   Users  ==============-->
             <div class="card card-outline-success">
             <div class="card-block ">
             <hr>
             <h3 align="center"> Users</h3>
             <hr>
-                <!-- Add Users -->
+                <!--------------- Add/Remove Users --------------->
                 <div class="row">
-                    <!-- Staff -->
+
+                    <!---------- Add Staff ---------->
                     <div class = " col-sm-4">
                     <div class="card">
                     <div class="card-block">
@@ -147,7 +151,7 @@
                     </div>
                     </div>
         
-                    <!-- Students -->
+                    <!---------- Add Students ---------->
                     <div class="col-sm-4">
                     <div class="card">
                     <div class="card-block">
@@ -179,7 +183,7 @@
                     </div>
                     </div>
 
-                    <!-- Remove User -->
+                    <!---------- Remove User ---------->
                     <div class="col-sm-4">
                     <div class="card">
                     <div class="card-block">
@@ -201,7 +205,7 @@
                 </div>
                 <br>
 
-                <!-- Members -->
+                <!--------------- Members --------------->
                 <div class="card ">
                 <div class="card-block ">
                     <hr>
@@ -223,7 +227,7 @@
                 <br>
             </div>
             </div>
-            <!-- end of users -->
+            <!---==============  end of users ============== -->
             <br>
             
             
@@ -235,7 +239,9 @@
     </div>
     </div>
 
-    <!-- Marks Tab -->
+    <!--========================================================--> 
+    <!--                     MARKS TAB                          -->
+    <!--========================================================--> 
     <div role="tabpanel" class="tab-pane fade" id="marks">
     <div class="container">
 
@@ -247,11 +253,12 @@
         </select>
         <hr>
 
+        <!--==============   Main Card ==============-->
         <div id="marksTab">
         <div class="card card-block card-outline-primary" >
         <form id="studentSearch_form" onsubmit="return false">
 
-            <!-- Course Details -->
+            <!--==============   Course Details ==============-->
             <div class="card card-outline-success">
             <div class="card-block">
                 <div class="form-group form-inline">
@@ -276,26 +283,13 @@
             </div>
             </div>
             <br>
-
-             <!-- Course Marks -->
+             
+             <!--==============   Course Marks ==============-->
             <div class="card card-outline-success">
             <div class="card-block">
                 <hr>
                 <h3 align="center">Edit Marks </h3>
                 <hr>
-
-
-               
-                <div class="form-group">
-                    <table class="table table-bordered" id="marks_textArea" rows="3"></table>
-                </div>
-
-                 <div class="form-group">
-                    <button class="btn  btn-success" id="commitMarks">Commit Changes</button>
-
-                    <div class="container" style="padding:20px" id="wrong-input"></div>
-
-                </div>
 
                 <!-- Import/Export Marks -->
                 <div class="row">
@@ -348,6 +342,18 @@
                     </div>
                     </div>
                 </div>
+
+                <br><br>
+               <!-- Marks Table -->
+                <div class="form-group">
+                    <table class="table table-bordered" id="marks_textArea" rows="3"></table>
+                </div>
+
+                 <div class="form-group">
+                    <button class="btn  btn-success" id="commitMarks">Commit Changes</button>
+                    <div class="container" style="padding:20px" id="wrong-input"></div>
+                </div>
+
             </div>
             </div>
             <br>
@@ -366,7 +372,9 @@
     </div>
     </div>
 
-    <!-- Students Tab -->
+    <!--========================================================--> 
+    <!--                     STUDENTS TAB                       -->
+    <!--========================================================--> 
     <div role="tabpanel" class="tab-pane fade" id="students">
         <div class="container">
 
@@ -374,40 +382,41 @@
         <h3 class="form-signin-heading">Search for a student</h3>
         <hr>
 
+        <!--==============   Main Card ==============-->
         <div class="card card-block card-outline-primary">
-
-        <form id="studentSearch_form" onsubmit="return false">
-            <hr>
-            <h3 align="center">Search</label></h3>
-            <hr>
-
-            <div class="form-group">
-                <label>Student ID</label>
-                <input type="ID" class="form-control col-lg-3" id="student_searchBox" placeholder="Enter student user ID">    
-            </div>
-
-            <div class="form-group">
-                <button class="btn btn-primary" id="studentSearch_button">Search</button>
-            </div>
-    
-
-            <div class="form-group">
+            <form id="studentSearch_form" onsubmit="return false">
                 <hr>
-                <h3 align="center"><label>Results</label></h3>
+                <h3 align="center">Search</label></h3>
                 <hr>
 
-                <table class="table table-sm" id = "searchStudents_table">
-                <thead>
-                    <tr>
-                    <th>User ID</th>
-                    </tr>
-                </thead>
-                <tbody>
-                </tbody>
-                </table>
-            </div>
-            
-        </form>
+                <!----------- Search --------------->
+                <div class="form-group">
+                    <label>Student ID</label>
+                    <input type="ID" class="form-control col-lg-3" id="student_searchBox" placeholder="Enter student user ID">    
+                </div>
+
+                <div class="form-group">
+                    <button class="btn btn-primary" id="studentSearch_button">Search</button>
+                </div>
+        
+                <!----------- Results --------------->
+                <div class="form-group">
+                    <hr>
+                    <h3 align="center"><label>Results</label></h3>
+                    <hr>
+
+                    <table class="table table-sm" id = "searchStudents_table">
+                    <thead>
+                        <tr>
+                        <th>User ID</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                    </tbody>
+                    </table>
+                </div>
+                
+            </form>
         <br>
         </div>
         <br>
@@ -415,7 +424,9 @@
     </div>
     </div>
 
-    <!-- Create Course Tab -->
+    <!--======================================================== --> 
+    <!--                     CREATE COURSE TAB                   -->
+    <!--======================================================== --> 
     <div role="tabpanel" class="tab-pane " id="createCourses">
         <div class="container">
         
@@ -424,11 +435,11 @@
             <hr>
             <div class="card card-block card-outline-primary">
 
-             <form id="createCourse_form" onsubmit="return false">
-                
-            
+
+            <!--==============   Main Card ==============-->
+            <form id="createCourse_form" onsubmit="return false">
                  
-                <!-- Course Details -->
+                <!----------------- Course Details ------------------->
                 <div class="card card-outline-success">
                 <div class="card-block ">
                     <hr>
@@ -466,9 +477,7 @@
                 </div>
                 <br>
 
-        
-
-                <!-- Course Structure -->
+                <!------------------- Course Structure --------------->
                 <div class="card card-block card-outline-success">
                     <hr>
                     <h4>Course Structure</h4>
@@ -482,16 +491,18 @@
                 </div>
                 <br>
 
-                <!-- Finish -->
+                <!------------------- Finish ------------------------->
                 <div class="form-group">
                     <button class="btn btn-success btn-lg" id="createCourse_button">Create Course</button>
                 </div>
-                </form>
-             <div id="wrong-course-structure"></div>   
+
+            </form>
+            <div id="wrong-course-structure"></div>   
           </div>
         
         </div>
     </div>
+
 
 </div>
  
