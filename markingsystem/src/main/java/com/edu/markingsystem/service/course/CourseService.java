@@ -238,15 +238,16 @@ public class CourseService extends Service {
 			}
 
 			// Create the course
-			db.getCourseDB().addCourse(new Course(courseName, courseID, year, period, courseConvenor, lecturers, TAs, students, structure));       
-			// Add course to each user
-			db.getUserDB().getUser(courseConvenor).addCourse(courseID, structure);
+			db.getCourseDB().addCourse(new Course(courseName, courseID, year, period, courseConvenor, lecturers, TAs, students, structure));
 
+			System.out.println("Successfully created the course");
+			
 			if(response == null) response = "Successfully created the course";
 
 			return Util.objectToJson(response);
 		}
 		catch(Exception e) {
+			e.printStackTrace();
 			return Util.objectToJson(e.getMessage());
 			
 		}
