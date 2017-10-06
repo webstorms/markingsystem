@@ -5,7 +5,10 @@ import java.util.HashMap;
 import java.util.List;
 
 import com.edu.markingsystem.PasswordUtil;
+import com.edu.markingsystem.service.course.BottomLevel;
 import com.edu.markingsystem.service.course.CourseStructure;
+import com.edu.markingsystem.service.course.MidLevel;
+import com.edu.markingsystem.service.course.TopLevel;
 
 public class User implements java.io.Serializable {
 	
@@ -32,14 +35,38 @@ public class User implements java.io.Serializable {
 		
 	}
 	
-//	public void addCourses(List<String> courses) {
-//		for(String course : courses) this.addCourse(course);
-//		
-//	}
+	public void updateCourse(String courseID, CourseStructure newStructure) {
+		CourseStructure currentStructure = this.getMarks(courseID);
+		
+		// Add existing marks from currentStructure to newStructure
+		List<String> bottomIDs = new ArrayList<String>(newStructure.getBottomLevelIDs().keySet());
+		
+		for(String id : bottomIDs) {
+			BottomLevel level = currentStructure.getBottomLevelIDs().get(id);
+			// Does the new structure have the bottom level that was contained in the old structure
+			if(level != null) {
+				int mark = level.getMark();
+				int maxMark = level.getMaxMark();
+				newStructure.getBottomLevelIDs().get(id).setMark(mark);
+				newStructure.getBottomLevelIDs().get(id).setMaxMark(maxMark);
+				
+			}
+			
+		}
+		
+		this.updateMarks(courseID, newStructure);
+		
+	}
 	
 	public void addCourse(String courseID, CourseStructure structure) {
 		this.courses.add(courseID);
 		this.marks.put(courseID, structure);
+		
+	}
+	
+	public void removeCourse(String courseID) {
+		this.courses.remove(courseID);
+		this.marks.remove(courseID);
 		
 	}
 	
@@ -58,7 +85,7 @@ public class User implements java.io.Serializable {
 		
 	}
 
-	public void setPassword(String password){
+	public void setPassword(String password) {
 		this.passwordHash = PasswordUtil.hashPassword(password);
 	}
 	

@@ -29,6 +29,11 @@ public class Course implements java.io.Serializable {
 		
 	}
 	
+	public void setCourseConvenor(String id) {
+		this.courseConvenor = id;
+		
+	}
+	
 	public String getCourseName() {
 		return courseName;
 	}
@@ -47,10 +52,6 @@ public class Course implements java.io.Serializable {
 
 	public String getCourseConvenor() {
 		return courseConvenor;
-	}
-	
-	public void setCourseConvenor(String convener) {
-		this.courseConvenor = convener;
 	}
 
 	public List<String> getLecturers() {
@@ -79,6 +80,11 @@ public class Course implements java.io.Serializable {
 
 	public CourseStructure getStructure() {
 		return structure;
+	}
+
+	public void setStructure(CourseStructure newStructure) {
+		this.structure = newStructure;
+		
 	}
 	
 	

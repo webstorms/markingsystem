@@ -18,7 +18,7 @@ document.addEventListener("DOMContentLoaded", function(event) {
         // ====================  MANAGE USERS TAB ==================== 
             
             //update course details and course members
-            $('#manUsers_courseDropDown').change(function(){
+            $('#manUsers_courseDropDown').change(function() {
                 manUsersRefreshCourse();
             });
 
@@ -115,7 +115,7 @@ document.addEventListener("DOMContentLoaded", function(event) {
                         //put entry in table
                         var studentID = $('#student_searchBox').val();
                         $('#searchStudents_table tbody > tr').remove();
-                        $("#searchStudents_table").find('tbody').append($('<tr>').append($('<td>').html('<a onclick="loadStudentPage(\''+studentID+'\')" href="">'+studentID+'</a>')));
+                        $("#searchStudents_table").find('tbody').append($('<tr>').append($('<td>').html('<a onclick="loadStudentPage(\''+studentID+'\')">'+studentID+'</a>')));
                     }
                 });
             });
@@ -410,6 +410,11 @@ document.addEventListener("DOMContentLoaded", function(event) {
                     } 
                 });
             });
+
+            $('#password-button').on('click', function(e) {
+                window.location.href = '/getPasswordChangeView';
+
+            });
 	
 
 
@@ -591,15 +596,17 @@ document.addEventListener("DOMContentLoaded", function(event) {
     }
 
     //TODO: Luke
-    function loadStudentPage(studentID){
-        console.log(studentID);
+    function loadStudentPage(studentID) {
+        sessionStorage.setItem("requestedUser", studentID);
+        window.location.href = '/getStudentHomeView';
+
     }   
 
 // ====================  CREATE COURSE TAB ====================
     //TODO: write functions
 
     //add user
-    function createCourseAddUser(userID,role,load){
+    function createCourseAddUser(userID,role,load) {
         
         var data = {
             "table": tableToString(),

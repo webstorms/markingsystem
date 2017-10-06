@@ -21,7 +21,7 @@ public class App {
 		Database db = new Database(DB_NAME, DB_PASS);
 		initTestData(db);
 		new Server(db);
-
+		
 	}
 
 	private static void initTestData(Database db) {
@@ -43,7 +43,8 @@ public class App {
 
 		// Create lecturer
 		db.getUserDB().addUser("lec1", new User("1234", UserType.LECTURER));
-
+		db.getUserDB().addUser("lec2", new User("1234", UserType.LECTURER));
+		
 		// Create a course
 		BottomLevel b1 = new BottomLevel("Section A", 50);
 		BottomLevel b2 = new BottomLevel("Section B", 50);
@@ -57,7 +58,6 @@ public class App {
 		
 		List<String> students = new ArrayList<String>();
 		students.add("student1");
-		students.add("student2");
 		List<String> TAs = new ArrayList<String>();
 		TAs.add("ta1");
 		List<String> lecturers = new ArrayList<String>();
@@ -65,15 +65,17 @@ public class App {
 		
 		Course courseA = new Course("Mam1000", "mam100017", "2017", "F", "lec1", lecturers, TAs, students, course);
 		db.getCourseDB().addCourse(courseA);
-		System.out.println(courseA.getStructure().toString());
 		
-		// Placeholder course to test functionality
-		Course courseB = new Course("CSC3003", "CSC300317", "2017", "S", "lec1", lecturers, TAs, students, course);
+		Course courseB = new Course("CSC1016", "csc100017", "2017", "F", "lec1", lecturers, TAs, students, course);
 		db.getCourseDB().addCourse(courseB);
-
+		
+//		System.out.println(courseA.getStructure().toString());
+//		
+//		// Placeholder course to test functionality
+//		Course courseB = new Course("CSC3003", "CSC300317", "2017", "S", "lec1", lecturers, TAs, students, course);
+//		db.getCourseDB().addCourse(courseB);
 
 		// Add courses to user
-		db.getUserDB().addCourse("admin", "mam100017");
 		db.getUserDB().addCourse("student1", "mam100017");
 		db.getUserDB().addCourse("student2", "mam100017");
 

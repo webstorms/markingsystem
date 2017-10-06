@@ -46,14 +46,22 @@ public class UserDB extends DBBase {
 		db.commit();
 		
 	}
-	
-	public void addMark(String userID, String courseID, CourseStructure structure) {
+
+	public void removeCourse(String userID, String courseID) {
 		User u = (User) getUser(userID);
-		u.updateMarks(courseID, structure);
+		u.removeCourse(courseID);
 		map.replace(userID, u);
 		db.commit();
 		
 	}
+	
+//	public void addMark(String userID, String courseID, CourseStructure structure) {
+//		User u = (User) getUser(userID);
+//		u.updateMarks(courseID, structure);
+//		map.replace(userID, u);
+//		db.commit();
+//		
+//	}
 	
 	
 }

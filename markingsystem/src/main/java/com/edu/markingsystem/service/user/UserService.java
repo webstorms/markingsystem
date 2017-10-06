@@ -32,11 +32,26 @@ public class UserService extends Service {
 			return getHome(req, res); 
 		}, new FreeMarkerEngine());
 
+		Spark.get("/getStudentView", (req, res) -> {
+			Log.info(this.getClass().getName(), "GET /getStudentView " + req.ip());
+			return this.getStudentView(req, res); 
+		}, new FreeMarkerEngine());
+		
+		Spark.get("/getStudentHomeView", (req, res) -> {
+			Log.info(this.getClass().getName(), "GET /getStudentHomeView " + req.ip());
+			return this.getStudentHomeView(req, res);
+		}, new FreeMarkerEngine());
+		
+		Spark.get("/getPasswordChangeView", (req, res) -> {
+			Log.info(this.getClass().getName(), "GET /getPasswordChangeView " + req.ip());
+			return this.getPasswordChangeView(req, res);
+		}, new FreeMarkerEngine());
+		
 		Spark.post("/login", (req, res) -> { 
 			Log.info(this.getClass().getName(), "POST /login " + req.ip());
 			return login(req, res);
 		});
-
+		
 		Spark.post("/logout", (req, res) -> {
 			Log.info(this.getClass().getName(), "POST /login " + req.ip());
 			return logout(req, res);
@@ -108,10 +123,13 @@ public class UserService extends Service {
 				return new ModelAndView(map, "admin.html");
 			}
 			else if(userType.equalsIgnoreCase("student")){
-				return new ModelAndView(map, "x"); // <- Jarad replace the x with the name of the student html page
+				return new ModelAndView(map, "student-home.html");
 			}
 			else if(userType.equalsIgnoreCase("adminstaff")){
 				return new ModelAndView(map, "adminstaff.html");
+			}
+			else if(userType.equalsIgnoreCase("lecturer")){
+				return new ModelAndView(map, "lecturer.html");
 			}
 			else if(userType.equalsIgnoreCase("ta")){
 				return new ModelAndView(map, "ta.html"); // <- Jarad replace the x with the name of the student html page
@@ -130,9 +148,27 @@ public class UserService extends Service {
 
 	}
 	
+	public ModelAndView getStudentHomeView(Request req, Response res) {
+		Map<String, Object> map = new HashMap<String, Object>();
+		return new ModelAndView(map, "student-home.html");
+
+	}
+	
+	public ModelAndView getStudentView(Request req, Response res) {
+		Map<String, Object> map = new HashMap<String, Object>();
+		return new ModelAndView(map, "student.html");
+
+	}
+	
+	public ModelAndView getPasswordChangeView(Request req, Response res) {
+		Map<String, Object> map = new HashMap<String, Object>();
+		return new ModelAndView(map, "change-password.html");
+		
+	}
+	
 	// These methods register, get and remove session IDs
 	
-	private String getIDFromSession(Request request) {
+	public static String getIDFromSession(Request request) {
 		return request.session().attribute(USER_SESSION_ID);
 		
 	}

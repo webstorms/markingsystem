@@ -6,6 +6,7 @@ import com.edu.markingsystem.Util;
 import com.edu.markingsystem.db.Database;
 import com.edu.markingsystem.service.course.CourseStructure;
 import com.edu.markingsystem.service.user.User;
+import com.edu.markingsystem.service.user.UserService;
 import com.edu.markingsystem.service.user.UserType;
 import com.esotericsoftware.minlog.Log;
 import com.google.gson.JsonObject;
@@ -92,11 +93,11 @@ public class AdminService extends Service {
 			String userID = cells[0];
 			String role = cells[1];
 			
-			if(userID.equals(add_userID)){
+			if(userID.equals(add_userID)) {
 				return Util.objectToJson("you cannot add duplicate users");
 			}
 			
-			if(role.equalsIgnoreCase("course convener")){
+			if(role.equalsIgnoreCase("convener")) {
 				if(courseConvExists){
 					return Util.objectToJson("you cannot add more than one course convener");
 				}
@@ -138,7 +139,7 @@ public class AdminService extends Service {
 		JsonObject json = Util.stringToJson(req.body());
 		String userID = json.get("userID").getAsString();
 		String password = json.get("password").getAsString();
-		String userType = json.get("userType").getAsString().toUpperCase();
+		String userType = json.get("userType").getAsString().toUpperCase(); 
 		String response = "";
 		if(userExists(userID)){ 
 			response = "userExists";
@@ -158,7 +159,7 @@ public class AdminService extends Service {
 		if(!userExists(userID)){
 			response = "userDoesNotExist";
 		}
-		else{ 
+		else {
 			db.getUserDB().deleteUser(userID);
 			// TODO: Delete user from all courses
 			response = Service.SUCCESS;
@@ -169,7 +170,7 @@ public class AdminService extends Service {
 
 	public Object admin_changePass(Request req, Response res) {
 		JsonObject json = Util.stringToJson(req.body());
-		String userID = json.get("userID").getAsString();
+		String userID = !json.has("userID") ? UserService.getIDFromSession(req) : json.get("userID").getAsString();
 		String password = json.get("password").getAsString();
 		String response = "";
 		if(!userExists(userID)){

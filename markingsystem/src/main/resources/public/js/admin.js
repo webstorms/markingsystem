@@ -1,8 +1,13 @@
 
-document.addEventListener("DOMContentLoaded", function(event) { 
+document.addEventListener("DOMContentLoaded", function(event) {
 	$(function() {
 
 	  $('#logout').on('click', function(e) {
+
+	  	// getCourse();
+	  	// addStudent();
+	  	// getCourse();
+
 	    logout(function(response) {
 	        if (response == "success") {
 	          window.location.reload(true); 
@@ -13,9 +18,14 @@ document.addEventListener("DOMContentLoaded", function(event) {
 	    //     window.alert(response); 
 	    //   });
 	    // getMarks(function(response) {
-	    //     window.alert(response); 
+	    //     console.log(response);
 	    //   });
-	    });
+	    // });
+
+	  	$('#password-button').on('click', function(e) {
+    		window.location.href = '/getPasswordChangeView';
+
+  		});
 
 		$('#createUser_button').on('click', function(e) {
 	  	createUser(function(response) {
@@ -131,6 +141,40 @@ function changePass(load){
 
 }
 
+// function addStudent() {
+// 	var data = {
+//     "userID": "student2",
+//     "role": "STUDENT",
+//     "courseID": "csc100017",
+//   }
+// 	 $.ajax({
+//     url: '/addStudentToCourse',
+//     type: 'POST',
+//     async: false,
+// 	data: JSON.stringify(data),
+//     contentType: 'application/json',
+//     success: function(res) {
+//     console.log(res);
+//     }
+//   });	
+// }
+
+// function getCourse() {
+//   var data = {
+//       "courseID": "csc100017"
+//     }
+//     $.ajax({
+//       url: '/getCourse',
+//       type: 'POST',
+//       async: false,
+//       data: JSON.stringify(data),
+//       contentType: 'application/json',
+//       success: function(res) {
+//        	console.log(res);
+//       }
+//     }); 
+// }
+
 // function getCourses(load){
 // 	var data = {
 //     "userID": "admin",
@@ -147,9 +191,9 @@ function changePass(load){
 
 // }
 
-// function getMarks(load){
+// function getMarks(load) {
 // 	var data = {
-//     "userID": "admin",
+//     "userID": "student1",
 //     "courseID": "mam100017",
 //   }
 // 	 $.ajax({
@@ -161,5 +205,5 @@ function changePass(load){
 //       load(JSON.parse(res));
 //     }
 //   });	
-//}
+// }
 

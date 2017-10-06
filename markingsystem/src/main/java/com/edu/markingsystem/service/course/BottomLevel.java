@@ -1,14 +1,12 @@
 package com.edu.markingsystem.service.course;
 
-public class BottomLevel implements java.io.Serializable {
-
-	private String name;
-	private int percentage;
+public class BottomLevel extends Level implements java.io.Serializable {
+	
 	private int mark;
 	private int maxMark;
 
 	public BottomLevel(String name, int maxMark) {
-		this.name = name;
+		super(name);
 		this.maxMark = maxMark;
 		
 	}
@@ -18,6 +16,11 @@ public class BottomLevel implements java.io.Serializable {
 		
 	}
 
+	public void setMaxMark(int maxMark) {
+		this.maxMark = maxMark;
+		
+	}
+	
 	public void calculatePercentages() {
 		this.percentage = Math.round((float) this.mark / (float) this.maxMark);
 	}
