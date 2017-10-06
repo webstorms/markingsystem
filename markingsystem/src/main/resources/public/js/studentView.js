@@ -104,7 +104,29 @@ function commitButtons(buttons) {
 };
 
 function addlevel1(collapseData, turpleName, percentage, levelnumber) {
+  if(typeof percentage =="undefined"){
+    collapseData += 
+  '<div class="card">'+
+      '<div class="card-header" role="tab">'+
+        '<h4 class="mb-0">'+
+          '<div class=" panel-title">'+
+            '<span class="float-left">'+
+              '<a class="collapsed" data-toggle="collapse" href="#collapse'+levelnumber+'" aria-expanded="false">'+
+                turpleName+
+              '</a>'+
+            '</span>'+
+            '<span class="panel-title float-right">'+
 
+            '</span>'+
+          '</div>'+
+        '</h4>'+
+      '</div>'+
+      '<div id="collapse'+levelnumber+'" class="collapse" role="tabpanel">';
+
+      return collapseData;
+  }
+
+  else{
 	collapseData += 
 	'<div class="card">'+
       '<div class="card-header" role="tab">'+
@@ -124,11 +146,34 @@ function addlevel1(collapseData, turpleName, percentage, levelnumber) {
       '<div id="collapse'+levelnumber+'" class="collapse" role="tabpanel">';
 
       return collapseData;
+  }
 };
 
 
 function addlevel2(collapseData, turpleName, percentage, levelnumber, mark, maxMark) {
+  if(typeof percentage =="undefined"){
+    collapseData+=
+    '<div class="card">'+
+        '<div class="card-header" role="tab">'+
+          '<h5 class="mb-0">'+
+            '<div class=" panel-title">'+
+              '<span class="float-left">'+
+                '<a class="collapsed" data-toggle="collapse" href="#collapse'+levelnumber+'" aria-expanded="false">'+
+                  turpleName+
+                '</a>'+
+              '</span>'+
+              '<span class="panel-title float-right">'+
 
+              '</span>'+
+            '</div>'+
+          '</h5>'+
+        '</div>'+
+      '<div id="collapse'+levelnumber+'" class="collapse" role="tabpanel">';
+
+  
+      return collapseData;
+  }
+  else{
 	collapseData += 
 		'<div class="card">'+
 	      '<div class="card-header" role="tab">'+
@@ -140,19 +185,40 @@ function addlevel2(collapseData, turpleName, percentage, levelnumber, mark, maxM
 	              '</a>'+
 	            '</span>'+
 	            '<span class="panel-title float-right">'+
-	              percentage+ "%  (" + mark + "/" + maxMark+ ")"+
+	              percentage+ "%" +
 	            '</span>'+
 	          '</div>'+
 	        '</h5>'+
 	      '</div>'+
     	'<div id="collapse'+levelnumber+'" class="collapse" role="tabpanel">';
+    }
 
 	
       return collapseData;
 };
 
 function addlevel3(collapseData, turpleName, percentage, levelnumber, mark, maxMark) {
-
+  if(typeof percentage =="undefined"){
+  collapseData += 
+  '<div class="card">'+
+      '<div class="card-header" role="tab">'+
+        '<h6 class="mb-0">'+
+          '<div class=" panel-title">'+
+            '<span class="float-left">'+
+              '<a class="collapsed" data-toggle="collapse" href="#collapse'+levelnumber+'" aria-expanded="false" style="text-decoration: none">'+
+                turpleName+
+              '</a>'+
+            '</span>'+
+            '<span class="panel-title float-right">'+
+              'Pending'+
+            '</span>'+
+          '</div>'+
+      '</div>'+
+      '<div id="collapse'+levelnumber+'" class="collapse" role="tabpanel">';
+  
+      return collapseData;
+  }
+  else{
 	collapseData += 
 	'<div class="card">'+
       '<div class="card-header" role="tab">'+
@@ -171,6 +237,7 @@ function addlevel3(collapseData, turpleName, percentage, levelnumber, mark, maxM
       '<div id="collapse'+levelnumber+'" class="collapse" role="tabpanel">';
 	
       return collapseData;
+  }
 };
 
 
