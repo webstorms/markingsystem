@@ -240,6 +240,7 @@ public class CourseService extends Service {
 			
 			db.getUserDB().removeCourse(userID, courseID);
 			db.getCourseDB().addCourse(course);
+			
 		}
 		catch(Exception e) {
 			response = e.getMessage();

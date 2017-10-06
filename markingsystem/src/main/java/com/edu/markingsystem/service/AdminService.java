@@ -4,6 +4,7 @@ import java.util.HashSet;
 
 import com.edu.markingsystem.Util;
 import com.edu.markingsystem.db.Database;
+import com.edu.markingsystem.service.course.Course;
 import com.edu.markingsystem.service.course.CourseStructure;
 import com.edu.markingsystem.service.user.User;
 import com.edu.markingsystem.service.user.UserService;
@@ -52,23 +53,7 @@ public class AdminService extends Service {
 		});
 		//===============================
 
-		//=======	TA ========
-		Spark.post("/TAsearch", (req, res) -> {
-			Log.info(this.getClass().getName(), "POST /TAsearch " + req.ip());
-			return TAsearch(req, res);
-		});
-		//===============================
 	}
-	
-	public Object TAsearch(Request req, Response res) {
-		JsonObject json = Util.stringToJson(req.body());
-		String 	searchUserID = json.get("userID").getAsString();
-		
-		//TODO: find all users that match searchUsersID and that are enrolled in the TA's courses
-		return Util.objectToJson("success");
-		
-	}
-
 
 	//	move to new adminstaff service class?
 	//	checks if a user can be added to the course members
@@ -105,7 +90,6 @@ public class AdminService extends Service {
 					courseConvExists = true;
 				}
 			}
-			
 			
 		}
 		
@@ -160,9 +144,21 @@ public class AdminService extends Service {
 			response = "userDoesNotExist";
 		}
 		else {
-			db.getUserDB().deleteUser(userID);
-			// TODO: Delete user from all courses
+			User user = this.db.getUserDB().getUser(userID);
+			for(String courseID : user.getCourses()) {
+				Course course = db.getCourseDB().getCourse(courseID);
+				if(course.getStudents().contains(userID)) course.getStudents().remove(userID);
+				else if(course.getTAs().contains(userID)) course.getTAs().remove(userID);
+				else if(course.getLecturers().contains(userID)) course.getLecturers().remove(userID);
+				if(course.getCourseConvenor().equals(userID)) course.setCourseConvenor("");
+				db.getCourseDB().addCourse(course);
+				
+			}
+			
+			db.getUserDB().deleteUser(userID);			
+			
 			response = Service.SUCCESS;
+			
 		}
 		return Util.objectToJson(response);
 		
