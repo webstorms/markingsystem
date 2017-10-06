@@ -4,12 +4,19 @@
 document.addEventListener("DOMContentLoaded", function(event) { 
 	$(function() {
         // ====================  ON PAGE LOAD ====================
-            //get course IDs from backend and populate dropdowns 
+            //get course IDs for TA from backend and populate dropdowns 
             getAllCourses(function(response) {
-                $.each( response, function( k, v ) { 
+                $('#marksTab').hide();
+                var myStringArray = $.map(response, function(el) { return el });
+                var arrayLength = myStringArray.length;
+                for (var i = 0; i < arrayLength; i++) {
+                    var v = myStringArray[i];
                     $("#marksStrucutre_courseDropDown").append( $("<option>").val(v).html(v));
-                    $('#marksTab').hide();
-                });             
+                }
+                //$.each( JSON.parse(response), function( k, v ) { 
+                 //   $("#marksStrucutre_courseDropDown").append( $("<option>").val(v).html(v));
+                  //  $('#marksTab').hide();
+                //});             
             });
 
                     
@@ -586,9 +593,13 @@ document.addEventListener("DOMContentLoaded", function(event) {
 
 
     function getAllCourses(load){
+    var data = {
+        "userID": "",
+    }
     $.ajax({
-        url: '/getAllCourses',
+        url: '/getCourses',
         type: 'POST',
+        data: JSON.stringify(data),
         contentType: 'application/json',
         success: function(res) {
         load(JSON.parse(res));
