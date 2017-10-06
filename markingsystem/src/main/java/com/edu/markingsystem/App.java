@@ -58,6 +58,7 @@ public class App {
 		
 		List<String> students = new ArrayList<String>();
 		students.add("student1");
+		students.add("student2");
 		List<String> TAs = new ArrayList<String>();
 		TAs.add("ta1");
 		List<String> lecturers = new ArrayList<String>();

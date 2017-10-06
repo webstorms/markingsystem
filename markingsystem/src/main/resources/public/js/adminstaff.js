@@ -109,6 +109,7 @@ document.addEventListener("DOMContentLoaded", function(event) {
                     var courseData = course;
                     courseID = courseData.courseID;
                     stud = courseData.students;
+                    console.log(stud);
 
                     $("#marks_textArea").append(
                         '<thead>'+
