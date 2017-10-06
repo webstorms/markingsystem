@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
+<head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <meta name="description" content="">
@@ -21,88 +21,40 @@
 
 <!-- Javascript -->
     <script src="js/ta.js"></script>
-  </head>
+</head>
 
+<!-- ====================================================================== -->
+<!--                                BODY                                    -->
+<!-- ====================================================================== -->
 <body>
 
-<!-- navbar -->
+<!-- ===================   NAVBAR   ===================-->
 
     <nav class="navbar navbar-toggleable-md navbar-inverse bg-inverse mb-4">
-       <h1 class="navbar-brand mb-0">TA</h1>
+      <h1 class="navbar-brand mb-0">Admin Staff</h1>
 
       <div class="collapse navbar-collapse" id="navbarCollapse">
         <ul class="navbar-nav mr-auto"> </ul>
-          <button id="password-button" class="btn navbar-btn  btn-outline-secondary">Change Password</button>
-        <button id="logout" class="btn navbar-btn  btn-outline-secondary">Log out</button>
+         <button id="password-button" class="btn navbar-btn  btn-outline-secondary">Change Password</button>
+        <button id="logout" class="btn navbar-btn btn-outline-secondary">Log out</button>
       </div>
     </nav>
 
-<!-- Nav tabs -->
-
+<!-- =================== NAV TABS  =================== -->
 <ul class="nav nav-tabs" role="tablist">
   <li class="nav-item">
     <a class="nav-link active" href="#marks" role="tab" data-toggle="tab">Marks & Structure</a>
-  </li>
-  <li class="nav-item">
-    <a class="nav-link" href="#students" role="tab" data-toggle="tab">Student Search</a>
   </li>
 </ul>
 
 <!-- Tab panes -->
 <div class="tab-content">
 
-    <!-- Marks Tab -->
+    <!--========================================================--> 
+    <!--                     MARKS TAB                          -->
+    <!--========================================================--> 
     <div role="tabpanel" class="tab-pane active" id="marks">
-        <div class="container">
-
-        <hr>
-        <h3 class="form-signin-heading">Select Course</h3>
-        <hr>
-        <select class="form-control col-lg-3" id="manUsers_courseDropDown">
-            <option>Select a course</option>
-        </select>
-        <hr>
-
-        <div class="card card-block card-outline-primary">
-        <form id="studentSearch_form" onsubmit="return false">
-
-            <!-- Course Details -->
-            <div class="card card-outline-success">
-                <div class="card-block ">
-                    <hr>
-                    <h4 align="center">Course Details</h4>
-                    <hr>
-
-                    <form id = "users_courseDetails" onsubmit="return false">
-                        <div class="form-group form-inline">
-                            <label for="courseID">Course Name: &nbsp;</label> 
-                            <input type="ID" class="form-control col-lg-3" id="users_courseName" readonly>
-                        </div>
-
-                        <div class="form-group form-inline">
-                            <label for="courseID">Course Code: &nbsp;</label>
-                            <input type="ID" class="form-control col-lg-3" id="users_courseCode" readonly>
-                        </div>
-
-                        <div class="form-group form-inline">
-                            <label for="sel1">Course Year: &nbsp;</label>
-                            <input type="ID" class="form-control col-lg-3" id="users_courseYear" readonly>
-                        </div>
-
-                        <div class="form-group form-inline">
-                            <label for="sel1">Course Period: &nbsp;</label>
-                            <input type="ID" class="form-control col-lg-3" id="uesrs_coursePeriod" readonly>
-                        </div>
-                    </form>
-
-                </div>
-                </div>
-                <br>
-
-             <!-- Course Marks -->
-            <!-- Marks Tab -->
-    <div role="tabpanel" class="tab-pane fade" id="marks">
-        <div class="container">
+    <div class="container">
 
         <hr>
         <h3 class="form-signin-heading">Select Course</h3>
@@ -112,24 +64,26 @@
         </select>
         <hr>
 
-        <div class="card card-block card-outline-primary">
+        <!--==============   Main Card ==============-->
+        <div id="marksTab">
+        <div class="card card-block card-outline-primary" >
         <form id="studentSearch_form" onsubmit="return false">
 
-            <!-- Course Details -->
+            <!--==============   Course Details ==============-->
             <div class="card card-outline-success">
             <div class="card-block">
                 <div class="form-group form-inline">
-                    <label for="courseID">Course Name: &nbsp;&nbsp;</label> 
+                    <label for="courseID">Course Name: &nbsp&nbsp;</label> 
                     <input type="ID" class="form-control col-lg-3" id="search_courseName" readonly>
                 </div>
 
                 <div class="form-group form-inline">
-                    <label for="courseID">Course Code: &nbsp;&nbsp;&nbsp;</label>
+                    <label for="courseID">Course Code: &nbsp&nbsp&nbsp;</label>
                     <input type="ID" class="form-control col-lg-3" id="search_courseCode" readonly>
                 </div>
 
                 <div class="form-group form-inline">
-                    <label for="sel1">Course Year:&nbsp;&nbsp;&nbsp; &nbsp;</label>
+                    <label for="sel1">Course Year: &nbsp&nbsp&nbsp&nbsp;</label>
                     <input type="ID" class="form-control col-lg-3" id="search_courseYear" readonly>
                 </div>
 
@@ -140,19 +94,13 @@
             </div>
             </div>
             <br>
-
-             <!-- Course Marks -->
+             
+             <!--==============   Course Marks ==============-->
             <div class="card card-outline-success">
             <div class="card-block">
                 <hr>
                 <h3 align="center">Edit Marks </h3>
                 <hr>
-
-                <button class="btn btn-primary" id="commitMarks">Commit mark changes</button>
-                <div class="form-group">
-                    <table class="table table-bordered" id="marks_textArea" rows="3"></table>
-                </div>
-
 
                 <!-- Import/Export Marks -->
                 <div class="row">
@@ -205,69 +153,32 @@
                     </div>
                     </div>
                 </div>
+
+                <br><br>
+               <!-- Marks Table -->
+                <div class="form-group">
+                    <table class="table table-bordered" id="marks_textArea" rows="3"></table>
+                </div>
+
+                 <div class="form-group">
+                    <button class="btn  btn-success" id="commitMarks">Commit Changes</button>
+                    <div class="container" style="padding:20px" id="wrong-input"></div>
+                </div>
+
             </div>
             </div>
             <br>
 
-            
-            <br>
             
         </form>
 
             <br>
         </div>
-        <br>
-
-
-    
-    </div>
-    </div>
-
-    <!-- Students Tab -->
-    <div role="tabpanel" class="tab-pane fade" id="students">
-        <div class="container">
-
-        <hr>
-        <h3 class="form-signin-heading">Search for a student</h3>
-        <hr>
-
-        <div class="card card-block card-outline-primary">
-
-        <form id="studentSearch_form" onsubmit="return false">
-            <hr>
-            <h3 align="center">Search</label></h3>
-            <hr>
-
-            <div class="form-group">
-                <label>Student ID</label>
-                <input type="ID" class="form-control col-lg-3" id="student_searchBox" placeholder="Enter student user ID">    
-            </div>
-
-            <div class="form-group">
-                <button class="btn btn-primary" id="studentSearch_button">Search</button>
-            </div>
-    
-
-            <div class="form-group">
-                <hr>
-                <h3 align="center"><label>Results</label></h3>
-                <hr>
-
-                <table class="table table-sm" id = "searchStudents_table">
-                <thead>
-                    <tr>
-                    <th>User ID</th>
-                    </tr>
-                </thead>
-                <tbody>
-                </tbody>
-                </table>
-            </div>
-            
-        </form>
-        <br>
         </div>
+
         <br>
+
+
     
     </div>
     </div>
