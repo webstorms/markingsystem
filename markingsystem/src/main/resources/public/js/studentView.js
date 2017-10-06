@@ -94,30 +94,14 @@ getMarks(reqUser, reqCourse, function(response) {
 });
 
 //buttons
-function addCourseButton(buttonTitle, buttons, id){
+function addCourseButton(buttonTitle, buttons, id) {
 	buttons +='<button id="Button"' + id + ' class="btn navbar-btn btn-secondary">' + buttonTitle + '</button>';
 	return buttons;
 };
 
-function commitButtons(buttons){
+function commitButtons(buttons) {
 	$('#buttons').html(buttons);
 };
-
-//collapse groups
-function getStudentMarks(load){
-	var data = {
-			"userID": "student1", "courseID": "mam100017",
-		}
-		$.ajax({
-			url: '/getStudentMarks',
-			type: 'POST',
-			data: JSON.stringify(data),
-			contentType: 'application/json',
-			success: function(res) {
-				load(JSON.parse(res));
-			}
-		});	
-}
 
 function addlevel1(collapseData, turpleName, percentage, levelnumber) {
 

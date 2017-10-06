@@ -605,19 +605,19 @@ document.addEventListener("DOMContentLoaded", function(event) {
     }
 
     //Import students to a course
-    function manUsersImportStudents(load){
+    function manUsersImportStudents(load) {
 
         //TODO: send data ta backend 
 
     }
 
     //refresh course details and members
-    function manUsersRefreshCourse(){
-        manUsersGetCourse(function(course){ //send a post request to get course object
-            if(course == 'courseDoesNotExist'){
+    function manUsersRefreshCourse() {
+        manUsersGetCourse(function(course) { //send a post request to get course object
+            if(course == 'courseDoesNotExist') {
                 //handle error
             }
-            else{
+            else {
                 //load course details
                 $("#users_courseName").val(course.courseName);
                 $("#users_courseCode").val(course.courseID);
@@ -660,7 +660,7 @@ document.addEventListener("DOMContentLoaded", function(event) {
         });    
     }
 
-    function manUsersGetCourse(load){
+    function manUsersGetCourse(load) {
         var data = {
             "courseID": $('#manUsers_courseDropDown').val(),
         }
@@ -810,10 +810,10 @@ document.addEventListener("DOMContentLoaded", function(event) {
     }
 
     //import student
-    function createCourseImportStudent(load){}
+    function createCourseImportStudent(load){ }
 
     //create course
-    function createCourse(structureData,load){
+    function createCourse(structureData,load) {
         var data = {
             "membersTable": tableToString(),
             "courseName": $('#createCourse_name').val(),
@@ -985,7 +985,7 @@ function getMarks(StudentID, load) {
         var data = {
         "userID": StudentID,
         "courseID": $('#marksStrucutre_courseDropDown').val(),
-      }
+        }
          $.ajax({
         url: '/getMarks',
         async: false ,
@@ -1008,5 +1008,6 @@ function updateMarks(courseID, data, load) {
                 load(JSON.parse(res));
             }
         }); 
+
 }
 

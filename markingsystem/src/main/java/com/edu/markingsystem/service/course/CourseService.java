@@ -261,6 +261,7 @@ public class CourseService extends Service {
 
 			db.getUserDB().addCourse(userID, courseID);
 			db.getCourseDB().addCourse(course);
+			
 		}
 		catch(Exception e) {
 			e.printStackTrace();

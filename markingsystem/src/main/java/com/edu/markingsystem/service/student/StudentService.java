@@ -8,7 +8,6 @@ import com.edu.markingsystem.service.Service;
 import com.edu.markingsystem.service.course.CourseStructure;
 import com.edu.markingsystem.service.user.UserService;
 import com.esotericsoftware.minlog.Log;
-import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 
 import spark.Request;
@@ -35,7 +34,7 @@ public class StudentService extends Service {
 //		});
 
 		Spark.post("/getMarks", (req, res) -> {
-			Log.info(this.getClass().getName(), "POST /getStudentMarks " + req.ip());
+			Log.info(this.getClass().getName(), "POST /getMarks " + req.ip());
 			return getMarks(req, res);
 		});
 

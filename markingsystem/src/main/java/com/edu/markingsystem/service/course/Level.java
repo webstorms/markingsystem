@@ -6,11 +6,16 @@ public class Level implements java.io.Serializable {
 
 	protected String name;
 	protected String ID;
-	protected int percentage;
+	protected Integer percentage;
 	
 	public Level(String name) {
 		this.name = name;
 		this.ID = UUID.randomUUID().toString();
+		
+	}
+	
+	protected Integer getPercentage() {
+		return this.percentage;
 		
 	}
 	
