@@ -42,7 +42,7 @@ public class App {
 		for(int i=3; i<4; i++){
 			db.getUserDB().addUser("student"+i, new User("1234", UserType.STUDENT));
 		}
-
+		
 		// Create TA
 		db.getUserDB().addUser("ta1", new User("1234", UserType.TA));
 
@@ -56,14 +56,18 @@ public class App {
 		MidLevel midLevel = new MidLevel("Exam1", 100);
 		midLevel.addBottomLevel(b1);
 		midLevel.addBottomLevel(b2);
-		TopLevel topLevel = new TopLevel("Exams", 100, 50);
+		TopLevel topLevel = new TopLevel("Exams", 60, 50);
+		TopLevel topLevel2 = new TopLevel("Tests", 40, 50);
 		topLevel.addMidLevel(midLevel);
+		topLevel2.addMidLevel(midLevel);
 		CourseStructure course = new CourseStructure();
 		course.addTopLevel(topLevel);
+		course.addTopLevel(topLevel2);
 		
 		List<String> students = new ArrayList<String>();
 		students.add("student1");
 		students.add("student2");
+		
 		List<String> TAs = new ArrayList<String>();
 		TAs.add("ta1");
 		List<String> lecturers = new ArrayList<String>();

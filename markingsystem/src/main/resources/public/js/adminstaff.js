@@ -1,4 +1,3 @@
-
 //================================================================================
 //                    Event Listeners and JQuerys 
 //================================================================================
@@ -491,7 +490,7 @@ document.addEventListener("DOMContentLoaded", function(event) {
                 window.location.href = '/getPasswordChangeView';
 
             });
-	
+    
 
 
     });
@@ -535,7 +534,7 @@ document.addEventListener("DOMContentLoaded", function(event) {
         success: function(res) {
         load(JSON.parse(res));
         }
-    });	
+    }); 
 
     }
 
@@ -600,7 +599,7 @@ document.addEventListener("DOMContentLoaded", function(event) {
             success: function(res) {
             load(JSON.parse(res));
             }
-        });	
+        }); 
     }
 
     function manUsersRemoveUser(userID,courseID,load){
@@ -649,7 +648,7 @@ document.addEventListener("DOMContentLoaded", function(event) {
             success: function(res) {
             load(JSON.parse(res));
             }
-        });	
+        }); 
     }
 
     //get course marks 
@@ -696,7 +695,7 @@ document.addEventListener("DOMContentLoaded", function(event) {
         success: function(res) {
         load(JSON.parse(res));
         }
-    });	
+    }); 
 
     }
 

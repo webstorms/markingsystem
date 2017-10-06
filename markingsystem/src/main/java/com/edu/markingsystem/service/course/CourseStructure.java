@@ -14,8 +14,7 @@ import com.google.gson.annotations.Expose;
 
 public class CourseStructure implements java.io.Serializable {
 	
-	private int percentage; // out of 100
-	private boolean complete;
+	private Integer percentage; // out of 100
 	private List<TopLevel> topLevels; // Exams, CourseWork, Tests
 	private HashMap<String, BottomLevel> bottomIDs;
 	
@@ -28,7 +27,10 @@ public class CourseStructure implements java.io.Serializable {
 	public void init() {
 		for(TopLevel top : this.topLevels) {
 			for(MidLevel mid : top.getMidLevels()) {
-				for(BottomLevel bottom : mid.getBottomLevel()) this.bottomIDs.put(bottom.ID, bottom);
+				for(BottomLevel bottom : mid.getBottomLevel()) {
+					this.bottomIDs.put(bottom.ID, bottom);
+					
+				}
 				
 			}
 			
@@ -61,10 +63,19 @@ public class CourseStructure implements java.io.Serializable {
 	}
 	
 	public void calculatePercentages() {
+		boolean completed = true;
+		this.percentage = 0;
+		
 		for(TopLevel level : this.topLevels) {
 			level.calculatePercentages();
-			this.percentage += level.getPercentage() * level.getWeight();
+			if(level.getPercentage() == null) completed = false;
+			else {
+				this.percentage += level.getPercentage() * level.getWeight();
+			}
+			
 		}
+		if(completed == false) percentage = null;
+		else this.percentage /= 100;
 		
 	}
 	

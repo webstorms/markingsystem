@@ -6,7 +6,7 @@ import java.util.List;
 public class MidLevel extends Level implements java.io.Serializable {
 	
 	private int weight; // out of 100
-	private int mark;
+	private Integer mark;
 	private int maxMark;
 	private List<BottomLevel> bottomLevels;
 	
@@ -28,18 +28,24 @@ public class MidLevel extends Level implements java.io.Serializable {
 	}
 	
 	public void calculatePercentages() {
+		boolean complete = true;
+		this.mark = 0;
+		this.maxMark = 0;
+		
 		for(BottomLevel level : this.bottomLevels) {
 			level.calculatePercentages();
-			this.mark += level.getMark();
-			this.maxMark += level.getMaxMark();
+			if(level.getPercentage() == null) complete = false;
+			else {
+				this.mark += level.getMark();
+				this.maxMark += level.getMaxMark();
+			}
 			
 		}
-		this.percentage = Math.round((float) this.mark / (float) this.maxMark);
-		
-	}
-	
-	public int getPercentage() {
-		return this.percentage;
+		if(complete == false) {
+			this.mark = null;
+			this.percentage = null;
+		}
+		else this.percentage = Math.round(100f * ((float) this.mark / (float) this.maxMark));
 		
 	}
 

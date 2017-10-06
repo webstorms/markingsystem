@@ -29,11 +29,6 @@ public class TopLevel extends Level implements java.io.Serializable {
 		
 	}
 
-	public int getPercentage() {
-		return this.percentage;
-		
-	}
-
 	public int getWeight() {
 		return this.weight;
 		
@@ -45,10 +40,19 @@ public class TopLevel extends Level implements java.io.Serializable {
 	}
 
 	public void calculatePercentages() {
+		boolean complete = true;
+		this.percentage = 0;
+		
 		for(MidLevel level : this.midLevels) {
 			level.calculatePercentages();
-			this.percentage += level.getPercentage() * level.getWeight();
+			if(level.getPercentage() == null) complete = false;
+			else {
+				this.percentage += level.getPercentage() * level.getWeight();
+			}
+			
 		}
+		if(complete == false) this.percentage = null;
+		else this.percentage /= 100;
 		
 	}
 
