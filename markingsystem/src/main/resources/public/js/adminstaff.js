@@ -1,13 +1,14 @@
+//================================================================================
+//                    Event Listeners and JQuerys 
+//================================================================================
 document.addEventListener("DOMContentLoaded", function(event) { 
-    $(function() {
-
+	$(function() {
         // ====================  ON PAGE LOAD ====================
             //get course IDs from backend and populate dropdowns 
             getAllCourses(function(response) {
                 $.each( response, function( k, v ) { 
                     $("#manUsers_courseDropDown").append( $("<option>").val(v).html(v));
                     $('#manUsersDiv').hide();
-                    
                     $("#marksStrucutre_courseDropDown").append( $("<option>").val(v).html(v));
                     $('#marksTab').hide();
                 });             
@@ -56,15 +57,20 @@ document.addEventListener("DOMContentLoaded", function(event) {
             });
 
             //Import students to a course
+            var fileData;
             var fileInput = document.getElementById("manUsers_file");
-            readFile = function () {
+            fileInput.addEventListener('change', function () {
                 var reader = new FileReader();
-                reader.onload = function () {
-                      manUsersImportStudents(reader.result, function(response) {manUsersRefreshCourse();});
-                 };
+                reader.onload = function () { 
+                    fileData = reader.result;
+                };
                 reader.readAsBinaryString(fileInput.files[0]);
-            };
-            fileInput.addEventListener('change', readFile);
+            });
+            document.getElementById("manUser_studentImport_button").addEventListener("click", function(){
+                  manUsersImportStudents(fileData, function(response) {manUsersRefreshCourse();});
+                
+            });
+            
 
             //Remove a user
             $('#manUsers_removeUser_button').on('click', function(e) {   
@@ -88,16 +94,12 @@ document.addEventListener("DOMContentLoaded", function(event) {
                 }
                 else{
                     $('#marksTab').show();
-                    //update course details
                     marksRefreshCourse();
-
-                    //update course stucture
                     marksGetCourse(function(course){ 
                         $("#marks_textArea").html('');
                         var courseData = course;
                         courseID = courseData.courseID;
                         stud = courseData.students;
-                        console.log(stud);
 
                         $("#marks_textArea").append(
                             '<thead>'+
@@ -117,28 +119,24 @@ document.addEventListener("DOMContentLoaded", function(event) {
                         var firstStud=true;
                         var firstTop=true;
                         var firstMid=true;
-
+                        var printMark;
                         // Iterate over students
                         for (var i=0; i<stud.length; i++){
                             firstStud=true;
-                            console.log(stud[i]);
+                          
                             var studi=stud[i];
                             getMarks(stud[i], function(response){
-                                console.log(response);
-                                console.log(studi);
                                 marks = response;
                                 toplev = marks.topLevels
 
                                 // Iterate over Top levels
                                 for (var k = 0; k<toplev.length; k++){
                                     firstTop=true;
-                                    console.log(toplev[k]);
                                     midlev = toplev[k].midLevels;
 
                                     // Iterate over Mid Levels
                                     for(var j =0; j<midlev.length;j++){
-                                        firstMid=true;
-                                        console.log(midlev[j]);
+                                        firstMid=true;;
                                         bottomlev = midlev[j].bottomLevels;
 
                                         // Iterate over Bottom Levels
@@ -150,11 +148,9 @@ document.addEventListener("DOMContentLoaded", function(event) {
                                             else{
                                                 var studPrint='';
                                             }
-                                            console.log(studi);
 
                                             if (firstMid==true){
                                                 var midPrint = midlev[j].name;
-                                                console.log(midlev[j]);
                                             }
                                             else{
                                                 var midPrint='';
@@ -167,14 +163,28 @@ document.addEventListener("DOMContentLoaded", function(event) {
                                                 var topPrint='';
                                             }
 
-                                            $("#tableBody").append('<tr>'+
-                                            '<th scope="row">'+studPrint+'</th>'+
-                                            '<td>'+ topPrint +'</td>'+
-                                            '<td>' + midPrint +'</td>'+
-                                            '<td>' + bottomlev[p].name + ' (' + bottomlev[p].maxMark + ')</td>'+
-                                            '<td><input type="text" id="' + i+'-'+k+'-'+j+'-'+p + '" value="' + bottomlev[p].mark + '">' + '</td>'+
-                                            '</tr>'
-                                            )
+                                            if (typeof bottomlev[p].mark== "undefined"){
+                                                $("#tableBody").append('<tr>'+
+                                                    '<th scope="row">'+studPrint+'</th>'+
+                                                    '<td>'+ topPrint +'</td>'+
+                                                    '<td>' + midPrint +'</td>'+
+                                                    '<td>' + bottomlev[p].name + ' (' + bottomlev[p].maxMark + ')</td>'+
+                                                    '<td><input type="text" id="' + i+'-'+k+'-'+j+'-'+p + '" style="background-color:#d3d3d3;" value="" >' + '</td>'+
+                                                '</tr>'
+                                                )
+                                            }
+
+                                            else{
+                                                $("#tableBody").append('<tr>'+
+                                                        '<th scope="row">'+studPrint+'</th>'+
+                                                        '<td>'+ topPrint +'</td>'+
+                                                        '<td>' + midPrint +'</td>'+
+                                                        '<td>' + bottomlev[p].name + ' (' + bottomlev[p].maxMark + ')</td>'+
+                                                        '<td><input type="text" id="' + i+'-'+k+'-'+j+'-'+p + '" value="' + bottomlev[p].mark + '">' + '</td>'+
+                                                    '</tr>'
+                                                )
+                                            }
+                                            
                                             
                                             firstStud=false;
                                             firstMid=false;
@@ -186,11 +196,12 @@ document.addEventListener("DOMContentLoaded", function(event) {
                             });
                         }
                     });
-                    }
+                }
             });
-
+            
             //send mark changes to backend
             $('#commitMarks').on('click', function(e){
+                var breakOut=false;
                 marksGetCourse(function(course){
                     var courseData = course;
                     stud = courseData.students;
@@ -210,38 +221,63 @@ document.addEventListener("DOMContentLoaded", function(event) {
 
                                 for(var j =0; j<midlev.length;j++){
                                     firstMid=true;
-                                    console.log(midlev[j]);
                                     bottomlev = midlev[j].bottomLevels;
                                     for (var p=0; p<bottomlev.length; p++){
 
-                                        console.log($('#'+ i+'-'+k+'-'+j+'-'+p).val());
-                                        if ($('#'+ i+'-'+k+'-'+j+'-'+p).val()==0){
+                                        // It's a gry field
+                                        if ($('#'+ i+'-'+k+'-'+j+'-'+p).val() == ""){
                                             //do nothing
+                                            marks.topLevels[k].midLevels[j].bottomLevels[p]["mark"] = null;
+                                            $(('#'+ i+'-'+k+'-'+j+'-'+p)).attr('style', "background-color:#d3d3d3;");
+
                                         }
-                                        else if ( isNaN(($('#'+ i+'-'+k+'-'+j+'-'+p).val()))){
-                                            //do nothing
-                                            console.log("not a number");
+
+                                        // Is not a number
+                                        else if (isNaN($('#'+ i+'-'+k+'-'+j+'-'+p).val())) {
+                                            breakOut=true
+                                            $(('#'+ i+'-'+k+'-'+j+'-'+p)).attr('style', "background-color:#FF9494;");
+
                                         }
+
+                                        else if ($('#'+ i+'-'+k+'-'+j+'-'+p).val()<0){
+                                            breakOut=true;
+                                            $(('#'+ i+'-'+k+'-'+j+'-'+p)).attr('style', "background-color:#FF9494;");
+                                        }
+
+                                        else if ($('#'+ i+'-'+k+'-'+j+'-'+p).val()>marks.topLevels[k].midLevels[j].bottomLevels[p]["maxMark"]){
+                                            breakOut=true;
+                                            $(('#'+ i+'-'+k+'-'+j+'-'+p)).attr('style', "background-color:#FF9494;");
+                                        }
+
                                         else{
                                             marks.topLevels[k].midLevels[j].bottomLevels[p]["mark"] = Number($('#'+ i+'-'+k+'-'+j+'-'+p).val());
-                                            //console.log(marks);
+                                            $(('#'+ i+'-'+k+'-'+j+'-'+p)).attr('style', "background-color:#FFFFFF;");
+
                                         }
                                         firstStud=false;
                                         firstMid=false;
                                         firstTop=false;
 
+
                                     }
+
                                 }
+
                             }
                         });
-                    //console.log(marks);
                     jsonObj.Students.push(marks);
                     }
-                    console.log(jsonObj);
-                    updateMarks(courseData.courseID, jsonObj, function(response) {
-                        confirm("Marks updated.");
 
-                    });
+                    if(breakOut==false){
+                        $('#wrong-input').html('');
+                        updateMarks(courseData.courseID, jsonObj, function(response) {
+                            confirm("Marks updated.");
+                        });
+
+                    }
+                    else{
+                        $('#wrong-input').html('<div class="alert alert-danger"role="alert"><p class="text-center">' +  'Marks must be numbers between 0 and max mark.' + '</p></div>');
+                    }
                     
                 });
 
@@ -263,57 +299,7 @@ document.addEventListener("DOMContentLoaded", function(event) {
                 });
             });
           
-        // ====================  CREATE COURSE TAB ====================
-
-            //Add staff member
-            $('#createCourse_staff_button').on('click', function(e) {     
-                var userID = $("#createCourse_staffID").val();
-                var role = $("#createCourse_staffRole").val();     
-
-                createCourseAddUser(userID,role,function(response) {
-                    if(response=="success"){
-                        $("#createCourse_membersTable").find('tbody').append($('<tr>').append($('<td>').text(userID)).append($('<td>').text(role)));
-                    }
-                    else{
-                        alert(response);
-                    }
-                })
-            });
-
-            //Add a student
-            $('#createCourse_addStudent_button').on('click', function(e) {   
-                var userID = $("#createCourse_studentID").val();
-                var role = "student"; 
-
-                createCourseAddUser(userID,role,function(response) {
-                    if(response=="success"){
-                        $("#createCourse_membersTable").find('tbody').append($('<tr>').append($('<td>').text(userID)).append($('<td>').text(role)));
-                    }
-                    else{
-                        alert(response);
-                    }
-                })
-            });
-            
-            //Remove a user
-            $('#createCourse_removeStudent_button').on('click', function(e) {   
-                var userID = $("#createCourse_removeID").val();
-
-                createCourseRemoveUser(userID,function(response) {
-                    if(response=="user"){
-                       alert(response);
-                    }
-                    else{
-                        deleteRow(response);
-                    }
-                })
-            });
-
-            //Import students
-            $('#createCourse_studentImport_button').on('click', function(e) {
-            });
-
-            
+        // ====================  CREATE COURSE TAB ====================            
             //Create course
             $('#createCourse_button').on('click', function(e) {
                 var jsonObj = {};
@@ -325,7 +311,6 @@ document.addEventListener("DOMContentLoaded", function(event) {
                 }
                 else{
                     jsonObj["structure"]=structureData;
-                    console.log(jsonObj);
 
                     createCourse(structureData,function(response) {
                         alert(response);
@@ -399,8 +384,7 @@ document.addEventListener("DOMContentLoaded", function(event) {
                     addedCourses_CreateCourseStructure.splice(addedCourses_CreateCourseStructure.indexOf(item), 1); // removes item from the array
                     var ArrLength = addedCourses_CreateCourseStructure.length;
                     for(var i=0; i<ArrLength; i++){         //looks for any sub sections that need to also be removed
-
-                        console.log("looking for " + item);
+                        
                         if (addedCourses_CreateCourseStructure[i].indexOf(item)!=-1){
                             addedCourses_CreateCourseStructure.splice(i, 1);
                             i--;
@@ -562,7 +546,9 @@ document.addEventListener("DOMContentLoaded", function(event) {
 });
 
 
-
+//================================================================================
+//                    FUNCTIONS and AJAX POSTS 
+//================================================================================
 // ====================  MANAGE USERS TAB ==================== 
     //Add a user to a course
     function manUsersAddUser(role,userID,courseID,load){
@@ -681,22 +667,6 @@ document.addEventListener("DOMContentLoaded", function(event) {
         });
     }
 // ====================  MARKS AND STRUCTURE TAB ====================
-    function marksStructureSelectCourse(load){
-        var data = {
-        "courseID": $('#marksStrucutre_courseDropDown').val(),
-    }
-        $.ajax({
-        url: '/adminstaff_marksStrucutre_selectCourse',
-        type: 'POST',
-            data: JSON.stringify(data),
-        contentType: 'application/json',
-        success: function(res) {
-        load(JSON.parse(res));
-        }
-    }); 
-
-    }
-
     //refresh course details and members
     function marksRefreshCourse(){
         marksGetCourse(function(course){ //send a post request to get course object
@@ -714,6 +684,7 @@ document.addEventListener("DOMContentLoaded", function(event) {
         });    
     }
 
+    //get course details
     function marksGetCourse(load){
         var data = {
             "courseID": $('#marksStrucutre_courseDropDown').val(),
@@ -728,12 +699,43 @@ document.addEventListener("DOMContentLoaded", function(event) {
             }
         }); 
     }
-// ====================  STUDENT SEARCH TAB ==================== 
 
+    //get course marks 
+    function getMarks(StudentID, load) {
+        var data = {
+            "userID": StudentID,
+            "courseID": $('#marksStrucutre_courseDropDown').val(),
+        }
+        $.ajax({
+            url: '/getMarks',
+            async: false ,
+            type: 'POST',
+                data: JSON.stringify(data),
+            contentType: 'application/json',
+            success: function(res) {
+            load(JSON.parse(res));
+            }
+        });
+    }
+
+    //change course marks
+    function updateMarks(courseID, data, load) {
+        $.ajax({
+            url: '/updateMarks',
+            type: 'POST',
+            data: JSON.stringify({"courseID": courseID, "data" : data}),
+            contentType: 'application/json',
+            success: function(res) {
+                load(JSON.parse(res));
+            }
+        }); 
+    }
+// ====================  STUDENT SEARCH TAB ==================== 
+    //seach for a student:
     function searchStudent(load){
         var data = {
         "userID": $('#student_searchBox').val(),
-    }
+        }
         $.ajax({
         url: '/findUser',
         type: 'POST',
@@ -746,7 +748,7 @@ document.addEventListener("DOMContentLoaded", function(event) {
 
     }
 
-    //TODO: Luke
+    //relocate to student page:
     function loadStudentPage(studentID) {
         sessionStorage.setItem("requestedUser", studentID);
         window.location.href = '/getStudentHomeView';
@@ -754,54 +756,6 @@ document.addEventListener("DOMContentLoaded", function(event) {
     }   
 
 // ====================  CREATE COURSE TAB ====================
-    //TODO: write functions
-
-    //add user
-    function createCourseAddUser(userID,role,load) {
-        
-        var data = {
-            "table": tableToString(),
-            "userID": userID,
-            "role": role,
-        }
-
-        $.ajax({
-        url: '/adminstaff_createCourseAddUser',
-        type: 'POST',
-            data: JSON.stringify(data),
-        contentType: 'application/json',
-        success: function(res) {
-        load(JSON.parse(res));
-        }
-        
-        });
-
-    }
-
-    //remove user
-    function createCourseRemoveUser(userID,load){
-        
-        var data = {
-            "table": tableToString(),
-            "userID": userID,
-        }
-
-        $.ajax({
-        url: '/createCourse_removeUserFromCourse',
-        type: 'POST',
-            data: JSON.stringify(data),
-        contentType: 'application/json',
-        success: function(res) {
-        load(JSON.parse(res));
-        }
-        
-        });
-
-    }
-
-    //import student
-    function createCourseImportStudent(load){}
-
     //create course
     function createCourse(structureData,load){
         var data = {
@@ -813,7 +767,6 @@ document.addEventListener("DOMContentLoaded", function(event) {
             "courseStructure": structureData,
         }
 
-        console.log(data);
         $.ajax({
         url: '/createCourse',
         type: 'POST',
@@ -861,7 +814,6 @@ document.addEventListener("DOMContentLoaded", function(event) {
         courseArray = courseArray.sort(); 
         courseArray = courseArray.reverse(); //makes it easier to control array with pop()
 
-        console.log(courseArray);
         var structure = {       // create base structure
             percentage: 0,
             
@@ -947,75 +899,51 @@ document.addEventListener("DOMContentLoaded", function(event) {
 
 // ====================  GENERIC ====================
 
-function getAllCourses(load){
- $.ajax({
-    url: '/getAllCourses',
-    type: 'POST',
-    contentType: 'application/json',
-    success: function(res) {
-      load(JSON.parse(res));
-    }
-  });
-  
-}
 
-
-function logout(load) {
-  $.ajax({
-    url: '/logout',
-    type: 'POST',
-    contentType: 'application/json',
-    success: function(res) {
-      load(JSON.parse(res));
-    }
-  });
-}
-
-function getMarks(StudentID, load) {
-        var data = {
-        "userID": StudentID,
-        "courseID": $('#marksStrucutre_courseDropDown').val(),
-      }
-         $.ajax({
-        url: '/getMarks',
-        async: false ,
+    function getAllCourses(load){
+    $.ajax({
+        url: '/getAllCourses',
         type: 'POST',
-            data: JSON.stringify(data),
         contentType: 'application/json',
         success: function(res) {
-          load(JSON.parse(res));
+        load(JSON.parse(res));
         }
-      });
+    });
+    
     }
 
-function updateMarks(courseID, data, load) {
-        $.ajax({
-            url: '/updateMarks',
-            type: 'POST',
-            data: JSON.stringify({"courseID": courseID, "data" : data}),
-            contentType: 'application/json',
-            success: function(res) {
-                load(JSON.parse(res));
-            }
-        }); 
-}
 
-//convert from csv file contents to a json object
- function csvJSON(csv){
- 
-   var lines=csv.split("\n");
-   var result = [];
-   var headers=lines[0].split(",");
- 
-   for(var i=1;i<lines.length;i++){
-       var obj = {};
-       var currentline=lines[i].split(",");
-       for(var j=0;j<headers.length;j++){
-           obj[headers[j]] = currentline[j];
-       }
-       result.push(obj);
- 
-  }
+    function logout(load) {
+    $.ajax({
+        url: '/logout',
+        type: 'POST',
+        contentType: 'application/json',
+        success: function(res) {
+        load(JSON.parse(res));
+        }
+    });
+    }
 
-   return JSON.stringify(result);
- }
+
+    //convert from csv file contents to a json object
+    function csvJSON(csv){
+    
+    var lines=csv.split("\n");
+    var result = [];
+    var headers=lines[0].split(",");
+    
+    for(var i=1;i<lines.length;i++){
+        var obj = {};
+        var currentline=lines[i].split(",");
+        for(var j=0;j<headers.length;j++){
+            obj[headers[j]] = currentline[j];
+        }
+        result.push(obj);
+    
+    }
+
+    return JSON.stringify(result);
+    }
+
+//================================================================================
+//================================================================================
