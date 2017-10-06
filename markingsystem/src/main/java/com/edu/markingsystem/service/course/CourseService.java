@@ -121,6 +121,8 @@ public class CourseService extends Service {
 				JsonObject j = Util.stringToJson(id);
 				System.out.println(j.get("ID").getAsString());
 				course.addStudent(j.get("ID").getAsString());
+				db.getUserDB().addCourse(id, courseID);
+				
 				
 			}
 			
