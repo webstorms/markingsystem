@@ -325,7 +325,11 @@ document.addEventListener("DOMContentLoaded", function(event) {
                     createCourse(structureData,function(response) {
                         alert(response);
                         if(response=="success"){
-                            
+                            $('#createCourse_name').reset();
+                            $('#createCourse_code').reset();
+                            $('#createCourse_year').reset();
+                            $('#createCourse_period').reset();
+
                         }
                         else{
                             
@@ -809,6 +813,10 @@ document.addEventListener("DOMContentLoaded", function(event) {
         var topDP=0;
         var topWeight = 0;
         var midWeight = 0;
+        if(courseArray.length==0){
+            $('#wrong-course-structure').html('<div class="alert alert-danger"role="alert"><p class="text-center">' +  'Create a course structure' + '</p></div>');
+            return false;
+        }
         while(courseArray.length!=0){ //loop through array of levelIDs
             var currentItem = courseArray.pop();
 
@@ -829,11 +837,17 @@ document.addEventListener("DOMContentLoaded", function(event) {
                     return false;
                 }
                 midWeight=0;
-                if ($('#sectionTitle_' + currentItem + '_CreateCourseStructure').val()==""||Number($('#weighting_' + currentItem + '_CreateCourseStructure').val())==0){ //checks for null values
-                    $('#wrong-course-structure').html('<div class="alert alert-danger"role="alert"><p class="text-center">' +  'Enter information into all of the feilds (numerical values cannot be set to 0)' + '</p></div>');
+                if ($('#sectionTitle_' + currentItem + '_CreateCourseStructure').val()==""|| $('#weighting_' + currentItem + '_CreateCourseStructure').val()==""|| $('#DPreq_' + currentItem + '_CreateCourseStructure').val()==""|| isNaN($('#weighting_' + currentItem + '_CreateCourseStructure').val())==true || isNaN($('#DPreq_' + currentItem + '_CreateCourseStructure').val())){ //checks for null values
+                    $('#wrong-course-structure').html('<div class="alert alert-danger"role="alert"><p class="text-center">' +  'Enter valid information into all of the fields (weightings and DP Requirements must be numbers)' + '</p></div>');
                     return false;
 
                 }
+
+                if (Number($('#weighting_' + currentItem + '_CreateCourseStructure').val())<0 || Number($('#DPreq_' + currentItem + '_CreateCourseStructure').val())<0){
+                    $('#wrong-course-structure').html('<div class="alert alert-danger"role="alert"><p class="text-center">' +  'Numbers cannot be negative' + '</p></div>');
+
+                }
+
                 structure.topLevels.push({name: $('#sectionTitle_' + currentItem + '_CreateCourseStructure').val(), weight: Number($('#weighting_' + currentItem + '_CreateCourseStructure').val()), percentage: 0, dp: Number($('#DPreq_' + currentItem + '_CreateCourseStructure').val()), midLevels: []});
                 
             }
@@ -847,23 +861,47 @@ document.addEventListener("DOMContentLoaded", function(event) {
                 midCounter++;
                 midWeight= midWeight + Number($('#weighting_' + currentItem + '_CreateCourseStructure').val());
 
-                if ($('#assesmentTitle_' + currentItem + '_CreateCourseStructure').val()==""||Number($('#weighting_' + currentItem + '_CreateCourseStructure').val())==0){
-                    $('#wrong-course-structure').html('<div class="alert alert-danger"role="alert"><p class="text-center">' +  'Enter information into all of the feilds (numerical values cannot be set to 0)' + '</p></div>');
+                if ($('#assesmentTitle_' + currentItem + '_CreateCourseStructure').val()==""||$('#weighting_' + currentItem + '_CreateCourseStructure').val()==""|| isNaN($('#weighting_' + currentItem + '_CreateCourseStructure').val())==true){ //checks for null values
+                    $('#wrong-course-structure').html('<div class="alert alert-danger"role="alert"><p class="text-center">' +  'Enter valid information into all of the fields (weightings and DP Requirements must be numbers)' + '</p></div>');
                     return false;
+
+                }
+
+                if (Number($('#weighting_' + currentItem + '_CreateCourseStructure').val())<0){
+                    $('#wrong-course-structure').html('<div class="alert alert-danger"role="alert"><p class="text-center">' +  'Numbers cannot be negative' + '</p></div>');
+
                 }
                 structure.topLevels[topCounter].midLevels.push({name: $('#assesmentTitle_' + currentItem + '_CreateCourseStructure').val(), weight: Number($('#weighting_' + currentItem + '_CreateCourseStructure').val()), percentage: 0, bottomLevels: []});
             }
 
             if (numberOfDashes==2){
                 bottomCounter ++;
-                structure.topLevels[topCounter].midLevels[bottomCounter].bottomLevels.push({name: $('#sectionTitle_' + currentItem + '_CreateCourseStructure').val(), weight: Number($('#weighting_' + currentItem + '_CreateCourseStructure').val()), percentage: 0});
-                if ($('#sectionTitle_' + currentItem + '_CreateCourseStructure').val()==null||Number($('#weighting_' + currentItem + '_CreateCourseStructure').val())==null||Number($('#DPreq_' + currentItem + '_CreateCourseStructure').val())==null){
-                    $('#wrong-course-structure').html('<div class="alert alert-danger"role="alert"><p class="text-center">' +  'Enter information into all of the feilds' + '</p></div>');
+                if ($('#sectionTitle_' + currentItem + '_CreateCourseStructure').val()==""|| $('#weighting_' + currentItem + '_CreateCourseStructure').val()==""|| isNaN($('#maxMark_' + currentItem + '_CreateCourseStructure').val())==true){
+                    $('#wrong-course-structure').html('<div class="alert alert-danger"role="alert"><p class="text-center">' +  'Enter information into all of the fields (weightings and DP Requirements must be numbers)' + '</p></div>');
 
                     return false;
                 }
+
+                if (Number($('#maxMark_' + currentItem + '_CreateCourseStructure').val())<0){
+                    $('#wrong-course-structure').html('<div class="alert alert-danger"role="alert"><p class="text-center">' +  'Numbers cannot be negative' + '</p></div>');
+
+                }
+
+                structure.topLevels[topCounter].midLevels[bottomCounter].bottomLevels.push({name: $('#sectionTitle_' + currentItem + '_CreateCourseStructure').val(), weight: Number($('#weighting_' + currentItem + '_CreateCourseStructure').val()), percentage: 0});
+
             }
         }
+
+        if(bottomCounter==-1){
+           $('#wrong-course-structure').html('<div class="alert alert-danger"role="alert"><p class="text-center">' +  'Assignments must have sub sections' + '</p></div>');
+            return false; 
+        }
+
+        if(midCounter==-1){
+            $('#wrong-course-structure').html('<div class="alert alert-danger"role="alert"><p class="text-center">' +  'Assignment types must have sub sections' + '</p></div>');
+            return false;
+        }
+
         if(topWeight!=100){
             $('#wrong-course-structure').html('<div class="alert alert-danger"role="alert"><p class="text-center">' +  'The weighting of the upper layers do not add up to 100' + '</p></div>');
             return false;
