@@ -3,14 +3,12 @@ document.addEventListener("DOMContentLoaded", function(event) {
 	$(function() {
 
         // ====================  ON PAGE LOAD ====================
-            //get course IDs from backend 
+            //get course IDs from backend and populate dropdowns 
             getAllCourses(function(response) {
-                //loop through list and add to dropdown
-                $.each( response, function( k, v ) {
-                    //Manage Users 
+                $.each( response, function( k, v ) { 
                     $("#manUsers_courseDropDown").append( $("<option>").val(v).html(v));
                     $('#manUsersDiv').hide();
-                    //Marks and Structure Dropdown
+                    
                     $("#marksStrucutre_courseDropDown").append( $("<option>").val(v).html(v));
                     $('#marksTab').hide();
                 });             
@@ -18,7 +16,7 @@ document.addEventListener("DOMContentLoaded", function(event) {
 
         // ====================  MANAGE USERS TAB ==================== 
             
-            //update course details and course members
+            //update course details on dropdown change
             $('#manUsers_courseDropDown').change(function(){
                 if($('#manUsers_courseDropDown').val() =="Select a course"){
                     $('#manUsersDiv').hide();
@@ -38,11 +36,7 @@ document.addEventListener("DOMContentLoaded", function(event) {
                 manUsersAddUser(role,studentID,courseID,function(response) {
                     if (response == "success") {
                         manUsersRefreshCourse();
-                        $('#manUsers_addStudent_error').html('<small id="manUsers_addStudent_error" class="form-text text-danger"></small>');
                         $('#manUser_addStudent')[0].reset();
-                    }
-                    else {
-                        $('#manUsers_addStudent_error').html('<small id="manUsers_addStudent_error" class="form-text text-danger">'+response+'</small>');
                     }
                 });                
 
@@ -57,30 +51,21 @@ document.addEventListener("DOMContentLoaded", function(event) {
                 manUsersAddUser(role,studentID,courseID,function(response) {
                     if (response == "success") {
                         manUsersRefreshCourse();
-                        $('#manUsers_addStaff_IDerror').html('<small id="manUsers_addStaff_IDerror" class="form-text text-danger"></small>');
-                    }
-                    else {
-                        $('#manUsers_addStaff_IDerror').html('<small id="manUsers_addStaff_IDerror" class="form-text text-danger">'+response+'</small>');
                     }
                 });        
 
             });
 
             //Import students to a course
-            $('#manUser_studentImport_button').on('click', function(e) {
-                manUsersImportStudents(function(response) {
-                    //success
-                    if (response == "success") {
-                        manUsersRefreshCourse();
-                        $('#manUsers_importStudent_error').html('<small id="manUsers_importStudent_error" class="form-text text-danger"></small>');
-                        confirm("Successfully imported users!");
-                    }
-                    //error
-                    else {
-                        $('#manUsers_importStudent_error').html('<small id="manUsers_importStudent_error" class="form-text text-danger">'+response+'</small>');
-                    }
-                });                
-            });
+            var fileInput = document.getElementById("manUsers_file");
+            readFile = function () {
+                var reader = new FileReader();
+                reader.onload = function () {
+                      manUsersImportStudents(reader.result, function(response) {manUsersRefreshCourse();});
+                 };
+                reader.readAsBinaryString(fileInput.files[0]);
+            };
+            fileInput.addEventListener('change', readFile);
 
             //Remove a user
             $('#manUsers_removeUser_button').on('click', function(e) {   
@@ -92,132 +77,120 @@ document.addEventListener("DOMContentLoaded", function(event) {
                     if (response == "success") {
                         manUsersRefreshCourse();
                     }
-                    else {
-                        
-                    }
                 });
             });
 
             
         // ====================  MARKS AND STRUCTURE TAB ==================== 
-            //course change on marks&structure tab
+            //update details on dropdown select
             $('#marksStrucutre_courseDropDown').change(function(){    
-                //update course details and course members
                 if($('#marksStrucutre_courseDropDown').val() =="Select a course"){
                     $('#marksTab').hide();
                 }
                 else{
                     $('#marksTab').show();
+                    //update course details
                     marksRefreshCourse();
-                     //send a post request to get course object
-                marksGetCourse(function(course){ 
-                    $("#marks_textArea").html('');
-                    var courseData = course;
-                    courseID = courseData.courseID;
-                    stud = courseData.students;
-                    console.log(stud);
 
-                    $("#marks_textArea").append(
-                        '<thead>'+
-                            '<tr>'+
-                                '<th class="w-20">Student Number </th>'+
-                                '<th class="w-20">Top Level</th>'+
-                                '<th class="w-20">Mid Level</th>'+
-                                '<th class="w-20">Bottom Level</th>'+
-                                '<th class="w-20">Mark</th>'+
-                            '</tr>'+
-                        '<thead>'+
-                        '<tbody id="tableBody">'+
-                        '</tbody>'
+                    //update course stucture
+                    marksGetCourse(function(course){ 
+                        $("#marks_textArea").html('');
+                        var courseData = course;
+                        courseID = courseData.courseID;
+                        stud = courseData.students;
+                        console.log(stud);
 
-                    );
+                        $("#marks_textArea").append(
+                            '<thead>'+
+                                '<tr>'+
+                                    '<th class="w-20">Student Number </th>'+
+                                    '<th class="w-20">Top Level</th>'+
+                                    '<th class="w-20">Mid Level</th>'+
+                                    '<th class="w-20">Bottom Level</th>'+
+                                    '<th class="w-20">Mark</th>'+
+                                '</tr>'+
+                            '<thead>'+
+                            '<tbody id="tableBody">'+
+                            '</tbody>'
 
-                    var firstStud=true;
-                    var firstTop=true;
-                    var firstMid=true;
+                        );
 
-                    // Iterate over students
-                    for (var i=0; i<stud.length; i++){
-                        firstStud=true;
-                        console.log(stud[i]);
-                        var studi=stud[i];
-                        getMarks(stud[i], function(response){
-                            console.log(response);
-                            console.log(studi);
-                            marks = response;
-                            toplev = marks.topLevels
+                        var firstStud=true;
+                        var firstTop=true;
+                        var firstMid=true;
 
-                            // Iterate over Top levels
-                            for (var k = 0; k<toplev.length; k++){
-                                firstTop=true;
-                                console.log(toplev[k]);
-                                midlev = toplev[k].midLevels;
+                        // Iterate over students
+                        for (var i=0; i<stud.length; i++){
+                            firstStud=true;
+                            console.log(stud[i]);
+                            var studi=stud[i];
+                            getMarks(stud[i], function(response){
+                                console.log(response);
+                                console.log(studi);
+                                marks = response;
+                                toplev = marks.topLevels
 
-                                // Iterate over Mid Levels
-                                for(var j =0; j<midlev.length;j++){
-                                    firstMid=true;
-                                    console.log(midlev[j]);
-                                    bottomlev = midlev[j].bottomLevels;
+                                // Iterate over Top levels
+                                for (var k = 0; k<toplev.length; k++){
+                                    firstTop=true;
+                                    console.log(toplev[k]);
+                                    midlev = toplev[k].midLevels;
 
-                                    // Iterate over Bottom Levels
-                                    for (var p=0; p<bottomlev.length; p++) {
+                                    // Iterate over Mid Levels
+                                    for(var j =0; j<midlev.length;j++){
+                                        firstMid=true;
+                                        console.log(midlev[j]);
+                                        bottomlev = midlev[j].bottomLevels;
 
-                                        if (firstStud==true) {
-                                            var studPrint=studi;
+                                        // Iterate over Bottom Levels
+                                        for (var p=0; p<bottomlev.length; p++) {
+
+                                            if (firstStud==true) {
+                                                var studPrint=studi;
+                                            }
+                                            else{
+                                                var studPrint='';
+                                            }
+                                            console.log(studi);
+
+                                            if (firstMid==true){
+                                                var midPrint = midlev[j].name;
+                                                console.log(midlev[j]);
+                                            }
+                                            else{
+                                                var midPrint='';
+                                            }
+
+                                            if(firstTop==true){
+                                                var topPrint=toplev[k].name;
+                                            }
+                                            else{
+                                                var topPrint='';
+                                            }
+
+                                            $("#tableBody").append('<tr>'+
+                                            '<th scope="row">'+studPrint+'</th>'+
+                                            '<td>'+ topPrint +'</td>'+
+                                            '<td>' + midPrint +'</td>'+
+                                            '<td>' + bottomlev[p].name + ' (' + bottomlev[p].maxMark + ')</td>'+
+                                            '<td><input type="text" id="' + i+'-'+k+'-'+j+'-'+p + '" value="' + bottomlev[p].mark + '">' + '</td>'+
+                                            '</tr>'
+                                            )
+                                            
+                                            firstStud=false;
+                                            firstMid=false;
+                                            firstTop=false;
+
                                         }
-                                        else{
-                                            var studPrint='';
-                                        }
-                                        console.log(studi);
-
-                                        if (firstMid==true){
-                                            var midPrint = midlev[j].name;
-                                            console.log(midlev[j]);
-                                        }
-                                        else{
-                                            var midPrint='';
-                                        }
-
-                                        if(firstTop==true){
-                                            var topPrint=toplev[k].name;
-                                        }
-                                        else{
-                                            var topPrint='';
-                                        }
-
-                                        $("#tableBody").append('<tr>'+
-                                          '<th scope="row">'+studPrint+'</th>'+
-                                          '<td>'+ topPrint +'</td>'+
-                                          '<td>' + midPrint +'</td>'+
-                                          '<td>' + bottomlev[p].name + ' (' + bottomlev[p].maxMark + ')</td>'+
-                                          '<td><input type="text" id="' + i+'-'+k+'-'+j+'-'+p + '" value="' + bottomlev[p].mark + '">' + '</td>'+
-                                        '</tr>'
-                                        )
-                                        
-                                        firstStud=false;
-                                        firstMid=false;
-                                        firstTop=false;
-
                                     }
                                 }
-                            }
-                        });
+                            });
+                        }
+                    });
                     }
-
-
-                    
-
-
-                });
-                }
-                                            
-
-               
-
-                
-                
             });
 
+            //send mark changes to backend
             $('#commitMarks').on('click', function(e){
                 marksGetCourse(function(course){
                     var courseData = course;
@@ -279,19 +252,18 @@ document.addEventListener("DOMContentLoaded", function(event) {
             //Search for a student
             $('#studentSearch_button').on('click', function(e) {
                 searchStudent(function(response) {
+                    //update table
                     if (response == "userNotFound") {
                         $('#searchStudents_table tbody > tr').remove();
                     }
                     else if(response == "success"){
-                        //put entry in table
                         var studentID = $('#student_searchBox').val();
                         $('#searchStudents_table tbody > tr').remove();
                         $("#searchStudents_table").find('tbody').append($('<tr>').append($('<td>').html('<a onclick="loadStudentPage(\''+studentID+'\')">'+studentID+'</a>')));
                     }
                 });
             });
-
-            
+          
         // ====================  CREATE COURSE TAB ====================
 
             //Add staff member
@@ -301,8 +273,7 @@ document.addEventListener("DOMContentLoaded", function(event) {
 
                 createCourseAddUser(userID,role,function(response) {
                     if(response=="success"){
-                        $("#createCourse_membersTable").find('tbody')
-                        .append($('<tr>').append($('<td>').text(userID)).append($('<td>').text(role)));
+                        $("#createCourse_membersTable").find('tbody').append($('<tr>').append($('<td>').text(userID)).append($('<td>').text(role)));
                     }
                     else{
                         alert(response);
@@ -317,8 +288,7 @@ document.addEventListener("DOMContentLoaded", function(event) {
 
                 createCourseAddUser(userID,role,function(response) {
                     if(response=="success"){
-                        $("#createCourse_membersTable").find('tbody')
-                        .append($('<tr>').append($('<td>').text(userID)).append($('<td>').text(role)));
+                        $("#createCourse_membersTable").find('tbody').append($('<tr>').append($('<td>').text(userID)).append($('<td>').text(role)));
                     }
                     else{
                         alert(response);
@@ -615,9 +585,20 @@ document.addEventListener("DOMContentLoaded", function(event) {
     }
 
     //Import students to a course
-    function manUsersImportStudents(load){
-
-        //TODO: send data ta backend 
+    function manUsersImportStudents(input, load) {
+    var data = {
+        "file": csvJSON(input),
+        "courseID":$('#manUsers_courseDropDown').val()
+    }
+        $.ajax({
+        url: '/manUsers_importUsers',
+        type: 'POST',
+            data: JSON.stringify(data),
+        contentType: 'application/json',
+        success: function(res) {
+        load(JSON.parse(res));
+        }
+    });	
 
     }
 
@@ -1020,3 +1001,22 @@ function updateMarks(courseID, data, load) {
         }); 
 }
 
+//convert from csv file contents to a json object
+ function csvJSON(csv){
+ 
+   var lines=csv.split("\n");
+   var result = [];
+   var headers=lines[0].split(",");
+ 
+   for(var i=1;i<lines.length;i++){
+       var obj = {};
+       var currentline=lines[i].split(",");
+       for(var j=0;j<headers.length;j++){
+           obj[headers[j]] = currentline[j];
+       }
+       result.push(obj);
+ 
+  }
+
+   return JSON.stringify(result);
+ }
