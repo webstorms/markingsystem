@@ -12,6 +12,7 @@ import com.edu.markingsystem.service.user.User;
 import com.edu.markingsystem.service.user.UserService;
 import com.edu.markingsystem.service.user.UserType;
 import com.esotericsoftware.minlog.Log;
+import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 
 import spark.Request;
@@ -67,8 +68,40 @@ public class CourseService extends Service {
 			return importUsers(req, res);
 		});
 		
+		Spark.post("/updateMarks", (req, res) -> {
+			Log.info(this.getClass().getName(), "POST /updateMarks " + req.ip());
+			return updateMarks(req, res);
+		});
+		
 	}
 
+	public Object updateMarks(Request req, Response res) {
+		String response = "success";
+		try {
+			JsonObject json = Util.stringToJson(req.body());	
+			String courseID = json.get("courseID").getAsString();
+			JsonArray array = json.get("data").getAsJsonObject().get("Students").getAsJsonArray();
+			
+			System.out.println("courseID: " + courseID);
+			List<String> students = this.db.getCourseDB().getCourse(courseID).getStudents();
+			
+		    for (int i = 0 ; i < array.size(); i++) {
+		    	CourseStructure d = Util.fromJson(array.get(i).toString(), CourseStructure.class);
+		    	User user = this.db.getUserDB().getUser(students.get(i));
+		    	user.updateMarks(courseID, d);
+		    	this.db.getUserDB().addUser(students.get(i), user);
+		    	
+		    }
+			
+		}
+		catch(Exception e) {
+			e.printStackTrace();
+			response = e.getMessage();
+		}
+
+		return Util.objectToJson(response);
+	}
+	
 	public Object importUsers(Request req, Response res) {
 		String response = "success";
 		try {
