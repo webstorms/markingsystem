@@ -67,7 +67,7 @@ public class App {
 		List<String> TAs = new ArrayList<String>();
 		TAs.add("ta1");
 		List<String> lecturers = new ArrayList<String>();
-		lecturers.add("lec1");
+		lecturers.add("lec2");
 		
 		Course courseA = new Course("Mam1000", "mam100017", "2017", "F", "lec1", lecturers, TAs, students, course);
 		db.getCourseDB().addCourse(courseA);

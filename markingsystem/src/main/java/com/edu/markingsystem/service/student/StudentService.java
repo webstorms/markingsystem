@@ -28,82 +28,67 @@ public class StudentService extends Service {
 			return getCourses(req, res);
 		});
 
-//		Spark.post("/addMark", (req, res) -> {
-//			Log.info(this.getClass().getName(), "POST /addMark " + req.ip());
-//			return addMark(req, res);
-//		});
-
 		Spark.post("/getMarks", (req, res) -> {
 			Log.info(this.getClass().getName(), "POST /getMarks " + req.ip());
 			return getMarks(req, res);
 		});
-
+		
 	}
-	
+
 	/**
-	 * Get all the courses that are associated with a user. Request needs to specify: [userID]
+	 * Get all the courses associated with a user object. Supply userID. If no userID is passed it will be retrieved from the session.
 	 * @param req
 	 * @param res
 	 * @return
 	 */
+
 	public Object getCourses(Request req, Response res) {
-		
-		String userID;
-		if(Util.stringToJson(req.body()).get("userID").getAsString().equals("")) userID = UserService.getIDFromSession(req);
-		else userID = Util.stringToJson(req.body()).get("userID").getAsString();
-		
-		System.out.println(userID);
-		String response = "";
-		List<String> courses = db.getUserDB().getUser(userID).getCourses();
-		response = Util.objectToJson(courses);
-		
+		String response = "success";
+		try {
+			String userID;
+			if(Util.stringToJson(req.body()).get("userID").getAsString().equals("")) userID = UserService.getIDFromSession(req);
+			else userID = Util.stringToJson(req.body()).get("userID").getAsString();
+			List<String> courses = db.getUserDB().getUser(userID).getCourses();
+			response = Util.objectToJson(courses);	
+		}
+		catch(Exception e) {
+			e.printStackTrace();
+			response = e.getMessage();
+
+		}
+
 		return Util.objectToJson(response);
 
 	}
 	
-	// Get the marks of an individual student (array of mark details)
-	// Needed: StudentID, CourseID
+	/**
+	 * Get the marks of a student for a given course. This will return a course structure object. Supply userID and courseID.
+	 * If no userID is passed it will be retrieved from the session.
+	 * @param req
+	 * @param res
+	 * @return
+	 */
+	
 	public Object getMarks(Request req, Response res) {
-		JsonObject json = Util.stringToJson(req.body());
-		String userID;
-		if(Util.stringToJson(req.body()).get("userID").getAsString().equals("")) userID = UserService.getIDFromSession(req);
-		else userID = Util.stringToJson(req.body()).get("userID").getAsString();
-		String courseID = json.get("courseID").getAsString();
-		String response = "";
-		System.out.println(userID);
-		CourseStructure marks = db.getUserDB().getUser(userID).getMarks(courseID);		
-		marks.calculatePercentages();
-		marks.init();
-		return Util.objectToJson(marks);
+		try {
+			JsonObject json = Util.stringToJson(req.body());
+			String userID;
+			if(Util.stringToJson(req.body()).get("userID").getAsString().equals("")) userID = UserService.getIDFromSession(req);
+			else userID = Util.stringToJson(req.body()).get("userID").getAsString();
+			String courseID = json.get("courseID").getAsString();
+			CourseStructure marks = db.getUserDB().getUser(userID).getMarks(courseID);		
+			marks.calculatePercentages();
+			marks.init();
+			return Util.objectToJson(marks);
+			
+		}
+		catch(Exception e) {
+			e.printStackTrace();
+			return Util.objectToJson(e.getMessage());
+			
+		}
 		
 	}
-	
-	// Note: top, mid and bottom are indexes. When loading the course
-	// Content it comes in a certain order. top, mid and bottom are the indeces
-	// of that order
-	// EXAMPLE: EXAME > EXAM1, EXAM2. EXAM1 > SECTONA, SECTIONB.
-	// To add mark for SECTIONA top = 0, mid = 0, bottom = 0
-	
-//	public Object addMark(Request req, Response res) {
-//		String response = "success";
-//		try{
-//			JsonObject json = Util.stringToJson(req.body());
-//			String userID = json.get("userID").getAsString();
-//			String courseID = json.get("courseID").getAsString();
-//			int mark = json.get("mark").getAsInt();
-//			int top = json.get("top").getAsInt();
-//			int mid = json.get("mid").getAsInt();
-//			int bottom = json.get("bottom").getAsInt();
-//			CourseStructure marks = db.getUserDB().getUser(userID).getMarks(courseID);
-//			marks.getTop(top).getMid(mid).getBottom(bottom).setMark(mark);
-//			db.getUserDB().addMark(userID, courseID, marks);
-//		}
-//		catch(Exception e) {
-//			response = "invalidParamters";
-//		}
-//		return Util.objectToJson(response);
-//
-//	}
 
 
 }

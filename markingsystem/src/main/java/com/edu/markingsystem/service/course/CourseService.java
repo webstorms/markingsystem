@@ -21,11 +21,6 @@ import spark.Spark;
 
 public class CourseService extends Service {
 
-	/*
-	 * At the moment all course details can be fetched from the getCourse API. Could split this up
-	 * into multiple methods if it makes the front end easier.
-	 */
-
 	public CourseService(Database db) {
 		super(db);
 
@@ -57,7 +52,7 @@ public class CourseService extends Service {
 			Log.info(this.getClass().getName(), "POST /removeUser " + req.ip());
 			return removeUser(req, res);
 		});
-		
+
 		Spark.post("/isCourseConv", (req, res) -> {
 			Log.info(this.getClass().getName(), "POST /isCourseConv " + req.ip());
 			return isCourseConv(req, res);
@@ -67,13 +62,21 @@ public class CourseService extends Service {
 			Log.info(this.getClass().getName(), "POST /manUsers_importUsers " + req.ip());
 			return importUsers(req, res);
 		});
-		
+
 		Spark.post("/updateMarks", (req, res) -> {
 			Log.info(this.getClass().getName(), "POST /updateMarks " + req.ip());
 			return updateMarks(req, res);
 		});
-		
+
 	}
+
+	/**
+	 * Update the marks of all students from a given course. Supply courseID and data.
+	 * data contains a student attribute which contains a list of CourseStructure objects all in JSON format.
+	 * @param req
+	 * @param res
+	 * @return
+	 */
 
 	public Object updateMarks(Request req, Response res) {
 		String response = "success";
@@ -81,18 +84,18 @@ public class CourseService extends Service {
 			JsonObject json = Util.stringToJson(req.body());	
 			String courseID = json.get("courseID").getAsString();
 			JsonArray array = json.get("data").getAsJsonObject().get("Students").getAsJsonArray();
-			
-			System.out.println("courseID: " + courseID);
 			List<String> students = this.db.getCourseDB().getCourse(courseID).getStudents();
-			
-		    for (int i = 0 ; i < array.size(); i++) {
-		    	CourseStructure d = Util.fromJson(array.get(i).toString(), CourseStructure.class);
-		    	User user = this.db.getUserDB().getUser(students.get(i));
-		    	user.updateMarks(courseID, d);
-		    	this.db.getUserDB().addUser(students.get(i), user);
-		    	
-		    }
-			
+
+			for(int i = 0 ; i < array.size(); i++) {
+				// TODO: Although this works at the moment as data order is preserved, ideally should
+				// also pass in student IDs within the data object.
+				CourseStructure d = Util.fromJson(array.get(i).toString(), CourseStructure.class);
+				User user = this.db.getUserDB().getUser(students.get(i));
+				user.updateMarks(courseID, d);
+				this.db.getUserDB().addUser(students.get(i), user);
+
+			}
+
 		}
 		catch(Exception e) {
 			e.printStackTrace();
@@ -101,6 +104,14 @@ public class CourseService extends Service {
 
 		return Util.objectToJson(response);
 	}
+
+	/**
+	 * Add a list of students to a course. Supply file and courseID.
+	 * File is in csv format with the column titled "ID".
+	 * @param req
+	 * @param res
+	 * @return
+	 */
 	
 	public Object importUsers(Request req, Response res) {
 		String response = "success";
@@ -109,35 +120,40 @@ public class CourseService extends Service {
 			String file = json.get("file").getAsString();
 			String courseID = json.get("courseID").getAsString();
 			
-			System.out.println(file);
 			file = file.substring(1, file.length() - 1);
 			String[] obj = file.split(",");
 			obj = new HashSet<String>(Arrays.asList(obj)).toArray(new String[0]); // remove duplicates
-			
+
 			Course course = this.db.getCourseDB().getCourse(courseID);
-			
+
 			for(String id : obj) {
-				System.out.println(id);
 				JsonObject j = Util.stringToJson(id);
-				System.out.println(j.get("ID").getAsString());
 				course.addStudent(j.get("ID").getAsString());
 				db.getUserDB().addCourse(id, courseID);
-				
-				
+
+
 			}
-			
+
 			this.db.getCourseDB().addCourse(course);
-			
+
 		}
 		catch(Exception e) {
 			e.printStackTrace();
 			response = e.getMessage();
-			
+
 		}
-		
+
 		return Util.objectToJson(response);
-	
+
 	}
+
+	/**
+	 * Update the course structure. Suply courseID and structure.
+	 * structure is a CourseStructure in JSON format.
+	 * @param req
+	 * @param res
+	 * @return
+	 */
 	
 	public Object updateCourse(Request req, Response res) {
 		String response = "success";
@@ -147,7 +163,7 @@ public class CourseService extends Service {
 			CourseStructure newStructure = Util.fromJson(json.get("structure").getAsString(), CourseStructure.class);
 			newStructure.init();
 
-			// Update the courses course structure
+			// Update the courses structure
 			Course course = this.db.getCourseDB().getCourse(courseID);
 			course.setStructure(newStructure);
 			this.db.getCourseDB().addCourse(course);
@@ -157,7 +173,7 @@ public class CourseService extends Service {
 				User user = this.db.getUserDB().getUser(id);
 				user.updateCourse(courseID, newStructure);
 				this.db.getUserDB().addUser(id, user);
-				
+
 			}
 
 		}
@@ -168,70 +184,91 @@ public class CourseService extends Service {
 		return Util.objectToJson(response);
 	}
 
-	public Object isCourseConv(Request req, Response res) {
-		JsonObject json = Util.stringToJson(req.body());
-		String courseID = json.get("courseID").getAsString();
-		String convID = db.getCourseDB().getCourse(courseID).getCourseConvenor();
-		String userID = UserService.getIDFromSession(req);
-		System.out.println((new Boolean(userID.equals(convID))).toString());
-		return Util.objectToJson((new Boolean(userID.equals(convID))).toString());
-		
-	}
-	
-	/*
-	 * Note: 
-	 * Make sure to pass JSONArrays for the lecturers, TAs and students.
-	 * structure parameter needs to be in JSON format for the CourseStructure,
-	 * Can see format by:
-	 * CourseStructure marks = new CourseStructure();
-	 * Util.objectToJson(marks)
-	 * Note: cann set marks and percentages to 0 as these are computed automatically for each user.
+	/**
+	 * Check if a user is a course convenor. Supply courseID.
+	 * UserID is retrieved from the session.
+	 * @param req
+	 * @param res
+	 * @return
 	 */
-
-	public Object createCourse(Request req, Response res) {
-		String response = null;
-
-		//try {
-		JsonObject json = Util.stringToJson(req.body());
-		String courseName = json.get("courseName").getAsString();
-		String courseID = json.get("courseCode").getAsString();
-		String year = json.get("courseYear").getAsString();
-		String period = json.get("coursePeriod").getAsString();
-
-		String courseConvenor = "";
-		List<String> lecturers = new ArrayList<>();
-		List<String> TAs = new ArrayList<>();
-		List<String> students = new ArrayList<>();
-		
-		CourseStructure structure = Util.fromJson(json.getAsJsonObject("courseStructure").toString(), CourseStructure.class);
-
-		String error = structure.isValid();
-		if(error != null) {
-			response = error;
-			return Util.objectToJson(response);
+	
+	public Object isCourseConv(Request req, Response res) {
+		try {
+			JsonObject json = Util.stringToJson(req.body());
+			String courseID = json.get("courseID").getAsString();
+			String convID = db.getCourseDB().getCourse(courseID).getCourseConvenor();
+			String userID = UserService.getIDFromSession(req);
+			return Util.objectToJson((new Boolean(userID.equals(convID))).toString());
+		}
+		catch(Exception e) {
+			return Util.objectToJson(e.getMessage());
+			
 		}
 
-		// Create the course
-		db.getCourseDB().addCourse(new Course(courseName, courseID, year, period, courseConvenor, lecturers, TAs, students, structure));       
-		// Add course to each user
-		db.getUserDB().getUser(courseConvenor).addCourse(courseID, structure);
-		
-		if(response == null) response = "Successfully created the course";
+	}
 
-		return Util.objectToJson(response);
+	/**
+	 * Create a course object. Supply courseName, courseCode, courseYear, coursePeriod and courseStructure. 
+	 * courseStructure is a CourseStructure in JSON format.
+	 * @param req
+	 * @param res
+	 * @return
+	 */
+	
+	public Object createCourse(Request req, Response res) {
+		try {
+			String response = null;
+			
+			JsonObject json = Util.stringToJson(req.body());
+			String courseName = json.get("courseName").getAsString();
+			String courseID = json.get("courseCode").getAsString();
+			String year = json.get("courseYear").getAsString();
+			String period = json.get("coursePeriod").getAsString();
+
+			String courseConvenor = "";
+			List<String> lecturers = new ArrayList<>();
+			List<String> TAs = new ArrayList<>();
+			List<String> students = new ArrayList<>();
+
+			CourseStructure structure = Util.fromJson(json.getAsJsonObject("courseStructure").toString(), CourseStructure.class);
+
+			String error = structure.isValid();
+			if(error != null) {
+				response = error;
+				return Util.objectToJson(response);
+			}
+
+			// Create the course
+			db.getCourseDB().addCourse(new Course(courseName, courseID, year, period, courseConvenor, lecturers, TAs, students, structure));       
+			// Add course to each user
+			db.getUserDB().getUser(courseConvenor).addCourse(courseID, structure);
+
+			if(response == null) response = "Successfully created the course";
+
+			return Util.objectToJson(response);
+		}
+		catch(Exception e) {
+			return Util.objectToJson(e.getMessage());
+			
+		}
 
 	}
 
+	/**
+	 * Get a course object. Supply courseID.
+	 * @param req
+	 * @param res
+	 * @return
+	 */
+	
 	public Object getCourse(Request req, Response res) {
 		String response = "success";
 		try {
-
 			JsonObject json = Util.stringToJson(req.body());
 			String courseID = json.get("courseID").getAsString();
 			Course course = db.getCourseDB().getCourse(courseID);
 			if(course == null) response = "courseDoesNotExist";
 			else {
-				System.out.println(course.getCourseName());
 				return Util.objectToJson(course);
 
 			}
@@ -239,11 +276,19 @@ public class CourseService extends Service {
 		catch(Exception e) {
 			response = e.getMessage();
 		}
-		
+
 		return Util.objectToJson(response);
-		
+
 	}
 
+	/**
+	 * Add any user to a course. Supply userID, role and courseID. Different roles
+	 * can be found in the UserType class.
+	 * @param req
+	 * @param res
+	 * @return
+	 */
+	
 	public Object addUser(Request req, Response res) {
 		String response = "success";
 		try {
@@ -251,11 +296,11 @@ public class CourseService extends Service {
 			String userID = json.get("userID").getAsString();
 			UserType role =  UserType.valueOf(json.get("role").getAsString().toUpperCase());
 			String courseID = json.get("courseID").getAsString();
-			
+
 			System.out.println(userID);
 			System.out.println(courseID);
 			Course course = db.getCourseDB().getCourse(courseID);
-			
+
 			if(role == UserType.STUDENT && !course.getStudents().contains(userID)) course.getStudents().add(userID);
 			else if(role == UserType.TA && !course.getTAs().contains(userID)) course.getTAs().add(userID);
 			else if(role == UserType.LECTURER && !course.getLecturers().contains(userID)) course.getLecturers().add(userID);
@@ -263,7 +308,7 @@ public class CourseService extends Service {
 
 			db.getUserDB().addCourse(userID, courseID);
 			db.getCourseDB().addCourse(course);
-			
+
 		}
 		catch(Exception e) {
 			e.printStackTrace();
@@ -274,13 +319,20 @@ public class CourseService extends Service {
 
 	}
 
+	/**
+	 * Remove any user from a course. Supply: userID and courseID
+	 * @param req
+	 * @param res
+	 * @return
+	 */
+	
 	public Object removeUser(Request req, Response res) {
 		String response = "success";
 		try {
 			JsonObject json = Util.stringToJson(req.body());
 			String userID = json.get("userID").getAsString();
 			String courseID = json.get("courseID").getAsString();
-			
+
 			Course course = db.getCourseDB().getCourse(courseID);
 			if(course.getStudents().contains(userID)) course.getStudents().remove(userID);
 			else if(course.getTAs().contains(userID)) course.getTAs().remove(userID);
@@ -288,8 +340,8 @@ public class CourseService extends Service {
 			if(course.getCourseConvenor().equals(userID)) course.setCourseConvenor("");
 			
 			db.getUserDB().removeCourse(userID, courseID);
-			db.getCourseDB().addCourse(course);
-			
+			db.getCourseDB().addCourse(course); // Overwrite the existing course with the updated one
+
 		}
 		catch(Exception e) {
 			response = e.getMessage();
@@ -299,18 +351,15 @@ public class CourseService extends Service {
 
 	}
 
+	/**
+	 * Get all courseIDs in the database.
+	 * @param req
+	 * @param res
+	 * @return
+	 */
+	
 	public Object getAllCourses(Request req, Response res) {		
 		return Util.objectToJson(db.getCourseDB().getAllCourseIDs());
-
-	}
-
-	public Object addCourseMarks(Request req, Response res) {
-		return null;
-
-	}
-
-	public Object getCourseMarks(Request req, Response res) {
-		return null;
 
 	}
 
