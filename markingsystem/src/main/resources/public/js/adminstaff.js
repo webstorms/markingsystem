@@ -9,9 +9,10 @@ document.addEventListener("DOMContentLoaded", function(event) {
                 $.each( response, function( k, v ) {
                     //Manage Users 
                     $("#manUsers_courseDropDown").append( $("<option>").val(v).html(v));
-                        $('#manUsersDiv').hide();
+                    $('#manUsersDiv').hide();
                     //Marks and Structure Dropdown
                     $("#marksStrucutre_courseDropDown").append( $("<option>").val(v).html(v));
+                    $('#marks').hide();
                 });             
             });
 
@@ -100,11 +101,20 @@ document.addEventListener("DOMContentLoaded", function(event) {
             
         // ====================  MARKS AND STRUCTURE TAB ==================== 
             //course change on marks&structure tab
-            $('#marksStrucutre_courseDropDown').change(function(){                
-                marksRefreshCourse();
-                
-                //marksStructureSelectCourse(function(response){}); 
-                marksGetCourse(function(course){ //send a post request to get course object
+            $('#marksStrucutre_courseDropDown').change(function(){    
+                //update course details and course members
+                $('#marksStrucutre_courseDropDown').change(function(){
+                    if($('#marksStrucutre_courseDropDown').val() =="Select a course"){
+                        $('#marks').hide();
+                    }
+                    else{
+                        $('#marks').show();
+                       marksRefreshCourse();
+                    }
+                });                            
+
+                //send a post request to get course object
+                marksGetCourse(function(course){ 
                     $("#marks_textArea").html('');
                     var courseData = course;
                     courseID = courseData.courseID;
