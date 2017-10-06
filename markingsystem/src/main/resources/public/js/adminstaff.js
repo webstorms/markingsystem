@@ -7,9 +7,9 @@ document.addEventListener("DOMContentLoaded", function(event) {
             getAllCourses(function(response) {
                 //loop through list and add to dropdown
                 $.each( response, function( k, v ) {
-                    //Manage Users Dropdown
+                    //Manage Users 
                     $("#manUsers_courseDropDown").append( $("<option>").val(v).html(v));
-
+                        $('#manUsersDiv').hide();
                     //Marks and Structure Dropdown
                     $("#marksStrucutre_courseDropDown").append( $("<option>").val(v).html(v));
                 });             
@@ -19,7 +19,13 @@ document.addEventListener("DOMContentLoaded", function(event) {
             
             //update course details and course members
             $('#manUsers_courseDropDown').change(function(){
-                manUsersRefreshCourse();
+                if($('#manUsers_courseDropDown').val() =="Select a course"){
+                    $('#manUsersDiv').hide();
+                }
+                else{
+                    $('#manUsersDiv').show();
+                    manUsersRefreshCourse();
+                }
             });
 
             //Add a student to a course
@@ -482,14 +488,14 @@ document.addEventListener("DOMContentLoaded", function(event) {
                             .append($('<td>').text('TA'))
                         );
                     });
-                    //Students:
+                     //Students:
                     $.each( course.students, function( i, studentID ) {
                         $("#manUsers_membersTable").find('tbody') 
                         .append($('<tr>')
-                            .append($('<td>').text(studentID))
+                            .append($('<td>').html('<a onclick="loadStudentPage(\''+studentID+'\')">'+studentID+'</a>'))
                             .append($('<td>').text('Student'))
                         );
-                    });  
+                    }); 
             }
         });    
     }
