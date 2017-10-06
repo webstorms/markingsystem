@@ -119,7 +119,7 @@ document.addEventListener("DOMContentLoaded", function(event) {
                         var firstStud=true;
                         var firstTop=true;
                         var firstMid=true;
-
+                        var printMark;
                         // Iterate over students
                         for (var i=0; i<stud.length; i++){
                             firstStud=true;
@@ -163,14 +163,28 @@ document.addEventListener("DOMContentLoaded", function(event) {
                                                 var topPrint='';
                                             }
 
-                                            $("#tableBody").append('<tr>'+
-                                            '<th scope="row">'+studPrint+'</th>'+
-                                            '<td>'+ topPrint +'</td>'+
-                                            '<td>' + midPrint +'</td>'+
-                                            '<td>' + bottomlev[p].name + ' (' + bottomlev[p].maxMark + ')</td>'+
-                                            '<td><input type="text" id="' + i+'-'+k+'-'+j+'-'+p + '" value="' + bottomlev[p].mark + '">' + '</td>'+
-                                            '</tr>'
-                                            )
+                                            if (typeof bottomlev[p].mark== "undefined"){
+                                                $("#tableBody").append('<tr>'+
+                                                    '<th scope="row">'+studPrint+'</th>'+
+                                                    '<td>'+ topPrint +'</td>'+
+                                                    '<td>' + midPrint +'</td>'+
+                                                    '<td>' + bottomlev[p].name + ' (' + bottomlev[p].maxMark + ')</td>'+
+                                                    '<td><input type="text" id="' + i+'-'+k+'-'+j+'-'+p + '" style="background-color:#d3d3d3;" value="" >' + '</td>'+
+                                                '</tr>'
+                                                )
+                                            }
+
+                                            else{
+                                                $("#tableBody").append('<tr>'+
+                                                        '<th scope="row">'+studPrint+'</th>'+
+                                                        '<td>'+ topPrint +'</td>'+
+                                                        '<td>' + midPrint +'</td>'+
+                                                        '<td>' + bottomlev[p].name + ' (' + bottomlev[p].maxMark + ')</td>'+
+                                                        '<td><input type="text" id="' + i+'-'+k+'-'+j+'-'+p + '" value="' + bottomlev[p].mark + '">' + '</td>'+
+                                                    '</tr>'
+                                                )
+                                            }
+                                            
                                             
                                             firstStud=false;
                                             firstMid=false;
@@ -184,9 +198,10 @@ document.addEventListener("DOMContentLoaded", function(event) {
                     });
                 }
             });
-
+            
             //send mark changes to backend
             $('#commitMarks').on('click', function(e){
+                var breakOut=false;
                 marksGetCourse(function(course){
                     var courseData = course;
                     stud = courseData.students;
@@ -209,26 +224,59 @@ document.addEventListener("DOMContentLoaded", function(event) {
                                     bottomlev = midlev[j].bottomLevels;
                                     for (var p=0; p<bottomlev.length; p++){
 
-                                        if ($('#'+ i+'-'+k+'-'+j+'-'+p).val()==0){
+                                        if ($('#'+ i+'-'+k+'-'+j+'-'+p).val() == ""){
+                                            //do nothing
+                                            $(('#'+ i+'-'+k+'-'+j+'-'+p)).attr('style', "background-color:#FFFFFF;");
+
                                         }
-                                        else if ( isNaN(($('#'+ i+'-'+k+'-'+j+'-'+p).val()))){
+
+                                        else if (isNaN($('#'+ i+'-'+k+'-'+j+'-'+p).val())){
+                                            breakOut=true
+                                            $(('#'+ i+'-'+k+'-'+j+'-'+p)).attr('style', "background-color:#FF9494;");
+
                                         }
+
+                                        else if ($('#'+ i+'-'+k+'-'+j+'-'+p).val()<0){
+                                            breakOut=true;
+                                            $(('#'+ i+'-'+k+'-'+j+'-'+p)).attr('style', "background-color:#FF9494;");
+                                        }
+
+                                        else if ($('#'+ i+'-'+k+'-'+j+'-'+p).val()>marks.topLevels[k].midLevels[j].bottomLevels[p]["maxMark"]){
+                                            breakOut=true;
+                                            $(('#'+ i+'-'+k+'-'+j+'-'+p)).attr('style', "background-color:#FF9494;");
+                                        }
+
                                         else{
                                             marks.topLevels[k].midLevels[j].bottomLevels[p]["mark"] = Number($('#'+ i+'-'+k+'-'+j+'-'+p).val());
+                                            if ($(('#'+ i+'-'+k+'-'+j+'-'+p)).val()!=""){
+                                                $(('#'+ i+'-'+k+'-'+j+'-'+p)).attr('style', "background-color:#99FF99;");
+                                            }
+                                            
                                         }
                                         firstStud=false;
                                         firstMid=false;
                                         firstTop=false;
 
+
                                     }
+
                                 }
+
                             }
                         });
                     jsonObj.Students.push(marks);
                     }
-                    updateMarks(courseData.courseID, jsonObj, function(response) {
-                        confirm("Marks updated.");
-                    });
+
+                    if(breakOut==false){
+                        $('#wrong-input').html('');
+                        updateMarks(courseData.courseID, jsonObj, function(response) {
+                            confirm("Marks updated.");
+                        });
+
+                    }
+                    else{
+                        $('#wrong-input').html('<div class="alert alert-danger"role="alert"><p class="text-center">' +  'Values must be: numbers, positive, less than the max mark and greater than 0' + '</p></div>');
+                    }
                     
                 });
 
