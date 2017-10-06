@@ -270,8 +270,9 @@ public class CourseService extends Service {
 			if(course == null) response = "courseDoesNotExist";
 			else {
 				return Util.objectToJson(course);
-
+				
 			}
+			
 		}
 		catch(Exception e) {
 			response = e.getMessage();

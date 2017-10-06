@@ -20,30 +20,21 @@ else {
 
 }
 
-getCourses(reqUser, function(response) {
-  courseStrArr = response;
-  var courselistStringLength = courseStrArr.length;
-  courseStrArr=courseStrArr.slice(1, courselistStringLength - 1);
-  console.log(courseStrArr);
-  var courses = courseStrArr.split(',');
-  var Butid = 1;
-  while(courseStrArr != "") {
-    courseStrArr = courseStrArr.slice(1);
-    var nextInvCom = courseStrArr.indexOf("\"");
-    var nextCourseName = courseStrArr.slice(0, nextInvCom);
-    
+getCourses(reqUser, function(json) {
+  courses = [];
+  var courselistdata = "";
+  for(var i = 0; i < json.length; i++) {
+    var nextCourseName = json[i];
+    courses.push(nextCourseName);
     getCourse(nextCourseName, function(response) {
+      console.log(response);
       var courseName = response.courseName;
       var year = response.year;
       var period = response.period;
-      courselistdata = addCourse(courselistdata, courseName, year, period, Butid);
-      console.log("Complete");
+      courselistdata = addCourse(courselistdata, courseName, year, period, i + 1);
+      
     });
 
-    courseStrArr=courseStrArr.slice(nextInvCom + 2);
-    // Course being selected
-    console.log("Data: " + courselistdata);
-    Butid++;
   }
 
   commitCourseList(courselistdata);
@@ -51,7 +42,7 @@ getCourses(reqUser, function(response) {
   Butid = 1;
   courses.forEach(function(entry) {
     $('#Button'+Butid).on('click', function(e) {
-      sessionStorage.setItem("requestedCourse", entry.substr(1).slice(0, -1));
+      sessionStorage.setItem("requestedCourse", entry);
       window.location.href = '/getStudentView';
       
     });

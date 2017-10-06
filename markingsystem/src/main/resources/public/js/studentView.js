@@ -4,12 +4,13 @@ $(function() {
 // For course in courses 
 // Add button to navbar with course name
 var reqCourse = sessionStorage.getItem("requestedCourse");
+console.log("reqCourse: " + reqCourse);
 
 var reqUser = sessionStorage.getItem("requestedUser");
 if(reqUser != null) {
   // Add student name
   $('#studentName').html('<h1 class="navbar-brand mb-0">' + reqUser + '</h1>');
-
+  
 }
 
 $('#logout-button').on('click', function(e) {

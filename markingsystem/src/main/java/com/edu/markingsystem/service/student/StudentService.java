@@ -49,7 +49,8 @@ public class StudentService extends Service {
 			if(Util.stringToJson(req.body()).get("userID").getAsString().equals("")) userID = UserService.getIDFromSession(req);
 			else userID = Util.stringToJson(req.body()).get("userID").getAsString();
 			List<String> courses = db.getUserDB().getUser(userID).getCourses();
-			response = Util.objectToJson(courses);	
+			return Util.objectToJson(courses);
+			
 		}
 		catch(Exception e) {
 			e.printStackTrace();
@@ -76,7 +77,11 @@ public class StudentService extends Service {
 			if(Util.stringToJson(req.body()).get("userID").getAsString().equals("")) userID = UserService.getIDFromSession(req);
 			else userID = Util.stringToJson(req.body()).get("userID").getAsString();
 			String courseID = json.get("courseID").getAsString();
-			CourseStructure marks = db.getUserDB().getUser(userID).getMarks(courseID);		
+			
+			System.out.println(userID);
+			System.out.println(courseID);
+			
+			CourseStructure marks = db.getUserDB().getUser(userID).getMarks(courseID);	
 			marks.calculatePercentages();
 			marks.init();
 			return Util.objectToJson(marks);
