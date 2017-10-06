@@ -13,7 +13,7 @@ document.addEventListener("DOMContentLoaded", function(event) {
 	          window.location.reload(true); 
 	        } 
 	      });
-
+		});
 	    // getCourses(function(response) {
 	    //     window.alert(response); 
 	    //   });
