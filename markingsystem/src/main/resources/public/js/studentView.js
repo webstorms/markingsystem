@@ -31,7 +31,7 @@ $('#password-button').on('click', function(e) {
 
 var maindata = '';
 var headdata = '';
-getMarks(function(response) {
+getMarks(reqUser, reqCourse, function(response) {
 
 	var courseName = "";
 	var sub = "";
@@ -223,9 +223,9 @@ function logout(load) {
 
 };
 
-function getMarks(load) {
+function getMarks(userID, courseID, load) {
 	var data = {
-			"userID": "student1", "courseID": "mam100017",
+			"userID": userID, "courseID": courseID,
 		}
 		$.ajax({
 			url: '/getMarks',
@@ -236,21 +236,6 @@ function getMarks(load) {
 				load(JSON.parse(res));
 			}
 		});	
-}
-
-function getCourses(load) {
-  var data = {
-      "userID": "admin",
-    }
-    $.ajax({
-      url: '/getCourses',
-      type: 'POST',
-      data: JSON.stringify(data),
-      contentType: 'application/json',
-      success: function(res) {
-        load(JSON.parse(res));
-      }
-    }); 
 }
 
 function getCourse(id, load) {

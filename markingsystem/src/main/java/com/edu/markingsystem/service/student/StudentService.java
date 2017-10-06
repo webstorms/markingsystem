@@ -66,7 +66,9 @@ public class StudentService extends Service {
 	// Needed: StudentID, CourseID
 	public Object getMarks(Request req, Response res) {
 		JsonObject json = Util.stringToJson(req.body());
-		String userID = json.get("userID").getAsString();
+		String userID;
+		if(Util.stringToJson(req.body()).get("userID").getAsString().equals("")) userID = UserService.getIDFromSession(req);
+		else userID = Util.stringToJson(req.body()).get("userID").getAsString();
 		String courseID = json.get("courseID").getAsString();
 		String response = "";
 		System.out.println(userID);
