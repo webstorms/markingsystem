@@ -30,115 +30,219 @@ document.addEventListener("DOMContentLoaded", function(event) {
                     isCourseConv(function(response) {
                         if(response=="true"){
                             $('#import').show();
-                        }
-                        else{
-                            $('#import').hide();
-                        }
-                         
-                        });
+                            $('#commitMarks').show();
+                            marksGetCourse(function(course){ 
+                                $("#marks_textArea").html('');
+                                var courseData = course;
+                                courseID = courseData.courseID;
+                                stud = courseData.students;
 
+                                $("#marks_textArea").append(
+                                    '<thead>'+
+                                        '<tr>'+
+                                            '<th class="w-20">Student Number </th>'+
+                                            '<th class="w-20">Top Level</th>'+
+                                            '<th class="w-20">Mid Level</th>'+
+                                            '<th class="w-20">Bottom Level</th>'+
+                                            '<th class="w-20">Mark</th>'+
+                                        '</tr>'+
+                                    '<thead>'+
+                                    '<tbody id="tableBody">'+
+                                    '</tbody>'
 
-                    marksGetCourse(function(course){ 
-                        $("#marks_textArea").html('');
-                        var courseData = course;
-                        courseID = courseData.courseID;
-                        stud = courseData.students;
+                                );
 
-                        $("#marks_textArea").append(
-                            '<thead>'+
-                                '<tr>'+
-                                    '<th class="w-20">Student Number </th>'+
-                                    '<th class="w-20">Top Level</th>'+
-                                    '<th class="w-20">Mid Level</th>'+
-                                    '<th class="w-20">Bottom Level</th>'+
-                                    '<th class="w-20">Mark</th>'+
-                                '</tr>'+
-                            '<thead>'+
-                            '<tbody id="tableBody">'+
-                            '</tbody>'
+                                var firstStud=true;
+                                var firstTop=true;
+                                var firstMid=true;
+                                var printMark;
+                                // Iterate over students
+                                for (var i=0; i<stud.length; i++){
+                                    firstStud=true;
+                                
+                                    var studi=stud[i];
+                                    getMarks(stud[i], function(response){
+                                        marks = response;
+                                        toplev = marks.topLevels
 
-                        );
+                                        // Iterate over Top levels
+                                        for (var k = 0; k<toplev.length; k++){
+                                            firstTop=true;
+                                            midlev = toplev[k].midLevels;
 
-                        var firstStud=true;
-                        var firstTop=true;
-                        var firstMid=true;
-                        var printMark;
-                        // Iterate over students
-                        for (var i=0; i<stud.length; i++){
-                            firstStud=true;
-                          
-                            var studi=stud[i];
-                            getMarks(stud[i], function(response){
-                                marks = response;
-                                toplev = marks.topLevels
+                                            // Iterate over Mid Levels
+                                            for(var j =0; j<midlev.length;j++){
+                                                firstMid=true;;
+                                                bottomlev = midlev[j].bottomLevels;
 
-                                // Iterate over Top levels
-                                for (var k = 0; k<toplev.length; k++){
-                                    firstTop=true;
-                                    midlev = toplev[k].midLevels;
+                                                // Iterate over Bottom Levels
+                                                for (var p=0; p<bottomlev.length; p++) {
 
-                                    // Iterate over Mid Levels
-                                    for(var j =0; j<midlev.length;j++){
-                                        firstMid=true;;
-                                        bottomlev = midlev[j].bottomLevels;
+                                                    if (firstStud==true) {
+                                                        var studPrint=studi;
+                                                    }
+                                                    else{
+                                                        var studPrint='';
+                                                    }
 
-                                        // Iterate over Bottom Levels
-                                        for (var p=0; p<bottomlev.length; p++) {
+                                                    if (firstMid==true){
+                                                        var midPrint = midlev[j].name;
+                                                    }
+                                                    else{
+                                                        var midPrint='';
+                                                    }
 
-                                            if (firstStud==true) {
-                                                var studPrint=studi;
+                                                    if(firstTop==true){
+                                                        var topPrint=toplev[k].name;
+                                                    }
+                                                    else{
+                                                        var topPrint='';
+                                                    }
+
+                                                    if (typeof bottomlev[p].mark== "undefined"){
+                                                        $("#tableBody").append('<tr>'+
+                                                            '<th scope="row">'+studPrint+'</th>'+
+                                                            '<td>'+ topPrint +'</td>'+
+                                                            '<td>' + midPrint +'</td>'+
+                                                            '<td>' + bottomlev[p].name + ' (' + bottomlev[p].maxMark + ')</td>'+
+                                                            '<td><input type="text" id="' + i+'-'+k+'-'+j+'-'+p + '" style="background-color:#d3d3d3;" value="" >' + '</td>'+
+                                                        '</tr>'
+                                                        )
+                                                    }
+
+                                                    else{
+                                                        $("#tableBody").append('<tr>'+
+                                                                '<th scope="row">'+studPrint+'</th>'+
+                                                                '<td>'+ topPrint +'</td>'+
+                                                                '<td>' + midPrint +'</td>'+
+                                                                '<td>' + bottomlev[p].name + ' (' + bottomlev[p].maxMark + ')</td>'+
+                                                                '<td><input type="text" id="' + i+'-'+k+'-'+j+'-'+p + '" value="' + bottomlev[p].mark + '">' + '</td>'+
+                                                            '</tr>'
+                                                        )
+                                                    }
+                                                    
+                                                    
+                                                    firstStud=false;
+                                                    firstMid=false;
+                                                    firstTop=false;
+
+                                                }
                                             }
-                                            else{
-                                                var studPrint='';
-                                            }
-
-                                            if (firstMid==true){
-                                                var midPrint = midlev[j].name;
-                                            }
-                                            else{
-                                                var midPrint='';
-                                            }
-
-                                            if(firstTop==true){
-                                                var topPrint=toplev[k].name;
-                                            }
-                                            else{
-                                                var topPrint='';
-                                            }
-
-                                            if (typeof bottomlev[p].mark== "undefined"){
-                                                $("#tableBody").append('<tr>'+
-                                                    '<th scope="row">'+studPrint+'</th>'+
-                                                    '<td>'+ topPrint +'</td>'+
-                                                    '<td>' + midPrint +'</td>'+
-                                                    '<td>' + bottomlev[p].name + ' (' + bottomlev[p].maxMark + ')</td>'+
-                                                    '<td><input type="text" id="' + i+'-'+k+'-'+j+'-'+p + '" style="background-color:#d3d3d3;" value="" >' + '</td>'+
-                                                '</tr>'
-                                                )
-                                            }
-
-                                            else{
-                                                $("#tableBody").append('<tr>'+
-                                                        '<th scope="row">'+studPrint+'</th>'+
-                                                        '<td>'+ topPrint +'</td>'+
-                                                        '<td>' + midPrint +'</td>'+
-                                                        '<td>' + bottomlev[p].name + ' (' + bottomlev[p].maxMark + ')</td>'+
-                                                        '<td><input type="text" id="' + i+'-'+k+'-'+j+'-'+p + '" value="' + bottomlev[p].mark + '">' + '</td>'+
-                                                    '</tr>'
-                                                )
-                                            }
-                                            
-                                            
-                                            firstStud=false;
-                                            firstMid=false;
-                                            firstTop=false;
-
                                         }
-                                    }
+                                    });
                                 }
                             });
                         }
+                        else{
+                            $('#commitMarks').hide();
+                            $('#import').hide();
+                                marksGetCourse(function(course){ 
+                                $("#marks_textArea").html('');
+                                var courseData = course;
+                                courseID = courseData.courseID;
+                                stud = courseData.students;
+
+                                $("#marks_textArea").append(
+                                    '<thead>'+
+                                        '<tr>'+
+                                            '<th class="w-20">Student Number </th>'+
+                                            '<th class="w-20">Top Level</th>'+
+                                            '<th class="w-20">Mid Level</th>'+
+                                            '<th class="w-20">Bottom Level</th>'+
+                                            '<th class="w-20">Mark</th>'+
+                                        '</tr>'+
+                                    '<thead>'+
+                                    '<tbody id="tableBody">'+
+                                    '</tbody>'
+
+                                );
+
+                                var firstStud=true;
+                                var firstTop=true;
+                                var firstMid=true;
+                                var printMark;
+                                // Iterate over students
+                                for (var i=0; i<stud.length; i++){
+                                    firstStud=true;
+                                
+                                    var studi=stud[i];
+                                    getMarks(stud[i], function(response){
+                                        marks = response;
+                                        toplev = marks.topLevels
+
+                                        // Iterate over Top levels
+                                        for (var k = 0; k<toplev.length; k++){
+                                            firstTop=true;
+                                            midlev = toplev[k].midLevels;
+
+                                            // Iterate over Mid Levels
+                                            for(var j =0; j<midlev.length;j++){
+                                                firstMid=true;;
+                                                bottomlev = midlev[j].bottomLevels;
+
+                                                // Iterate over Bottom Levels
+                                                for (var p=0; p<bottomlev.length; p++) {
+
+                                                    if (firstStud==true) {
+                                                        var studPrint=studi;
+                                                    }
+                                                    else{
+                                                        var studPrint='';
+                                                    }
+
+                                                    if (firstMid==true){
+                                                        var midPrint = midlev[j].name;
+                                                    }
+                                                    else{
+                                                        var midPrint='';
+                                                    }
+
+                                                    if(firstTop==true){
+                                                        var topPrint=toplev[k].name;
+                                                    }
+                                                    else{
+                                                        var topPrint='';
+                                                    }
+
+                                                    if (typeof bottomlev[p].mark== "undefined"){
+                                                        $("#tableBody").append('<tr>'+
+                                                            '<th scope="row">'+studPrint+'</th>'+
+                                                            '<td>'+ topPrint +'</td>'+
+                                                            '<td>' + midPrint +'</td>'+
+                                                            '<td>' + bottomlev[p].name + ' (' + bottomlev[p].maxMark + ')</td>'+
+                                                            '<td><label type="text" id="' + i+'-'+k+'-'+j+'-'+p + '" style="background-color:#d3d3d3;" value="" >' + '</td>'+
+                                                        '</tr>'
+                                                        )
+                                                    }
+
+                                                    else{
+                                                        $("#tableBody").append('<tr>'+
+                                                                '<th scope="row">'+studPrint+'</th>'+
+                                                                '<td>'+ topPrint +'</td>'+
+                                                                '<td>' + midPrint +'</td>'+
+                                                                '<td>' + bottomlev[p].name + ' (' + bottomlev[p].maxMark + ')</td>'+
+                                                                '<td><label type="text" id="' + i+'-'+k+'-'+j+'-'+p + '" value="' + bottomlev[p].mark + '">' + '</td>'+
+                                                            '</tr>'
+                                                        )
+                                                    }
+                                                    
+                                                    
+                                                    firstStud=false;
+                                                    firstMid=false;
+                                                    firstTop=false;
+
+                                                }
+                                            }
+                                        }
+                                    });
+                                }
+                            });
+                        }
+                         
                     });
+
+
+                    
                 }
             });
             
