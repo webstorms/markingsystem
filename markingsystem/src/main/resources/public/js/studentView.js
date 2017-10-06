@@ -40,8 +40,7 @@ getMarks(reqUser, reqCourse, function(response) {
   });
 
 	// console.log(response);
-
-	if(response.complete == false) {
+	if(typeof response.percentage =="undefined") {
 		sub = "Course not complete.";
 
 	}
