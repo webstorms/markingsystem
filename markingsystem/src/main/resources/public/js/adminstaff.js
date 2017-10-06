@@ -979,6 +979,7 @@ function getMarks(StudentID, load) {
       }
          $.ajax({
         url: '/getMarks',
+        async: false,
         type: 'POST',
             data: JSON.stringify(data),
         contentType: 'application/json',
