@@ -324,12 +324,15 @@ document.addEventListener("DOMContentLoaded", function(event) {
 
                     createCourse(structureData,function(response) {
                         alert(response);
-                        if(response=="success"){
-                            $('#createCourse_name').reset();
-                            $('#createCourse_code').reset();
-                            $('#createCourse_year').reset();
-                            $('#createCourse_period').reset();
+                        if(response=="Successfully created the course"){
+                            var courseID = $('#createCourse_code').val()
+                            $("#manUsers_courseDropDown").append( $("<option>").val(courseID).html(courseID));
+                            $("#marksStrucutre_courseDropDown").append( $("<option>").val(courseID).html(courseID));
 
+                            $('#createCourse_name').val("");
+                            $('#createCourse_code').val("");
+                            $('#createCourse_year').val("");
+                            $('#createCourse_period').val("");                            
                         }
                         else{
                             
