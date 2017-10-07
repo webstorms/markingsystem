@@ -35,6 +35,41 @@ public class User implements java.io.Serializable {
 		
 	}
 	
+	public void addMark(String courseID, String top, String mid, String bottom, int mark) {
+		
+		CourseStructure marks = this.getMarks(courseID);
+		
+		// Find Top Level
+		for(TopLevel topLevel : marks.getTopLevels()) {
+			if(topLevel.getName().equals(top)) {
+				
+				// Find Mid Level
+				for(MidLevel midLevel : topLevel.getMidLevels()) {
+					if(midLevel.getName().equals(mid)) {
+					
+						// Find Bottom Level
+						for(BottomLevel bottomLevel : midLevel.getBottomLevel()) {
+							
+							if(bottomLevel.getName().equals(bottom)) {
+								System.out.println(top + " " + mid + " " + bottom);
+								bottomLevel.setMark(mark);
+								
+							}
+							
+						}
+						
+						
+					}
+					
+				}
+				
+			}
+			
+		}
+		
+		this.updateMarks(courseID, marks);
+	}
+	
 	public void updateCourse(String courseID, CourseStructure newStructure) {
 		CourseStructure currentStructure = this.getMarks(courseID);
 		

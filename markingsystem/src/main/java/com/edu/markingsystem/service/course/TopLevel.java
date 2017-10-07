@@ -63,11 +63,6 @@ public class TopLevel extends Level implements java.io.Serializable {
 		return weight == 100;
 		
 	}
-
-	public String getName() {
-		return this.name;
-		
-	}
 	
 	
 }

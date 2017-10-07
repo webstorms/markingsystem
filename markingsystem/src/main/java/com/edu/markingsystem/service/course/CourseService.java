@@ -69,53 +69,87 @@ public class CourseService extends Service {
 		});
 		
 		Spark.post("/importMarks", (req, res) -> {
-			Log.info(this.getClass().getName(), "POST /updateMarks " + req.ip());
+			Log.info(this.getClass().getName(), "POST /importMarks " + req.ip());
 			return importMarks(req, res);
 		});
 
+		Spark.post("/exportMarks", (req, res) -> {
+			Log.info(this.getClass().getName(), "POST /exportMarks " + req.ip());
+			return exportMarks(req, res);
+		});
+		
+	}
+	
+	public Object exportMarks(Request req, Response res) {
+		String response = "success";
+		try {
+			
+			StringBuffer output = new StringBuffer();
+			output.append("ID, Top, Mid, Bot, Mark");
+			
+			JsonObject json = Util.stringToJson(req.body());
+			String courseID = json.get("courseID").getAsString();
+			
+			Course course = this.db.getCourseDB().getCourse(courseID);
+			List<String> students = course.getStudents();
+			
+			for(String id : students) {
+				CourseStructure marks = this.db.getUserDB().getUser(id).getMarks(courseID);
+				
+				for(TopLevel topLevel : marks.getTopLevels()) {
+					for(MidLevel midLevel : topLevel.getMidLevels()) {
+						for(BottomLevel bottomLevel : midLevel.getBottomLevel()) {
+							output.append("\n");
+							output.append(id + "," + topLevel.getName() + "," + midLevel.getName() + "," + bottomLevel.getName() + "," + bottomLevel.getMark());
+							
+						}
+						
+					}
+					
+				}
+				
+			}
+			
+			return Util.objectToJson(output.toString());
+			
+			
+		}
+		catch(Exception e) {
+			e.printStackTrace();
+			response = e.getMessage();
+
+		}
+
+		return Util.objectToJson(response);
+		
 	}
 	
 	public Object importMarks(Request req, Response res) {
 		String response = "success";
 		try {
-//			JsonObject json = Util.stringToJson(req.body());
-//			
-//			System.out.println(json.toString());
-//			System.out.println(json.get("file").getAsString());
-//			
-//			JsonArray array = json.get("file").getAsJsonArray();
-//			String courseID = json.get("courseID").getAsString();
-//			
-//			for(int i = 0 ; i < array.size(); i++) {
-//				System.out.println(array.get(i).toString());
-//			}
-//			
-//			for(int i = 0 ; i < file.size(); i++) {
-//				JsonObject record = file.get(i).getAsJsonObject();
-//				String ID = record.get("ID").getAsString();
-//				String Top = record.get("Top").getAsString();
-//				String Mid = record.get("Mid").getAsString();
-//				String Bot = record.get("Bot").getAsString();
-//				String Mark = record.get("Mark").getAsString();
-//				
-//				System.out.println(ID + " " + Top + " " + Mid + " " + Bot + " " + Mark); 
-//				
-//			}
-			
 			JsonObject json = Util.stringToJson(req.body());
-			String file = json.get("file").getAsString();
+			String fileData = json.get("file").toString().replace("\\", "");
+			fileData = fileData.replace(" ", "");
+			fileData = fileData.substring(1, fileData.length() - 1);
+			
+			JsonArray array = Util.stringToJsonArray(fileData);
 			String courseID = json.get("courseID").getAsString();
 			
-			file = file.substring(1, file.length() - 1);
-			String[] obj = file.split(",");
-			obj = new HashSet<String>(Arrays.asList(obj)).toArray(new String[0]); // remove duplicates
-
-			for(String id : obj) {
-				JsonObject j = Util.stringToJson(id);
+			for(int i = 0 ; i < array.size(); i++) {
+				JsonObject obj = Util.stringToJson(array.get(i).toString());
 				
-
+				String userID = obj.get("ID").getAsString();
+				String top = obj.get("Top").getAsString();
+				String mid = obj.get("Mid").getAsString();
+				String bottom = obj.get("Bot").getAsString();
+				int mark = obj.get("Mark").getAsInt();
+				
+				User user = this.db.getUserDB().getUser(userID);
+				user.addMark(courseID, top, mid, bottom, mark);
+				this.db.getUserDB().addUser(userID, user);
+				
 			}
-
+			
 			
 		}
 		catch(Exception e) {

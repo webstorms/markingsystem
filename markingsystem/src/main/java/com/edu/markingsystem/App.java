@@ -47,18 +47,27 @@ public class App {
 		db.getUserDB().addUser("lec2", new User("1234", UserType.LECTURER));
 		
 		// Create a course
-		BottomLevel b1 = new BottomLevel("Section A", 50);
-		BottomLevel b2 = new BottomLevel("Section B", 50);
+		BottomLevel b1 = new BottomLevel("SectionA", 50);
+		BottomLevel b2 = new BottomLevel("SectionB", 50);
 		MidLevel midLevel = new MidLevel("Exam1", 100);
 		midLevel.addBottomLevel(b1);
 		midLevel.addBottomLevel(b2);
 		TopLevel topLevel = new TopLevel("Exams", 60, 50);
-		TopLevel topLevel2 = new TopLevel("Tests", 40, 50);
 		topLevel.addMidLevel(midLevel);
-		topLevel2.addMidLevel(midLevel);
+		
+		BottomLevel b1_ = new BottomLevel("SectionA", 50);
+		BottomLevel b2_ = new BottomLevel("SectionB", 50);
+		BottomLevel b3_ = new BottomLevel("SectionC", 50);
+		MidLevel midLevel_ = new MidLevel("Test1", 100);
+		midLevel_.addBottomLevel(b1_);
+		midLevel_.addBottomLevel(b2_);
+		midLevel_.addBottomLevel(b3_);
+		TopLevel topLevel_ = new TopLevel("Tests", 60, 50);
+		topLevel_.addMidLevel(midLevel_);
+		
 		CourseStructure course = new CourseStructure();
 		course.addTopLevel(topLevel);
-		course.addTopLevel(topLevel2);
+		course.addTopLevel(topLevel_);
 		
 		List<String> students = new ArrayList<String>();
 		students.add("student1");

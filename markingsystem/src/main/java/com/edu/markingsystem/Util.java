@@ -30,6 +30,12 @@ public class Util {
 		
 	}
 	
+	public static JsonArray stringToJsonArray(String json) {
+		JsonElement element = parser.fromJson(json, JsonElement.class);
+		return element.getAsJsonArray();
+		
+	}
+	
 	public static <T> List<T> toList(JsonArray arr, Class<T> classOfT) {
 		List<T> list = new ArrayList<T>();
 		for(int i = 0; i < arr.size(); i++) {

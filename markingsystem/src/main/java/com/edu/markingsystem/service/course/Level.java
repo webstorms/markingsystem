@@ -19,5 +19,10 @@ public class Level implements java.io.Serializable {
 		
 	}
 	
+	public String getName() {
+		return this.name;
+		
+	}
+	
 	
 }
