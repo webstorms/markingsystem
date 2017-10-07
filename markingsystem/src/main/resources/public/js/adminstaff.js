@@ -253,12 +253,15 @@ document.addEventListener("DOMContentLoaded", function(event) {
 
                     createCourse(structureData,function(response) {
                         alert(response);
-                        if(response=="success"){
-                            $('#createCourse_name').reset();
-                            $('#createCourse_code').reset();
-                            $('#createCourse_year').reset();
-                            $('#createCourse_period').reset();
+                        if(response=="Successfully created the course"){
+                            var courseID = $('#createCourse_code').val()
+                            $("#manUsers_courseDropDown").append( $("<option>").val(courseID).html(courseID));
+                            $("#marksStrucutre_courseDropDown").append( $("<option>").val(courseID).html(courseID));
 
+                            $('#createCourse_name').val("");
+                            $('#createCourse_code').val("");
+                            $('#createCourse_year').val("");
+                            $('#createCourse_period').val("");                            
                         }
                         else{
                             
@@ -281,8 +284,8 @@ document.addEventListener("DOMContentLoaded", function(event) {
                             '<div class="row">'+
                                 '<div class="col-lg-4">'+
                                   '<div class="form-group">'+
-                                    '<label for=sectionTitle_"' + upperLevelID + '_CreateCourseStructure>Assesment Type</label>'+
-                                    '<input type="text" class="form-control" id="sectionTitle_' + upperLevelID + '_CreateCourseStructure" placeholder="Enter the Assesment type">' +
+                                    '<label for=sectionTitle_"' + upperLevelID + '_CreateCourseStructure>Assessment Type</label>'+
+                                    '<input type="text" class="form-control" id="sectionTitle_' + upperLevelID + '_CreateCourseStructure" placeholder="Enter the Assessment type">' +
                                   '</div>'+
                                 '</div>'+
                                 '<div class="col-lg-4">'+
@@ -300,8 +303,8 @@ document.addEventListener("DOMContentLoaded", function(event) {
                             '</div>'+
                             '<h4>'+
 
-                            '<button class="btn btn-primary" id="addLowerLayer_'+upperLevelID+'_CreateStructure" style="margin:5px;">Add Assesment</button>'+
-                            '<button class="btn btn-danger" id="removeCurrentLayer_'+upperLevelID+'_CreateStructure" style="margin:5px;">Remove Assesment Type</button>'+
+                            '<button class="btn btn-primary" id="addLowerLayer_'+upperLevelID+'_CreateStructure" style="margin:5px;">Add Assessment</button>'+
+                            '<button class="btn btn-danger" id="removeCurrentLayer_'+upperLevelID+'_CreateStructure" style="margin:5px;">Remove Assessment Type</button>'+
                             '<button class="btn btn-info" id="ExpandCollapse_'+upperLevelID+'_CreateStructure" type="button" data-toggle="collapse" data-target="#midLevel' + upperLevelID + '" aria-expanded="true" aria-controls="midLevel' + upperLevelCounter + '">'+
                                  'Expand/Collapse'+
                             '</button>'+
@@ -355,7 +358,7 @@ document.addEventListener("DOMContentLoaded", function(event) {
                                    '<div class="row">'+
                                        '<div class="col-lg-4">'+
                                            '<div class="form-group">'+
-                                            '<label for=testTitle_"' + midLevelID + '_CreateCourseStructure>Assesment Name</label>'+
+                                            '<label for=testTitle_"' + midLevelID + '_CreateCourseStructure>Assessment Name</label>'+
                                             '<input type="text" class="form-control" id="assesmentTitle_' + midLevelID + '_CreateCourseStructure" placeholder="Enter Assesment Title">' +
                                            '</div>'+
                                        '</div>'+
@@ -376,7 +379,7 @@ document.addEventListener("DOMContentLoaded", function(event) {
 
 
                                 '<button class="btn btn-primary" id="addLowerLayer_'+midLevelID+'_CreateStructure" style="margin:5px;">Add Sub Section</button>'+
-                                '<button class="btn btn-danger" id="removeCurrentLayer_'+midLevelID+'_CreateStructure" style="margin:5px;">Remove Assesment</button>'+
+                                '<button class="btn btn-danger" id="removeCurrentLayer_'+midLevelID+'_CreateStructure" style="margin:5px;">Remove Assessment</button>'+
                                 '<button class="btn btn-info" id="ExpandCollapse_'+midLevelID+'_CreateStructure" type="button" data-toggle="collapse" data-target="#bottomLevel' + midLevelID + '" aria-expanded="true" aria-controls="collapseExample">'+
                                      'Expand/Collapse'+
                                 '</button>'+
@@ -901,6 +904,11 @@ $('#marksTab').show();
                 topCounter ++;
                 topWeight = topWeight + Number($('#weighting_' + currentItem + '_CreateCourseStructure').val());    //totals topWeight
 
+                if($('#sectionTitle_' + currentItem + '_CreateCourseStructure').val().includes(" ")){
+                    $('#wrong-course-structure').html('<div class="alert alert-danger"role="alert"><p class="text-center">' +  'Assessment types may not contain spaces' + '</p></div>');
+                    return false;
+                }
+
                 if(midWeight!=0&&midWeight!=100){ //checks the previous midweight total - calling a new top level signifies the end of the current mid level
                     $('#wrong-course-structure').html('<div class="alert alert-danger"role="alert"><p class="text-center">' +  'The weighting of a middle layers do not add up to 100' + '</p></div>');
                     return false;
@@ -930,6 +938,11 @@ $('#marksTab').show();
                 midCounter++;
                 midWeight= midWeight + Number($('#weighting_' + currentItem + '_CreateCourseStructure').val());
 
+                if($('#assesmentTitle_' + currentItem + '_CreateCourseStructure').val().includes(" ")){
+                    $('#wrong-course-structure').html('<div class="alert alert-danger"role="alert"><p class="text-center">' +  'Assessments may not contain spaces' + '</p></div>');
+                    return false;
+                }
+
                 if ($('#assesmentTitle_' + currentItem + '_CreateCourseStructure').val()==""||$('#weighting_' + currentItem + '_CreateCourseStructure').val()==""|| isNaN($('#weighting_' + currentItem + '_CreateCourseStructure').val())==true){ //checks for null values
                     $('#wrong-course-structure').html('<div class="alert alert-danger"role="alert"><p class="text-center">' +  'Enter valid information into all of the fields (weightings and DP Requirements must be numbers)' + '</p></div>');
                     return false;
@@ -945,6 +958,12 @@ $('#marksTab').show();
 
             if (numberOfDashes==2){
                 bottomCounter ++;
+
+                if($('#sectionTitle_' + currentItem + '_CreateCourseStructure').val().includes(" ")){
+                    $('#wrong-course-structure').html('<div class="alert alert-danger"role="alert"><p class="text-center">' +  'Section types may not contain spaces' + '</p></div>');
+                    return false;
+                }
+
                 if ($('#sectionTitle_' + currentItem + '_CreateCourseStructure').val()==""|| $('#weighting_' + currentItem + '_CreateCourseStructure').val()==""|| isNaN($('#maxMark_' + currentItem + '_CreateCourseStructure').val())==true){
                     $('#wrong-course-structure').html('<div class="alert alert-danger"role="alert"><p class="text-center">' +  'Enter information into all of the fields (weightings and DP Requirements must be numbers)' + '</p></div>');
 
@@ -956,7 +975,7 @@ $('#marksTab').show();
 
                 }
 
-                structure.topLevels[topCounter].midLevels[bottomCounter].bottomLevels.push({name: $('#sectionTitle_' + currentItem + '_CreateCourseStructure').val(), weight: Number($('#weighting_' + currentItem + '_CreateCourseStructure').val()), percentage: 0});
+                structure.topLevels[topCounter].midLevels[bottomCounter].bottomLevels.push({name: $('#sectionTitle_' + currentItem + '_CreateCourseStructure').val(), maxMark: Number($('#maxMark_' + currentItem + '_CreateCourseStructure').val()), percentage: 0});
 
             }
         }
