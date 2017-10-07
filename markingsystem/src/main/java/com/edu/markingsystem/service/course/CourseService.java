@@ -322,7 +322,7 @@ public class CourseService extends Service {
 			List<String> students = new ArrayList<>();
 
 			CourseStructure structure = Util.fromJson(json.getAsJsonObject("courseStructure").toString(), CourseStructure.class);
-
+			
 			String error = structure.isValid();
 			if(error != null) {
 				response = error;
