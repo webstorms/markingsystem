@@ -201,7 +201,6 @@ document.addEventListener("DOMContentLoaded", function(event) {
             // Export
             document.getElementById("marksExport_button").addEventListener("click", function(){
                   exportMarks(function(response) {
-                    console.log(response);
                     var atag = document.createElement("a");
                     var file = new Blob([response], {type: 'text/plain'});
                     atag.href = URL.createObjectURL(file);
@@ -889,8 +888,11 @@ $('#marksTab').show();
             $('#wrong-course-structure').html('<div class="alert alert-danger"role="alert"><p class="text-center">' +  'Create a course structure' + '</p></div>');
             return false;
         }
+
+
         while(courseArray.length!=0){ //loop through array of levelIDs
             var currentItem = courseArray.pop();
+
 
             var numberOfDashes = currentItem.split("-").length - 1; //IDs are split by dashes, this counts the level
 
@@ -975,7 +977,7 @@ $('#marksTab').show();
 
                 }
 
-                structure.topLevels[topCounter].midLevels[bottomCounter].bottomLevels.push({name: $('#sectionTitle_' + currentItem + '_CreateCourseStructure').val(), maxMark: Number($('#maxMark_' + currentItem + '_CreateCourseStructure').val()), percentage: 0});
+                structure.topLevels[topCounter].midLevels[midCounter].bottomLevels.push({name: $('#sectionTitle_' + currentItem + '_CreateCourseStructure').val(), maxMark: Number($('#maxMark_' + currentItem + '_CreateCourseStructure').val()), percentage: 0});
 
             }
         }
@@ -1003,6 +1005,7 @@ $('#marksTab').show();
         //reset html
         $('#courseStructure_CreateStructure').html("");
         $('#wrong-course-structure').html("");
+
         return structure;
     }
 
