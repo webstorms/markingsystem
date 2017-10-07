@@ -115,18 +115,9 @@
                         <hr>
                         <h4>Export Marks</h4>
                         <hr>
-
-                        <div class="form-group">
-                            <label for="sel1">Select Level</label>
-                            <select class="form-control col-lg-6" id="addUser_staffRole">
-                                <option>1</option>
-                                <option>2</option>
-                                <option>3</option>
-                            </select>
-                        </div>
                             
                         <div class="form-group">
-                            <button class="btn btn-primary" id="addUser_staff_button">Export</button>
+                            <button class="btn btn-primary" id="marksExport_button">Export</button>
                         </div>
                     </div>
                     </div>
@@ -140,18 +131,12 @@
                         <h4>Import Marks</h4>
                         <hr>
 
-                        <div class="form-group">
-                            <label for="sel1">Select Level</label>
-                            <select class="form-control col-lg-6" id="addUser_staffRole">
-                                <option>1</option>
-                                <option>2</option>
-                                <option>3</option>
-                            </select>
+                         <div class="form-group">
+                                <input type="file" id='marks_file'></input><br><br>
+                                <button class="btn btn-primary col-lg-8" id="marksImport_button">Submit</button>
+                                <small id="marksImport_error"></small>
                         </div>
-                            
-                        <div class="form-group">
-                            <button class="btn btn-primary" id="addUser_staff_button">Import</button>
-                        </div>
+
                     </div>
                     </div>
                     </div>
