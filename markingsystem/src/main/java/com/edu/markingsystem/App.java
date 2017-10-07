@@ -88,6 +88,9 @@ public class App {
 		db.getUserDB().addCourse("student1", "csc100017");
 		db.getUserDB().addCourse("student2", "csc100017");
 		
+		db.getUserDB().addCourse("ta1", "mam100017");
+		db.getUserDB().addCourse("ta1", "csc100017");
+		
 	}
 
 

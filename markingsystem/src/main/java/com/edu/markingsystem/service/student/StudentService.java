@@ -49,7 +49,7 @@ public class StudentService extends Service {
 			if(Util.stringToJson(req.body()).get("userID").getAsString().equals("")) userID = UserService.getIDFromSession(req);
 			else userID = Util.stringToJson(req.body()).get("userID").getAsString();
 			List<String> courses = db.getUserDB().getUser(userID).getCourses();
-			return Util.objectToJson(courses);
+			return Util.objectToJson(courses);	
 			
 		}
 		catch(Exception e) {
