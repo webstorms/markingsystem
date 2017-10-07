@@ -67,9 +67,67 @@ public class CourseService extends Service {
 			Log.info(this.getClass().getName(), "POST /updateMarks " + req.ip());
 			return updateMarks(req, res);
 		});
+		
+		Spark.post("/importMarks", (req, res) -> {
+			Log.info(this.getClass().getName(), "POST /updateMarks " + req.ip());
+			return importMarks(req, res);
+		});
 
 	}
+	
+	public Object importMarks(Request req, Response res) {
+		String response = "success";
+		try {
+//			JsonObject json = Util.stringToJson(req.body());
+//			
+//			System.out.println(json.toString());
+//			System.out.println(json.get("file").getAsString());
+//			
+//			JsonArray array = json.get("file").getAsJsonArray();
+//			String courseID = json.get("courseID").getAsString();
+//			
+//			for(int i = 0 ; i < array.size(); i++) {
+//				System.out.println(array.get(i).toString());
+//			}
+//			
+//			for(int i = 0 ; i < file.size(); i++) {
+//				JsonObject record = file.get(i).getAsJsonObject();
+//				String ID = record.get("ID").getAsString();
+//				String Top = record.get("Top").getAsString();
+//				String Mid = record.get("Mid").getAsString();
+//				String Bot = record.get("Bot").getAsString();
+//				String Mark = record.get("Mark").getAsString();
+//				
+//				System.out.println(ID + " " + Top + " " + Mid + " " + Bot + " " + Mark); 
+//				
+//			}
+			
+			JsonObject json = Util.stringToJson(req.body());
+			String file = json.get("file").getAsString();
+			String courseID = json.get("courseID").getAsString();
+			
+			file = file.substring(1, file.length() - 1);
+			String[] obj = file.split(",");
+			obj = new HashSet<String>(Arrays.asList(obj)).toArray(new String[0]); // remove duplicates
 
+			for(String id : obj) {
+				JsonObject j = Util.stringToJson(id);
+				
+
+			}
+
+			
+		}
+		catch(Exception e) {
+			e.printStackTrace();
+			response = e.getMessage();
+
+		}
+
+		return Util.objectToJson(response);
+		
+	}
+	
 	/**
 	 * Update the marks of all students from a given course. Supply courseID and data.
 	 * data contains a student attribute which contains a list of CourseStructure objects all in JSON format.
